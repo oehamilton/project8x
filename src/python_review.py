@@ -83,5 +83,36 @@ except:
     print("My Error")
     #sys.exit()
 
+def lambdada(x,y):
+    return x + y
+
 import functools
-print()
+print(functools.reduce(lambda x,y: x+y,[[1,2,4],[2,3,4]]))
+print(functools.reduce(lambdada,[[1,2,4],[2,3,4]]))
+
+@functools.lru_cache()
+def fib(n):
+    return n if n < 2 else fib(n-1) + fib(n-2)
+
+print(fib(10))
+
+with open('python_review.py', 'r') as f:
+    data = f.readlines()
+print(data[0:3])
+print(data[-1])
+for line in data:
+    print(line.rstrip())
+
+data.append("ADD DATA TO THE END OF THE LIST\n")
+
+for i, line in enumerate(data, 1):
+    print(f"Line {i}: {line.strip()}")
+
+del data[-1]
+
+print(data[-1])
+functions = [line.rstrip() for line in data if line.strip().startswith("def")]
+print(functions)
+
+imported = [line.rstrip() for line in data if line.strip().startswith("import ")]
+print(imported)
