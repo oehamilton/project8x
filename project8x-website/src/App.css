@@ -1,38 +1,65 @@
 .App {
   text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  color: #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+form {
+  margin: 20px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+input[type="file"] {
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #090a0a;
   color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #013369;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2 {
+  color: #555;
+}
+
+p {
+  font-size: 1.1em;
+  margin: 5px 0;
+}
+
+/* Custom scrollbar styling for the main element */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px; /* Width of the vertical scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #000000; /* Black scrollbar track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #ff0000; /* Red thumb */
+  border-radius: 6px; /* Rounded edges for the thumb */
+  min-height: 20px; /* Minimum height for usability */
+  max-height: 30px; /* Limit thumb height to 10% of the scrollbar track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cc0000; /* Slightly darker red on hover */
+}
+
+/* Firefox scrollbar support */
+.custom-scrollbar {
+  scrollbar-color: #ff0000 #000000; /* Red thumb, black track */
+  scrollbar-width: thin; /* Thin scrollbar for consistency */
 }
