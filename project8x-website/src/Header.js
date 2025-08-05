@@ -8,7 +8,7 @@ function Header({ toggleSidebar, isSidebarOpen }) {
       <div className="flex items-center">
         <FaRocket className="text-xl sm:text-2xl mr-1 sm:mr-2 text-gray-200" />
         <span className="text-sm sm:text-lg font-bold text-gray-100">
-          NAME_XXX
+          SpaceDebris
         </span>
         <button
           onClick={toggleSidebar}

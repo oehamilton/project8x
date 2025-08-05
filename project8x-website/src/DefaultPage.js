@@ -8,7 +8,7 @@ function DefaultPage() {
   return (
     <div className="bg-gray-900 p-6 text-gray-200 shadow-inner">
       <h2 className="text-2xl font-bold mb-4 text-gray-200">
-        Welcome to NAME_XXX
+        Welcome to SpaceDebris
       </h2>
       <p className="text-lg">
         This is the default page. Use the{" "}
