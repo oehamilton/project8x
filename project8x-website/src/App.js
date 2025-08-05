@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header.js";
 import DefaultPage from "./DefaultPage.js";
 import Clients from "./Clients.js";
-import Services from "./DefaultPage.js";
+import ContactUs from "./ContactUs.js";
+import CompanyServices from "./CompanyServices.js";
 import ExecutiveLeadership from "./ExecutiveLeadership.js";
 import "./App.css"; // Import the CSS file
 
@@ -25,9 +26,10 @@ function App() {
           <Routes>
             <Route path="/" element={<DefaultPage />} />
             <Route path="/Clients" element={<Clients />} />
-            <Route path="/Services" element={<Services />} />
+            <Route path="/CompanyServices" element={<CompanyServices />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
             <Route
-              path="/Executive_Leadership"
+              path="/ExecutiveLeadership"
               element={<ExecutiveLeadership />}
             />
           </Routes>

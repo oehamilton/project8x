@@ -9,7 +9,7 @@ function Header({ toggleSidebar, isSidebarOpen }) {
         <img
           src="/Project8Xwt_tr.png"
           alt="Project8X Logo"
-          className="w-205 h-15 sm:w-116 sm:h-16 mr-1 sm:mr-2"
+          className="w-130 h-12 sm:w-90 sm:h-10 mr-1 sm:mr-2"
         />
 
         <span className="text-sm sm:text-lg font-bold text-gray-100"></span>
@@ -26,7 +26,7 @@ function Header({ toggleSidebar, isSidebarOpen }) {
             <ul className="p-2">
               <li>
                 <Link
-                  to="/Services"
+                  to="/CompanyServices"
                   className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
                   onClick={toggleSidebar}
                 >
@@ -44,7 +44,7 @@ function Header({ toggleSidebar, isSidebarOpen }) {
               </li>
               <li>
                 <Link
-                  to="/Executive_Leadership"
+                  to="/ExecutiveLeadership"
                   className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
                   onClick={toggleSidebar}
                 >
@@ -62,17 +62,17 @@ function Header({ toggleSidebar, isSidebarOpen }) {
         >
           Home
         </Link>
+        <Link
+          to="/ContactUs"
+          className="hover:text-gray-200 transition-colors text-sm sm:text-base"
+        >
+          Contact Us
+        </Link>
         <a
           href="#"
           className="hover:text-gray-200 transition-colors text-sm sm:text-base"
         >
           Options
-        </a>
-        <a
-          href="#"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base"
-        >
-          Help
         </a>
       </nav>
     </header>
