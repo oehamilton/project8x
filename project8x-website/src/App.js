@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header.js";
 import DefaultPage from "./DefaultPage.js";
+import Clients from "./Clients.js";
+import Services from "./DefaultPage.js";
+import ExecutiveLeadership from "./ExecutiveLeadership.js";
 import "./App.css"; // Import the CSS file
 
 function App() {
@@ -21,8 +24,12 @@ function App() {
         <main className="flex-1 bg-gray-900 border rounded-lg shadow-md overflow-y-auto custom-scrollbar">
           <Routes>
             <Route path="/" element={<DefaultPage />} />
-            <Route path="/custom1" element={<custom1 />} />
-            <Route path="/custom2" element={<custom2 />} />
+            <Route path="/Clients" element={<Clients />} />
+            <Route path="/Services" element={<Services />} />
+            <Route
+              path="/Executive_Leadership"
+              element={<ExecutiveLeadership />}
+            />
           </Routes>
         </main>
       </div>

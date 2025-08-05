@@ -6,10 +6,13 @@ function Header({ toggleSidebar, isSidebarOpen }) {
   return (
     <header className="bg-gray-950 text-white flex items-center justify-between px-2 sm:px-4 py-2 border border-gray-300 rounded-lg shadow-md relative">
       <div className="flex items-center">
-        <FaRocket className="text-xl sm:text-2xl mr-1 sm:mr-2 text-gray-200" />
-        <span className="text-sm sm:text-lg font-bold text-gray-100">
-          SpaceDebris
-        </span>
+        <img
+          src="/Project8Xwt_tr.png"
+          alt="Project8X Logo"
+          className="w-205 h-15 sm:w-116 sm:h-16 mr-1 sm:mr-2"
+        />
+
+        <span className="text-sm sm:text-lg font-bold text-gray-100"></span>
         <button
           onClick={toggleSidebar}
           className="ml-2 text-gray-200 hover:text-gray-50 focus:outline-none"
@@ -23,21 +26,29 @@ function Header({ toggleSidebar, isSidebarOpen }) {
             <ul className="p-2">
               <li>
                 <Link
-                  to="/classifier"
+                  to="/Services"
                   className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
                   onClick={toggleSidebar}
                 >
-                  Link to Page 1
+                  Services
                 </Link>
               </li>
-
               <li>
                 <Link
-                  to="/workflow"
+                  to="/Clients"
                   className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
                   onClick={toggleSidebar}
                 >
-                  Link to Page 2
+                  Clients
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Executive_Leadership"
+                  className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
+                  onClick={toggleSidebar}
+                >
+                  Executive Leadership
                 </Link>
               </li>
             </ul>
