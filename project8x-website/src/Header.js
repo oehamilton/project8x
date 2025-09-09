@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 
 function Header({ toggleSidebar, isSidebarOpen }) {
   return (
-    <header className="bg-gray-950 text-white flex items-center justify-between px-2 sm:px-4 py-2 border border-gray-300 rounded-lg shadow-md relative">
+    <header className="bg-gray-950/80 backdrop-blur-sm text-white flex items-center justify-between px-2 sm:px-4 py-2 border border-gray-300 rounded-lg shadow-md relative z-40">
       <div className="flex items-center">
         <img
           src="/Project8Xwt_tr.png"
           alt="Project8X Logo"
-          className="w-130 h-12 sm:w-90 sm:h-10 mr-1 sm:mr-2"
+          className="w-91 h-8 sm:w-63 sm:h-7 mr-1 sm:mr-2"
         />
 
-        <span className="text-sm sm:text-lg font-bold text-gray-100"></span>
+        <span className="text-sm sm:text-lg font-bold text-gray-100 drop-shadow-lg"></span>
         <button
           onClick={toggleSidebar}
           className="ml-2 text-gray-200 hover:text-gray-50 focus:outline-none"
@@ -22,7 +22,7 @@ function Header({ toggleSidebar, isSidebarOpen }) {
         </button>
         {/* Dropdown Menu (Bubble Overlay) */}
         {isSidebarOpen && (
-          <div className="absolute left-0 top-full mt-2 w-64 bg-gray-800 text-white rounded-lg shadow-lg animate-slide-down z-10">
+          <div className="absolute left-0 top-full mt-2 w-64 bg-gray-800/90 backdrop-blur-sm text-white rounded-lg shadow-lg animate-slide-down z-50">
             <ul className="p-2">
               <li>
                 <Link
@@ -35,11 +35,11 @@ function Header({ toggleSidebar, isSidebarOpen }) {
               </li>
               <li>
                 <Link
-                  to="/Clients"
+                  to="/Products"
                   className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
                   onClick={toggleSidebar}
                 >
-                  Clients
+                  Products
                 </Link>
               </li>
               <li>
@@ -58,19 +58,19 @@ function Header({ toggleSidebar, isSidebarOpen }) {
       <nav className="flex space-x-2 sm:space-x-4">
         <Link
           to="/"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base"
+          className="hover:text-gray-200 transition-colors text-sm sm:text-base drop-shadow-md"
         >
           Home
         </Link>
         <Link
           to="/ContactUs"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base"
+          className="hover:text-gray-200 transition-colors text-sm sm:text-base drop-shadow-md"
         >
           Contact Us
         </Link>
         <a
           href="#"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base"
+          className="hover:text-gray-200 transition-colors text-sm sm:text-base drop-shadow-md"
         >
           Options
         </a>
