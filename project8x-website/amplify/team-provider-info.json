@@ -17,6 +17,9 @@
           "appId": "d25tamb14tvekj",
           "type": "cicd"
         }
+      },
+      "api": {
+        "project8xwebsite": {}
       }
     }
   }
