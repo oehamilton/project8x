@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./Header.js";
-import DefaultPage from "./DefaultPage.js";
-import Products from "./Products.js";
-import ContactUs from "./ContactUs.js";
-import CompanyServices from "./CompanyServices.js";
-import ExecutiveLeadership from "./ExecutiveLeadership.js";
+import Header from "./Header.jsx";
+import DefaultPage from "./DefaultPage.jsx";
+import Products from "./Products.jsx";
+import ContactUs from "./ContactUs.jsx";
+import CompanyServices from "./CompanyServices.jsx";
+import ExecutiveLeadership from "./ExecutiveLeadership.jsx";
 import "./App.css"; // Import the CSS file
 
 function App() {
