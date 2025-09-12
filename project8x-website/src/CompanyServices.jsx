@@ -1,5 +1,6 @@
 // src/CompanyServices.js
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   FaHeadset, 
   FaCogs, 
@@ -23,62 +24,72 @@ const ddoImage = "/ddo.png";
 
 
 function CompanyServices() {
+  const navigate = useNavigate();
+  
   const services = [
     {
       icon: <FaHeadset className="text-2xl text-blue-400" />,
       title: "Contact Center Technology Consulting",
       description: "Expert consulting to optimize contact center operations, from business process analysis and redesign to technology assessments and implementation strategies.",
       details: "Drawing on decades of experience with multi-site environments for large-scale enterprises, we help streamline workflows, enhance customer satisfaction, and reduce costs through tailored contact center solutions. Our expertise includes advanced technologies and best practices to optimize operations and deliver exceptional customer experiences. Select for more information.",
-      image: cctImage
+      image: cctImage,
+      route: "/service/contact-center-technology-consulting"
     },
     {
       icon: <FaCogs className="text-2xl text-green-400" />,
       title: "System Integration and Deployment",
       description: "Seamless integration of contact center platforms including Genesys, Avaya, Cisco ICM, NICE, and Verint systems.",
       details: "Our services cover full-stack deployments, custom API developments (REST, JavaScript, Python), and migrations from Unix to Windows or Oracle to MS SQL. With proven success at Bank of America and IBM, we ensure reliable, secure integrations that support voice, email, chat, and predictive dialing across data centers.",
-      image: sidImage
+      image: sidImage,
+      route: "/service/system-integration-deployment"
     },
     {
       icon: <FaChartLine className="text-2xl text-yellow-400" />,
       title: "Real-Time Analytics and Dashboard Development",
       description: "Custom analytics dashboards built using Power BI, Python, JavaScript, and T-SQL reporting.",
       details: "Project8X integrates real-time data displays, CMS, Cognos, and Crystal Reports to deliver operational visibility. Based on our work at Expedia and EDS, we create intuitive tools that drive decision-making, monitor performance, and improve agent efficiency in dynamic contact centers.",
-      image: rtaImage
+      image: rtaImage,
+      route: "/service/real-time-analytics-dashboard"
     },
     {
       icon: <FaRocket className="text-2xl text-purple-400" />,
       title: "DevOps and Automation Implementation",
       description: "Modern DevOps practices including CI/CD pipelines, Docker containerization, and AI-driven automation tools.",
       details: "Our mentoring and implementation services, honed through team leadership at Fortune 500 firms, enhance deployment efficiency, system reliability, and scalability. Whether automating multichannel routing or optimizing infrastructure, Project8X empowers your teams to innovate faster.",
-      image: doImage
+      image: doImage,
+      route: "/service/devops-automation-implementation"
     },
     {
       icon: <FaPhone className="text-2xl text-red-400" />,
       title: "Telephony Project Management",
       description: "Complex telephony projects including ACD upgrades, carrier circuit installations, and multi-site rollouts.",
       details: "As certified project managers, we handle vendor coordination, component procurement, and customer programming requirements. Our track record ensures on-time, budget-compliant deliveries that minimize disruptions.",
-      image: tpmImage
+      image: tpmImage,
+      route: "/service/telephony-project-management"
     },
     {
       icon: <FaFileAlt className="text-2xl text-indigo-400" />,
       title: "RFP Development and Vendor Selection",
       description: "Comprehensive RFP creation, proof-of-concept coding, and vendor evaluation services.",
       details: "Leveraging experience from IBM alliances and engagements with Avaya, Cisco, and Genesys, we architect solutions for contact center consolidation and enhancements. Project8X guides you through selections that align with your business needs, ensuring cost-effective, high-impact investments.",
-      image: rfpImage
+      image: rfpImage,
+      route: "/service/rfp-development-vendor-selection"
     },
     {
       icon: <FaComments className="text-2xl text-orange-400" />,
       title: "Multi-Channel Communication Solutions",
       description: "Unified customer experiences with multichannel services encompassing voice, email, web chat, fax, and collaboration tools.",
       details: "We integrate platforms like Siebel CTI, Avaya IC, and Business Advocate for intelligent routing and support. With implementations across US and Canada sites at EDS and Expedia, Project8X delivers scalable solutions that boost agent productivity and customer engagement.",
-      image: mccsImage
+      image: mccsImage,
+      route: "/service/multi-channel-communication-solutions"
     },
     {
       icon: <FaDatabase className="text-2xl text-teal-400" />,
       title: "Database Optimization and Custom Development",
       description: "Database optimizations, custom scripting in C#, Java, and SQL, and secure environments using VMware and Oracle.",
       details: "Our services include predictive dialer tuning, reporting analysis, and lab design for dev/test setups. Proven at Lockheed Martin for Homeland Security projects and Protection One, Project8X ensures low-latency, reliable systems tailored to your operational demands.",
-      image: ddoImage
+      image: ddoImage,
+      route: "/service/database-optimization-custom-development"
     }
   ];
 
@@ -98,7 +109,8 @@ function CompanyServices() {
         {services.map((service, index) => (
           <div 
             key={index}
-            className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 hover:border-gray-500/70 transition-all duration-300 hover:scale-105 shadow-lg"
+            onClick={() => navigate(service.route)}
+            className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 hover:border-gray-500/70 transition-all duration-300 hover:scale-105 shadow-lg cursor-pointer"
           >
             <div className="flex items-start mb-4">
               <div className="mr-4 flex-shrink-0">

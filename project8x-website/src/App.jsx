@@ -6,6 +6,7 @@ import Products from "./Products.jsx";
 import ContactUs from "./ContactUs.jsx";
 import CompanyServices from "./CompanyServices.jsx";
 import ExecutiveLeadership from "./ExecutiveLeadership.jsx";
+import ServiceDetail from "./ServiceDetail.jsx";
 import "./App.css"; // Import the CSS file
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
               path="/ExecutiveLeadership"
               element={<ExecutiveLeadership />}
             />
+            <Route path="/service/:serviceId" element={<ServiceDetail />} />
           </Routes>
         </main>
       </div>
