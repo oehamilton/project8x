@@ -883,6 +883,55 @@ function ServiceDetail() {
         </div>
       )}
 
+      {/* Technology Stack Visualization for Telephony Project Management */}
+      {serviceId === "telephony-project-management" && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
+            Telephony Technology Stack
+          </h2>
+          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <div className="text-center">
+                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">ACD</span>
+                </div>
+                <div className="text-gray-300 text-sm">Call Distribution</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">SIP</span>
+                </div>
+                <div className="text-gray-300 text-sm">VoIP Protocols</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">WebRTC</span>
+                </div>
+                <div className="text-gray-300 text-sm">Real-time Comm</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">AI</span>
+                </div>
+                <div className="text-gray-300 text-sm">Intelligence</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">Jira</span>
+                </div>
+                <div className="text-gray-300 text-sm">Project Mgmt</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">Cloud</span>
+                </div>
+                <div className="text-gray-300 text-sm">Infrastructure</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Conclusion Section */}
       {service.content.conclusion && (
         <div className="mb-12">
