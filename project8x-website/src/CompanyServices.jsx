@@ -47,7 +47,7 @@ function CompanyServices() {
       icon: <FaChartLine className="text-2xl text-yellow-400" />,
       title: "Real-Time Analytics and Dashboard Development",
       description: "Custom analytics dashboards built using Power BI, Python, JavaScript, and T-SQL reporting.",
-      details: "Project8X integrates real-time data displays, CMS, Cognos, and Crystal Reports to deliver operational visibility. Based on our work at Expedia and EDS, we create intuitive tools that drive decision-making, monitor performance, and improve agent efficiency in dynamic contact centers.",
+      details: "Our Real-Time Analytics and Dashboard Development services empower contact centers with actionable insights through custom-built, intuitive, and scalable analytics solutions. By leveraging advanced tools and technologies, we provide real-time visibility into operational performance, customer interactions, and agent efficiency, enabling data-driven decision-making and enhanced customer experiences.",
       image: rtaImage,
       route: "/service/real-time-analytics-dashboard"
     },
@@ -55,7 +55,7 @@ function CompanyServices() {
       icon: <FaRocket className="text-2xl text-purple-400" />,
       title: "DevOps and Automation Implementation",
       description: "Modern DevOps practices including CI/CD pipelines, Docker containerization, and AI-driven automation tools.",
-      details: "Our mentoring and implementation services, honed through team leadership at Fortune 500 firms, enhance deployment efficiency, system reliability, and scalability. Whether automating multichannel routing or optimizing infrastructure, Project8X empowers your teams to innovate faster.",
+      details: "Our DevOps and Automation Implementation services transform contact center operations by leveraging modern DevOps practices, advanced automation tools, and scalable infrastructure. We empower organizations to achieve faster deployments, enhanced system reliability, and improved scalability through streamlined processes and innovative technologies. Our expertise, honed through extensive experience with enterprise-grade environments, ensures seamless automation of workflows and infrastructure optimization.",
       image: doImage,
       route: "/service/devops-automation-implementation"
     },
@@ -63,7 +63,7 @@ function CompanyServices() {
       icon: <FaPhone className="text-2xl text-red-400" />,
       title: "Telephony Project Management",
       description: "Complex telephony projects including ACD upgrades, carrier circuit installations, and multi-site rollouts.",
-      details: "As certified project managers, we handle vendor coordination, component procurement, and customer programming requirements. Our track record ensures on-time, budget-compliant deliveries that minimize disruptions.",
+      details: "Our Telephony Project Management services deliver end-to-end management of complex telephony projects, ensuring seamless upgrades, installations, and multi-site rollouts for contact centers. Led by certified project managers, we provide expert coordination, meticulous planning, and execution to achieve on-time, budget-compliant deliveries with minimal disruptions. Our solutions optimize telephony infrastructure to support voice, omnichannel communications, and advanced contact center functionalities.",
       image: tpmImage,
       route: "/service/telephony-project-management"
     },
