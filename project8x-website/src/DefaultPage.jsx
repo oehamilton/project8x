@@ -86,9 +86,7 @@ function DefaultPage() {
             alt="Project8X Logo"
           />
         </div>
-        <h1 className="text-4xl font-bold mb-4 text-gray-200 drop-shadow-lg">
-          Welcome to Project8X
-        </h1>
+
         <p className="text-xl drop-shadow-md max-w-4xl mx-auto mb-8">
           Leading provider of contact center technology solutions, delivering innovative 
           implementations and expert consulting to Fortune 500 companies worldwide.
