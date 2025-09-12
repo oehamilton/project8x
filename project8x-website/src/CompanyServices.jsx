@@ -28,7 +28,7 @@ function CompanyServices() {
       icon: <FaHeadset className="text-2xl text-blue-400" />,
       title: "Contact Center Technology Consulting",
       description: "Expert consulting to optimize contact center operations, from business process analysis and redesign to technology assessments and implementation strategies.",
-      details: "Drawing on decades of experience with multi-site environments for clients like Aetna, Allstate, and Lockheed Martin, we help streamline workflows, enhance customer satisfaction, and reduce costs through tailored IVR, ACD, and CTI solutions.",
+      details: "Drawing on decades of experience with multi-site environments for large-scale enterprises, we help streamline workflows, enhance customer satisfaction, and reduce costs through tailored contact center solutions. Our expertise includes advanced technologies and best practices to optimize operations and deliver exceptional customer experiences. Select for more information.",
       image: cctImage
     },
     {
