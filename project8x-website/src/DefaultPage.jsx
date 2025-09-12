@@ -9,6 +9,7 @@ import {
   FaFileAlt, 
   FaComments, 
   FaDatabase,
+  FaCode,
   FaArrowRight
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -66,6 +67,12 @@ function DefaultPage() {
       title: "Database Optimization",
       description: "Database optimizations, custom scripting, and secure environments using VMware and Oracle.",
       route: "/service/database-optimization-custom-development"
+    },
+    {
+      icon: <FaCode className="text-2xl text-cyan-400" />,
+      title: "Website Development",
+      description: "Modern, responsive websites with omnichannel integration and contact center connectivity.",
+      route: "/service/website-development-services"
     }
   ];
 
@@ -174,6 +181,10 @@ function DefaultPage() {
             <li className="flex items-start">
               <span className="text-green-400 mr-2">•</span>
               <span>DevOps & Automation</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-green-400 mr-2">•</span>
+              <span>Website Development</span>
             </li>
           </ul>
         </div>

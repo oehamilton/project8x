@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaHeadset, FaCogs, FaChartLine, FaRocket, FaPhone, FaFileAlt, FaComments, FaDatabase } from "react-icons/fa";
+import { FaArrowLeft, FaHeadset, FaCogs, FaChartLine, FaRocket, FaPhone, FaFileAlt, FaComments, FaDatabase, FaCode } from "react-icons/fa";
 
 // Service data with detailed content
 const serviceDetails = {
@@ -688,6 +688,101 @@ const serviceDetails = {
       
       conclusion: "With deep expertise in database optimization and custom development for enterprise contact centers, we deliver reliable, low-latency solutions tailored to operational demands. Our proven approach to predictive dialer tuning, advanced reporting, and secure environment design ensures scalable, high-performance systems that drive efficiency and support business-critical operations."
     }
+  },
+  "website-development-services": {
+    icon: <FaCode className="text-4xl text-cyan-400" />,
+    title: "Website Development Services",
+    image: "/do.png",
+    content: {
+      overview: "Our Website Development Services deliver modern, responsive, and user-centric websites tailored to enhance customer engagement and support contact center operations. We specialize in creating scalable, secure, and high-performance web solutions that integrate seamlessly with contact center platforms, CRM systems, and omnichannel communication tools. Our expertise ensures visually appealing, functional websites that drive business success and elevate customer experiences.",
+      
+      coreServices: [
+        {
+          title: "Custom Website Development",
+          description: "We design and build tailored websites to meet specific business needs, including Frontend Development using HTML, CSS, JavaScript, and frameworks like React or Vue.js for intuitive, responsive user interfaces, Backend Development with Node.js, Python (Django/Flask), or Java for robust server-side applications and seamless data processing, and Content Management Systems (CMS) implementing platforms like WordPress, Drupal, or custom CMS solutions for easy content updates and scalability."
+        },
+        {
+          title: "Omnichannel Integration",
+          description: "We integrate websites with contact center systems to enable seamless customer interactions, including WebRTC for browser-based voice and video for real-time customer support directly from the website, Live Chat and Chatbots with AI-powered chatbots and live chat for instant customer assistance, and CRM Integration connecting with platforms like Salesforce or HubSpot to personalize customer interactions and track engagement."
+        },
+        {
+          title: "E-Commerce Solutions",
+          description: "We develop secure, scalable e-commerce websites with features like product catalogs, shopping carts, and payment gateway integrations (e.g., Stripe, PayPal), customer account management and order tracking, and integration with contact centers for post-purchase support and returns."
+        },
+        {
+          title: "Responsive and Accessible Design",
+          description: "We ensure websites are optimized for all devices (desktop, tablet, mobile) and comply with accessibility standards (e.g., WCAG 2.1), providing mobile-first design for seamless user experiences, cross-browser compatibility and fast load times, and accessibility features for inclusive usability."
+        },
+        {
+          title: "SEO and Performance Optimization",
+          description: "We optimize websites for search engines and performance, including SEO Best Practices with keyword optimization, meta tags, and structured data for better search rankings, Performance Tuning with minifying code, optimizing images, and leveraging CDNs for faster load times, and Analytics Integration using tools like Google Analytics or Adobe Analytics for tracking user behavior and engagement."
+        },
+        {
+          title: "Security and Compliance",
+          description: "We implement robust security measures to protect user data and ensure compliance with regulations, including SSL/TLS encryption and secure API integrations, compliance with GDPR, CCPA, and PCI-DSS for data privacy and payment security, and regular security audits and vulnerability testing."
+        }
+      ],
+      
+      bestPractices: [
+        {
+          title: "User-Centric Design",
+          description: "Prioritize intuitive navigation, engaging visuals, and clear calls-to-action to enhance user experience."
+        },
+        {
+          title: "Agile Development",
+          description: "Use iterative development and testing to deliver high-quality websites aligned with business goals."
+        },
+        {
+          title: "Scalability",
+          description: "Build websites to handle high traffic and support future growth with cloud-based or modular architectures."
+        },
+        {
+          title: "Continuous Testing",
+          description: "Conduct usability, performance, and security testing to ensure reliability across devices and browsers."
+        },
+        {
+          title: "Maintenance and Support",
+          description: "Provide ongoing updates, backups, and technical support to keep websites secure and up-to-date."
+        },
+        {
+          title: "Customer Feedback Integration",
+          description: "Incorporate feedback loops to refine website functionality and improve user satisfaction."
+        }
+      ],
+      
+      technologies: [
+        {
+          title: "Frontend Frameworks",
+          description: "React, Vue.js, Angular for dynamic, responsive interfaces."
+        },
+        {
+          title: "Backend Technologies",
+          description: "Node.js, Python (Django/Flask), Java (Spring), PHP (Laravel)."
+        },
+        {
+          title: "CMS Platforms",
+          description: "WordPress, Drupal, Joomla, or custom-built CMS solutions."
+        },
+        {
+          title: "Cloud Hosting",
+          description: "AWS, Azure, Google Cloud for scalable, secure hosting."
+        },
+        {
+          title: "WebRTC and Communication Tools",
+          description: "Enabling real-time voice, video, and chat functionalities."
+        },
+        {
+          title: "AI and Automation",
+          description: "AI-driven chatbots and personalization engines for enhanced user engagement."
+        },
+        {
+          title: "Analytics and SEO Tools",
+          description: "Google Analytics, SEMrush, Yoast SEO for performance tracking and optimization."
+        }
+      ],
+      
+      conclusion: "With extensive experience in building enterprise-grade websites, we deliver solutions that enhance customer engagement and integrate seamlessly with contact center operations. Our focus on responsive design, omnichannel integration, and robust security ensures scalable, high-performance websites that drive business success and deliver exceptional user experiences."
+    }
   }
 };
 
@@ -948,6 +1043,32 @@ function ServiceDetail() {
               <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
                 <div className="text-white text-2xl font-bold">Predictive Dialer</div>
                 <div className="text-green-200 text-sm mt-2">Tuning & Analytics</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Additional Images for Website Development Services */}
+      {serviceId === "website-development-services" && (
+        <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-lg p-6 mb-4">
+                <div className="text-white text-2xl font-bold">Custom Dev</div>
+                <div className="text-cyan-200 text-sm mt-2">React, Vue, Angular</div>
+              </div>
+            </div>
+            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
+                <div className="text-white text-2xl font-bold">E-Commerce</div>
+                <div className="text-blue-200 text-sm mt-2">Secure & Scalable</div>
+              </div>
+            </div>
+            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
+                <div className="text-white text-2xl font-bold">Omnichannel</div>
+                <div className="text-green-200 text-sm mt-2">WebRTC & Chat</div>
               </div>
             </div>
           </div>
@@ -1387,6 +1508,55 @@ function ServiceDetail() {
                   <span className="text-white font-bold text-xs">Cloud</span>
                 </div>
                 <div className="text-gray-300 text-sm">Platforms</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Technology Stack Visualization for Website Development Services */}
+      {serviceId === "website-development-services" && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
+            Website Development Technology Stack
+          </h2>
+          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <div className="text-center">
+                <div className="bg-cyan-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">React</span>
+                </div>
+                <div className="text-gray-300 text-sm">Frontend</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">Node.js</span>
+                </div>
+                <div className="text-gray-300 text-sm">Backend</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">WordPress</span>
+                </div>
+                <div className="text-gray-300 text-sm">CMS</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">AWS</span>
+                </div>
+                <div className="text-gray-300 text-sm">Cloud</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">WebRTC</span>
+                </div>
+                <div className="text-gray-300 text-sm">Real-time</div>
+              </div>
+              <div className="text-center">
+                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+                  <span className="text-white font-bold text-xs">AI</span>
+                </div>
+                <div className="text-gray-300 text-sm">Intelligence</div>
               </div>
             </div>
           </div>

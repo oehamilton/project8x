@@ -9,7 +9,8 @@ import {
   FaPhone, 
   FaFileAlt, 
   FaComments, 
-  FaDatabase 
+  FaDatabase,
+  FaCode
 } from "react-icons/fa";
 
 //Images related to each service
@@ -21,6 +22,7 @@ const tpmImage = "/tpm.png";
 const rfpImage = "/rfp.png";
 const mccsImage = "/mccs.png";
 const ddoImage = "/ddo.png";
+const wdImage = "/do.png";
 
 
 function CompanyServices() {
@@ -90,6 +92,14 @@ function CompanyServices() {
       details: "Our Database Optimization and Custom Development services deliver high-performance, secure, and scalable database solutions tailored to contact center needs. We specialize in optimizing database performance, developing custom scripts, and designing secure environments to support mission-critical operations. With expertise in predictive dialer tuning, advanced reporting, and development/test lab setups, we ensure low-latency, reliable systems that enhance operational efficiency and meet demanding business requirements.",
       image: ddoImage,
       route: "/service/database-optimization-custom-development"
+    },
+    {
+      icon: <FaCode className="text-2xl text-cyan-400" />,
+      title: "Website Development Services",
+      description: "Modern, responsive, and user-centric websites tailored to enhance customer engagement and support contact center operations.",
+      details: "Our Website Development Services deliver modern, responsive, and user-centric websites tailored to enhance customer engagement and support contact center operations. We specialize in creating scalable, secure, and high-performance web solutions that integrate seamlessly with contact center platforms, CRM systems, and omnichannel communication tools. Our expertise ensures visually appealing, functional websites that drive business success and elevate customer experiences.",
+      image: wdImage,
+      route: "/service/website-development-services"
     }
   ];
 
