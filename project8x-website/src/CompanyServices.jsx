@@ -71,7 +71,7 @@ function CompanyServices() {
       icon: <FaFileAlt className="text-2xl text-indigo-400" />,
       title: "RFP Development and Vendor Selection",
       description: "Comprehensive RFP creation, proof-of-concept coding, and vendor evaluation services.",
-      details: "Leveraging experience from IBM alliances and engagements with Avaya, Cisco, and Genesys, we architect solutions for contact center consolidation and enhancements. Project8X guides you through selections that align with your business needs, ensuring cost-effective, high-impact investments.",
+      details: "Our RFP Development and Vendor Selection services provide comprehensive support to architect and implement contact center solutions that align with your business objectives. Leveraging extensive experience in enterprise environments, we create detailed Request for Proposals (RFPs), conduct proof-of-concept (PoC) development, and guide vendor evaluations to ensure cost-effective, high-impact investments. Our process ensures seamless consolidation and enhancement of contact center operations, delivering scalable and innovative solutions.",
       image: rfpImage,
       route: "/service/rfp-development-vendor-selection"
     },
@@ -79,7 +79,7 @@ function CompanyServices() {
       icon: <FaComments className="text-2xl text-orange-400" />,
       title: "Multi-Channel Communication Solutions",
       description: "Unified customer experiences with multichannel services encompassing voice, email, web chat, fax, and collaboration tools.",
-      details: "We integrate platforms like Siebel CTI, Avaya IC, and Business Advocate for intelligent routing and support. With implementations across US and Canada sites at EDS and Expedia, Project8X delivers scalable solutions that boost agent productivity and customer engagement.",
+      details: "Our Multi-Channel Communication Solutions deliver unified, seamless customer experiences across diverse communication channels, including voice, email, web chat, SMS, social media, and collaboration tools. By integrating advanced platforms and leveraging intelligent routing, we enhance agent productivity, improve customer engagement, and ensure scalability across multi-site contact centers. Our expertise ensures cohesive, omnichannel interactions that drive operational efficiency and customer satisfaction.",
       image: mccsImage,
       route: "/service/multi-channel-communication-solutions"
     },
@@ -87,7 +87,7 @@ function CompanyServices() {
       icon: <FaDatabase className="text-2xl text-teal-400" />,
       title: "Database Optimization and Custom Development",
       description: "Database optimizations, custom scripting in C#, Java, and SQL, and secure environments using VMware and Oracle.",
-      details: "Our services include predictive dialer tuning, reporting analysis, and lab design for dev/test setups. Proven at Lockheed Martin for Homeland Security projects and Protection One, Project8X ensures low-latency, reliable systems tailored to your operational demands.",
+      details: "Our Database Optimization and Custom Development services deliver high-performance, secure, and scalable database solutions tailored to contact center needs. We specialize in optimizing database performance, developing custom scripts, and designing secure environments to support mission-critical operations. With expertise in predictive dialer tuning, advanced reporting, and development/test lab setups, we ensure low-latency, reliable systems that enhance operational efficiency and meet demanding business requirements.",
       image: ddoImage,
       route: "/service/database-optimization-custom-development"
     }
