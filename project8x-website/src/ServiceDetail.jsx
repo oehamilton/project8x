@@ -85,10 +85,74 @@ const serviceDetails = {
     title: "System Integration and Deployment",
     image: "/sid.png",
     content: {
-      overview: "Coming soon - detailed information about our System Integration and Deployment services will be available here.",
-      keySolutions: [],
-      bestPractices: [],
-      conclusion: "Please check back soon for comprehensive details about our integration and deployment capabilities."
+      overview: "Our System Integration and Deployment services deliver seamless, scalable, and secure contact center solutions tailored to enterprise needs. We specialize in integrating advanced contact center platforms with existing infrastructure, ensuring robust performance across voice, email, chat, and omnichannel interactions. Our expertise spans full-stack deployments, custom API development, and complex migrations, enabling businesses to optimize workflows and enhance customer experiences.",
+      
+      coreServices: [
+        {
+          title: "Platform Integration",
+          description: "We integrate leading contact center platforms with enterprise systems, ensuring compatibility and streamlined operations. Supported platforms include industry-standard solutions for telephony, CRM, and workforce management, enabling unified communication across channels like voice, email, chat, SMS, and social media."
+        },
+        {
+          title: "Custom API Development",
+          description: "Our team builds tailored APIs using modern frameworks and languages, including REST APIs for flexible, scalable integrations with web-based systems, JavaScript for dynamic, client-side functionality in contact center applications, and Python for automation, data processing, and backend integrations. These APIs enable seamless data flow between contact center platforms, CRMs, and other enterprise tools, enhancing operational efficiency."
+        },
+        {
+          title: "System Deployments",
+          description: "We manage end-to-end deployments, from planning and configuration to testing and go-live. Our services include Full-Stack Deployments for comprehensive setup of contact center infrastructure, Cloud and On-Premises Solutions for flexible deployment options, and Predictive Dialing Integration for optimizing outbound campaigns with higher productivity."
+        },
+        {
+          title: "System Migrations",
+          description: "We execute complex migrations to modernize legacy systems, ensuring minimal downtime and data integrity. Examples include Operating System Migrations from Unix-based to Windows-based environments, Database Migrations from Oracle to MS SQL or other modern database platforms, and Legacy System Upgrades to support new features and compliance requirements."
+        },
+        {
+          title: "Omnichannel Support",
+          description: "Our integrations enable consistent customer experiences across multiple channels, including voice, email, chat, SMS, and social media, with real-time data synchronization."
+        }
+      ],
+      
+      bestPractices: [
+        {
+          title: "Security and Compliance",
+          description: "We implement robust security protocols, including encryption and access controls, to protect sensitive customer data and ensure compliance with regulations like GDPR, HIPAA, and PCI-DSS."
+        },
+        {
+          title: "Scalability",
+          description: "Our solutions are designed to handle high call volumes and support business growth, with load-balanced architectures and cloud-ready deployments."
+        },
+        {
+          title: "Testing and Validation",
+          description: "Rigorous testing, including stress testing and user acceptance testing (UAT), ensures reliability and performance under real-world conditions."
+        },
+        {
+          title: "Documentation and Training",
+          description: "We provide comprehensive documentation and training for IT teams and end-users to ensure smooth adoption and ongoing maintenance."
+        }
+      ],
+      
+      technologies: [
+        {
+          title: "Platforms",
+          description: "Expertise in integrating industry-leading contact center platforms, ensuring compatibility with existing systems."
+        },
+        {
+          title: "Cloud Solutions",
+          description: "Leveraging cloud-based infrastructure for flexibility, cost-efficiency, and remote accessibility."
+        },
+        {
+          title: "WebRTC",
+          description: "Enabling browser-based voice and video communication for enhanced accessibility."
+        },
+        {
+          title: "AI and Automation",
+          description: "Incorporating AI-driven tools, such as agent assist and predictive analytics, to optimize performance."
+        },
+        {
+          title: "Monitoring and Analytics",
+          description: "Real-time monitoring and advanced analytics to track system performance and customer interactions."
+        }
+      ],
+      
+      conclusion: "With decades of experience in multi-site, enterprise-grade deployments, we deliver reliable, secure, and high-performance contact center integrations. Our proven methodologies and tailored solutions ensure seamless transitions, enhanced operational efficiency, and superior customer experiences across data centers and communication channels."
     }
   },
   "real-time-analytics-dashboard": {
@@ -240,6 +304,32 @@ function ServiceDetail() {
         </div>
       )}
 
+      {/* Additional Images for System Integration and Deployment */}
+      {serviceId === "system-integration-deployment" && (
+        <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
+                <div className="text-white text-2xl font-bold">API Development</div>
+                <div className="text-green-200 text-sm mt-2">REST, JavaScript, Python</div>
+              </div>
+            </div>
+            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
+                <div className="text-white text-2xl font-bold">Platform Integration</div>
+                <div className="text-blue-200 text-sm mt-2">Enterprise Systems</div>
+              </div>
+            </div>
+            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg p-6 mb-4">
+                <div className="text-white text-2xl font-bold">System Migration</div>
+                <div className="text-purple-200 text-sm mt-2">Legacy to Modern</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Overview Section */}
       <div className="mb-12">
         <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
@@ -253,7 +343,7 @@ function ServiceDetail() {
       </div>
 
       {/* Key Solutions Section */}
-      {service.content.keySolutions.length > 0 && (
+      {service.content.keySolutions && service.content.keySolutions.length > 0 && (
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
             Key Solutions and Technologies
@@ -276,8 +366,32 @@ function ServiceDetail() {
         </div>
       )}
 
+      {/* Core Services Section for System Integration and Deployment */}
+      {service.content.coreServices && service.content.coreServices.length > 0 && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
+            Core Services
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {service.content.coreServices.map((serviceItem, index) => (
+              <div
+                key={index}
+                className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 transition-all duration-300"
+              >
+                <h3 className="text-lg font-bold text-green-400 drop-shadow-lg mb-3">
+                  {serviceItem.title}
+                </h3>
+                <p className="text-gray-300 drop-shadow-md text-sm">
+                  {serviceItem.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Best Practices Section */}
-      {service.content.bestPractices.length > 0 && (
+      {service.content.bestPractices && service.content.bestPractices.length > 0 && (
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
             Best Practices
@@ -333,6 +447,30 @@ function ServiceDetail() {
                 <div className="text-gray-300 text-sm">Intelligence</div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Technologies Section for System Integration and Deployment */}
+      {service.content.technologies && service.content.technologies.length > 0 && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
+            Technologies and Tools
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {service.content.technologies.map((tech, index) => (
+              <div
+                key={index}
+                className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 transition-all duration-300"
+              >
+                <h3 className="text-lg font-bold text-purple-400 drop-shadow-lg mb-3">
+                  {tech.title}
+                </h3>
+                <p className="text-gray-300 drop-shadow-md text-sm">
+                  {tech.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       )}

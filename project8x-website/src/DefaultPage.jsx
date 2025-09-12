@@ -11,51 +11,61 @@ import {
   FaDatabase,
   FaArrowRight
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const slideImage = "/Project8Xwt_tr.png";
 
 function DefaultPage() {
+  const navigate = useNavigate();
+  
   const serviceOverview = [
     {
       icon: <FaHeadset className="text-2xl text-blue-400" />,
       title: "Contact Center Technology Consulting",
-      description: "Expert consulting to optimize contact center operations and enhance customer experiences."
+      description: "Expert consulting to optimize contact center operations and enhance customer experiences.",
+      route: "/service/contact-center-technology-consulting"
     },
     {
       icon: <FaCogs className="text-2xl text-green-400" />,
       title: "System Integration & Deployment",
-      description: "Seamless integration of contact center platforms including Genesys, Avaya, and Cisco systems."
+      description: "Seamless integration of contact center platforms including Genesys, Avaya, and Cisco systems.",
+      route: "/service/system-integration-deployment"
     },
     {
       icon: <FaChartLine className="text-2xl text-yellow-400" />,
       title: "Real-Time Analytics & Dashboards",
-      description: "Custom analytics dashboards using Power BI, Python, and JavaScript for operational visibility."
+      description: "Custom analytics dashboards using Power BI, Python, and JavaScript for operational visibility.",
+      route: "/service/real-time-analytics-dashboard"
     },
     {
       icon: <FaRocket className="text-2xl text-purple-400" />,
       title: "DevOps & Automation",
-      description: "Modern DevOps practices with CI/CD pipelines, Docker, and AI-driven automation tools."
+      description: "Modern DevOps practices with CI/CD pipelines, Docker, and AI-driven automation tools.",
+      route: "/service/devops-automation-implementation"
     },
     {
       icon: <FaPhone className="text-2xl text-red-400" />,
       title: "Telephony Project Management",
-      description: "Complex telephony projects including ACD upgrades and multi-site rollouts."
+      description: "Complex telephony projects including ACD upgrades and multi-site rollouts.",
+      route: "/service/telephony-project-management"
     },
     {
       icon: <FaFileAlt className="text-2xl text-indigo-400" />,
       title: "RFP Development & Vendor Selection",
-      description: "Comprehensive RFP creation and vendor evaluation for technology acquisitions."
+      description: "Comprehensive RFP creation and vendor evaluation for technology acquisitions.",
+      route: "/service/rfp-development-vendor-selection"
     },
     {
       icon: <FaComments className="text-2xl text-orange-400" />,
       title: "Multi-Channel Communication",
-      description: "Unified customer experiences across voice, email, web chat, and collaboration tools."
+      description: "Unified customer experiences across voice, email, web chat, and collaboration tools.",
+      route: "/service/multi-channel-communication-solutions"
     },
     {
       icon: <FaDatabase className="text-2xl text-teal-400" />,
       title: "Database Optimization",
-      description: "Database optimizations, custom scripting, and secure environments using VMware and Oracle."
+      description: "Database optimizations, custom scripting, and secure environments using VMware and Oracle.",
+      route: "/service/database-optimization-custom-development"
     }
   ];
 
@@ -102,7 +112,8 @@ function DefaultPage() {
           {serviceOverview.map((service, index) => (
             <div 
               key={index}
-              className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 hover:border-gray-500/70 transition-all duration-300 hover:scale-105 shadow-lg text-center"
+              onClick={() => navigate(service.route)}
+              className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 hover:border-gray-500/70 transition-all duration-300 hover:scale-105 shadow-lg text-center cursor-pointer"
             >
               <div className="flex justify-center mb-4">
                 {service.icon}

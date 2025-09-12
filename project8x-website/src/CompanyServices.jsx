@@ -38,8 +38,8 @@ function CompanyServices() {
     {
       icon: <FaCogs className="text-2xl text-green-400" />,
       title: "System Integration and Deployment",
-      description: "Seamless integration of contact center platforms including Genesys, Avaya, Cisco ICM, NICE, and Verint systems.",
-      details: "Our services cover full-stack deployments, custom API developments (REST, JavaScript, Python), and migrations from Unix to Windows or Oracle to MS SQL. With proven success at Bank of America and IBM, we ensure reliable, secure integrations that support voice, email, chat, and predictive dialing across data centers.",
+      description: "Seamless integration of contact center platforms including Genesys, Avaya, Cisco ICM, AWS Connect, Google Dialogflow, and Verint systems.",
+      details: "Our System Integration and Deployment services deliver seamless, scalable, and secure contact center solutions tailored to enterprise needs. We specialize in integrating advanced contact center platforms with existing infrastructure, ensuring robust performance across voice, email, chat, and omnichannel interactions. Our expertise spans full-stack deployments, custom API development, and complex migrations, enabling businesses to optimize workflows and enhance customer experiences.",
       image: sidImage,
       route: "/service/system-integration-deployment"
     },
