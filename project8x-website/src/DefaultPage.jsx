@@ -192,7 +192,7 @@ function DefaultPage() {
             Client Success
           </h3>
           <p className="text-gray-300 drop-shadow-md mb-4">
-            Trusted by industry leaders including Bank of America, IBM, Lockheed Martin, 
+            Trusted by industry leaders including Bank of America, IBM, EDS, Lockheed Martin, 
             Expedia, and many more Fortune 500 companies.
           </p>
           <Link
