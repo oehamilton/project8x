@@ -3,7 +3,7 @@ import React from "react";
 import { FaCrown, FaRocket } from "react-icons/fa";
 
 const ceoImage = "/ceo.png";
-const ctoImage = "/cto.png";
+const ctoImage = "/road to the stars.png";
 
 function ExecutiveLeadership() {
   const executives = [
@@ -18,7 +18,7 @@ function ExecutiveLeadership() {
     },
     {
       icon: <FaRocket className="text-2xl text-blue-400" />,
-      name: "Kevin Buckley",
+      name: "TBD",
       title: "CTO and Founder",
       image: ctoImage,
       description: "Leading technology innovation and strategic development for Project8X's cutting-edge solutions.",
