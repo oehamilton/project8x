@@ -4,12 +4,18 @@ import {
   FaMobile, 
   FaShieldAlt, 
   FaEnvelope, 
-  FaCloud, 
-  FaBell, 
   FaArrowRight,
-  FaSms
+  FaSms,
+  FaCompass,
+  FaDownload,
+  FaGithub
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
+const AZIMUTH_DOWNLOAD =
+  "https://github.com/oehamilton/AZIMUTH/releases/download/v0.2.0/AZIMUTH.Setup.0.2.0.exe";
+const AZIMUTH_REPO = "https://github.com/oehamilton/AZIMUTH";
+const AZIMUTH_RELEASES = "https://github.com/oehamilton/AZIMUTH/releases";
 
 function Products() {
   const products = [
@@ -53,6 +59,26 @@ function Products() {
       ],
       technologies: [".NET", "AWS", "SMS", "Email Integration", "Real-time Messaging"],
       status: "Available Now"
+    },
+    {
+      icon: <FaCompass className="text-3xl text-amber-400" />,
+      name: "AZIMUTH",
+      tagline: "Smarter antenna pointing on the map",
+      description:
+        "Plan where to aim your antenna with confidence. AZIMUTH puts your home at the center of a clear world map, lets you pick a target, and shows direction and distance—without tying you to paid map services. The latest release adds rich, zoomable colored maps so you can get the detail you need on Windows 11.",
+      features: [
+        "World map view with your location at the center",
+        "Choose a target and see bearing and distance at a glance",
+        "No paid map subscriptions—bundled map plus optional caching",
+        "Version 0.2.0: detailed colored maps with zoom",
+        "Windows desktop installer—ready to run",
+        "Open source—inspect the code and follow releases on GitHub"
+      ],
+      technologies: ["Windows 11", "Electron", "JavaScript"],
+      status: "v0.2.0",
+      downloadUrl: AZIMUTH_DOWNLOAD,
+      repoUrl: AZIMUTH_REPO,
+      releasesUrl: AZIMUTH_RELEASES
     }
   ];
 
@@ -85,7 +111,11 @@ function Products() {
                 <p className="text-blue-400 font-semibold drop-shadow-md mb-3">
                   {product.tagline}
                 </p>
-                <span className="inline-block bg-green-600 text-white text-xs font-bold py-1 px-3 rounded-full">
+                <span
+                  className={`inline-block text-white text-xs font-bold py-1 px-3 rounded-full ${
+                    product.downloadUrl ? "bg-amber-600" : "bg-green-600"
+                  }`}
+                >
                   {product.status}
                 </span>
               </div>
@@ -125,50 +155,84 @@ function Products() {
               </div>
             </div>
 
-            <div className="mb-6">
-              <h4 className="text-lg font-bold text-gray-200 drop-shadow-lg mb-3">
-                Legal & Compliance
-              </h4>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="/Privacy Policy SMS.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 font-medium text-sm"
-                >
-                  <FaShieldAlt className="mr-2" />
-                  Privacy Policy (PDF)
-                </a>
-                <a
-                  href="/Terms and Conditions SMS.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 font-medium text-sm"
-                >
-                  <FaShieldAlt className="mr-2" />
-                  Terms & Conditions (PDF)
-                </a>
+            {!product.downloadUrl && (
+              <div className="mb-6">
+                <h4 className="text-lg font-bold text-gray-200 drop-shadow-lg mb-3">
+                  Legal & Compliance
+                </h4>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="/Privacy Policy SMS.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 font-medium text-sm"
+                  >
+                    <FaShieldAlt className="mr-2" />
+                    Privacy Policy (PDF)
+                  </a>
+                  <a
+                    href="/Terms and Conditions SMS.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 font-medium text-sm"
+                  >
+                    <FaShieldAlt className="mr-2" />
+                    Terms & Conditions (PDF)
+                  </a>
+                </div>
+                <p className="text-gray-400 text-xs mt-2">
+                  Both products use SMS for messaging and registration. Please review our Privacy Policy and Terms & Conditions before using the applications.
+                </p>
               </div>
-              <p className="text-gray-400 text-xs mt-2">
-                Both products use SMS for messaging and registration. Please review our Privacy Policy and Terms & Conditions before using the applications.
-              </p>
-            </div>
+            )}
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                to="/ContactUs"
-                className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
-              >
-                <FaEnvelope className="mr-2" />
-                Request Demo
-              </Link>
-              <Link
-                to="/CompanyServices"
-                className="inline-flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
-              >
-                Learn More
-                <FaArrowRight className="ml-2" />
-              </Link>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+              {product.downloadUrl ? (
+                <>
+                  <a
+                    href={product.downloadUrl}
+                    className="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <FaDownload className="mr-2" />
+                    Download for Windows (v0.2.0)
+                  </a>
+                  <a
+                    href={product.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <FaGithub className="mr-2" />
+                    View on GitHub
+                  </a>
+                  <a
+                    href={product.releasesUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center border border-gray-500 hover:border-gray-400 text-gray-200 font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+                  >
+                    All releases
+                    <FaArrowRight className="ml-2" />
+                  </a>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/ContactUs"
+                    className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <FaEnvelope className="mr-2" />
+                    Request Demo
+                  </Link>
+                  <Link
+                    to="/CompanyServices"
+                    className="inline-flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    Learn More
+                    <FaArrowRight className="ml-2" />
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         ))}

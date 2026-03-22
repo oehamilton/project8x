@@ -91,12 +91,19 @@ function DefaultPage() {
           Leading provider of contact center technology solutions, delivering innovative 
           implementations and expert consulting to Fortune 500 companies worldwide.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
           <Link
             to="/CompanyServices"
             className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
           >
             Explore Our Services
+            <FaArrowRight className="ml-2" />
+          </Link>
+          <Link
+            to="/Products"
+            className="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+          >
+            View Products
             <FaArrowRight className="ml-2" />
           </Link>
           <Link
