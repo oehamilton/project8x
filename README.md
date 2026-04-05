@@ -6,6 +6,8 @@ Consulting company profile and marketing site for **Project8X**.
 
 React (Vite) single-page app deployed via AWS Amplify (see `project8x-website/amplify.yml`).
 
+**Roadmap (accounts, licensing, PayPal, etc.):** see [`project8x-website/PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md).
+
 ### Local development
 
 ```bash

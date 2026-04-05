@@ -1,6 +1,12 @@
 # Product Requirements Document (PRD)
 ## Project8X Website - Service Detail Pages Enhancement
 
+### Related initiative: platform and licensing
+
+Customer accounts, employee roles, PayPal billing, license validation API, MFA, support, and newsletter work are specified and tracked in **[PLATFORM-PLAN.md](./PLATFORM-PLAN.md)** (plan + master checklist). Extend or split this PRD when those features are specified in detail.
+
+---
+
 ### Project Overview
 Enhance the Project8X website by adding detailed service pages that users can navigate to from the main Company Services page.
 

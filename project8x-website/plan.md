@@ -65,6 +65,14 @@
 - ⏳ **Standby Mode**: Awaiting user to provide detailed content for remaining 3 service pages
 - 📋 **Ready to Implement**: ServiceDetail.jsx component is ready to receive and display new content
 
+## Platform roadmap (accounts, licensing, PayPal, SOC2)
+
+**Living plan + checklist:** [`PLATFORM-PLAN.md`](./PLATFORM-PLAN.md)
+
+Tracks visitor/customer/employee flows, license validation API, per-device activations, PayPal, email MFA, support tickets, newsletter (marketing), and SOC2-oriented tasks. Update that file as decisions change; use its checkboxes during delivery.
+
+---
+
 ## Notes
 - All service detail pages are now functional with proper routing
 - Contact Center Technology Consulting page includes full content as requested
