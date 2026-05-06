@@ -1,0 +1,20 @@
+{
+  "name": "project8x-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Project8X backend API — Fastify on AWS Lambda + HTTP API (SAM)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/local.js",
+    "test": "node --test",
+    "sam:build": "sam build",
+    "sam:local": "sam local start-api --warm-containers EAGER"
+  },
+  "dependencies": {
+    "@fastify/aws-lambda": "^5.1.4",
+    "fastify": "^5.2.1",
+    "stripe": "^17.7.0"
+  }
+}

@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-05-10  
+**Last updated:** 2026-05-11  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, **Stripe** (payments + webhooks), MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -440,6 +440,8 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 
 **Implementation note:** start with a minimal viable API (auth + license validation + **Stripe webhook** ingestion) before expanding to full portal feature breadth.
 
+**Reference scaffold (repo):** [`project8x-api/`](../project8x-api/README.md) — SAM + Fastify + `@fastify/aws-lambda` with `GET /health` and `POST /v1/webhooks/stripe`.
+
 ---
 
 ## Master checklist
@@ -701,6 +703,7 @@ Adjust order if **Stripe** fulfillment or license API must come first for a pilo
 | 2026-05-08 | **Locked MVP-A decisions:** Authentication (**AWS Cognito** User Pools + Identity Pools when needed), portal authorization (**HTTP-only cookies** + CSRF), transactional email (**AWS SES**; ESP deferred). Added **Decisions captured** rows and **MVP-A actions** checklist under Open decisions. |
 | 2026-05-09 | **Payments:** switched platform plan from PayPal to **Stripe** (Checkout/Billing + webhooks). Added **Stripe prerequisites (before integration)** checklist; updated fulfillment docs, environments, QA, AuditLog event names, and **Payment Processor** open decision to **Decided**. |
 | 2026-05-10 | **MFA:** required for **all portal users** (customers + employees). **API hosting:** documented pros/cons; **locked MVP** to Lambda + API Gateway HTTP API. **License validation limits:** formalized policy + locked baseline (10/min per key hash + IP fallback). |
+| 2026-05-11 | Added **`project8x-api/`** SAM scaffold: Fastify + `@fastify/aws-lambda`, `GET /health`, `POST /v1/webhooks/stripe` (raw body + signature verify). |
 
 ---
 

@@ -16,6 +16,12 @@ Platform implementation is tracked on **`feature/platform-accounts-licensing`** 
 
 ---
 
+## Backend API (`project8x-api`)
+
+SAM + Fastify on **Lambda + HTTP API**. Quickstart: [`project8x-api/README.md`](project8x-api/README.md) (`GET /health`, `POST /v1/webhooks/stripe`).
+
+---
+
 ## Website (`project8x-website`)
 
 React (Vite) single-page app deployed via AWS Amplify (see `project8x-website/amplify.yml`).

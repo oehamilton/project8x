@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Project8X API — Fastify on Lambda + HTTP API
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 256
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+
+Parameters:
+  StripeWebhookSecret:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Stripe webhook signing secret (whsec_...). Leave empty until Dashboard webhook is created.
+
+Resources:
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: src/lambda.handler
+      Environment:
+        Variables:
+          NODE_ENV: production
+          LOG_LEVEL: info
+          STRIPE_WEBHOOK_SECRET: !Ref StripeWebhookSecret
+      Events:
+        RootAny:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /
+            Method: ANY
+        ProxyAny:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /{proxy+}
+            Method: ANY
+
+Outputs:
+  HttpApiUrl:
+    Description: Base URL for the HTTP API (append paths e.g. /health)
+    Value: !GetAtt HttpApi.ApiEndpoint
