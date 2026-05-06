@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-04-04 (DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md runbook)  
+**Last updated:** 2026-05-06  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, PayPal, MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -93,7 +93,25 @@ Update **Last updated** at the top when you edit this file meaningfully.
 | Database direction | **PostgreSQL** (managed) as primary; optional **Redis** for MFA/rate limits |
 | Git / website deploy | **`main`** auto-publishes the **marketing** site only (e.g. Amplify). Customer/employee portals use **their own** repos/branches and Amplify apps (see subdomains). Brochure repo may still use **`feature/platform-accounts-licensing`** for marketing-safe changes until merged to `main`. |
 
-**Open (owner to decide):** newsletter tooling (ESP vs SES-only), visitor analytics/cookies policy, exact PayPal products vs internal SKUs, whether to use **Cognito/Auth0** vs custom auth for MVP, whether **`www.project8x.com`** redirects to apex or the reverse.
+---
+
+## Open decisions
+
+These are the decisions most likely to block implementation if left ambiguous. Each row includes a **default** so we can keep shipping.
+
+| Decision | Options | Recommended / Default | Owner | Target Decision Date | Status | Notes |
+|----------|---------|-----------------------|-------|----------------------|--------|-------|
+| Authentication Provider | AWS Cognito, Auth0, Custom auth | **AWS Cognito** (aligns with Amplify) | Othell Hamilton | 2026-05-13 | Open | Prioritize Amplify-compatible rollout; keep portal + API models stable if provider changes later. |
+| Authorization Mechanism | HTTP-only cookies, Bearer JWT | **HTTP-only cookies** (with CSRF protection) | Othell Hamilton | 2026-05-13 | Open | Better fit for web portals. |
+| Email Service | AWS SES only, SendGrid/Mailgun (ESP) | **AWS SES** for transactional (MFA, verify, reset) | Othell Hamilton | 2026-05-13 | Open | Add ESP later if we need richer templates/marketing automation. |
+| Payment Processor Details | PayPal only, Stripe secondary | **PayPal primary** (one-time + subscriptions) | Othell Hamilton | 2026-05-20 | Open | Define internal SKUs and the webhook events we will support. |
+| API Architecture | Node/Fastify on EC2/Lambda, AppSync/GraphQL, Serverless | **Node.js + Fastify** (start REST-first) | Othell Hamilton | 2026-05-15 | Open | Hosting target (Lambda vs ECS) decided with infra constraints. |
+| Analytics & Cookie Consent | None, Minimal (privacy-first), Full GA | **Minimal with explicit consent** | Othell Hamilton | 2026-05-20 | Open | Ensure GDPR/CCPA posture is documented in the privacy notice. |
+| Domain & Redirect Strategy | www → non-www, non-www → www | **Non-www primary with redirect** | Othell Hamilton | 2026-05-10 | Open | Implement via Amplify redirect rules; keep one canonical. |
+| MFA Requirement | Optional for all, Required for employees/customers | **Required for employees; optional for customers** | Othell Hamilton | 2026-05-20 | Open | Balance security vs friction; still rate-limit + lockout on login. |
+| License Validation Rate Limits | Per-key, per-IP, per-device | **10 req/min per key + per-IP fallback** | Othell Hamilton | 2026-05-15 | Open | Tune based on observed abuse + legitimate app polling behavior. |
+
+**Decision process:** each open item needs brief rationale + impact notes recorded here when moved to “Decided.”
 
 ---
 
@@ -152,6 +170,170 @@ Repeat for **`customer.project8x.com`** and **`employee.project8x.com`** (each u
 
 ---
 
+## Personas, account types, and roles
+
+This section defines “who uses what” so we don’t accidentally blur marketing vs portals.
+
+### Personas (product perspective)
+
+- **Visitor (default)**: unauthenticated; can browse marketing pages; may submit support/feedback and/or newsletter signup.
+- **Newsletter subscriber**: **not a product role**—a marketing list entry with consent fields (may or may not have a Customer account).
+- **Customer**: authenticated user with access to `customer.project8x.com`; can view entitlements/licenses/devices; manages billing outcomes and support.
+- **Employee**: authenticated user on `employee.project8x.com`; performs admin/support tasks by permission.
+
+### Roles & permissions (implementation perspective)
+
+- **Customer role**: base permissions for customer portal
+- **Employee role**: permission-based (Admin, Support, BillingOps, …)
+- Authorization is enforced **server-side** in API middleware; UI route guards are convenience only.
+
+---
+
+## User registration & onboarding flow
+
+### User progression (conceptual)
+
+1. **Visitor (default)** → newsletter signup and/or direct account registration.
+2. **Newsletter subscriber** → marketing list entry (consent + preferences). **Not a product role**.
+3. **Customer** → registers + verifies email → completes purchase → gains portal access to entitlements/licenses/devices.
+4. **Employee** → invited/provisioned by an admin (separate flow; higher security bar).
+
+### Registration process (step-by-step)
+
+1. **Form submission** (Customer portal: `/register`)
+   - Fields: email, password (if provider-managed auth not used), first name, last name, company (optional)
+   - Client-side validation
+   - Optional abuse controls: CAPTCHA and/or IP throttling (usually better server-side)
+
+2. **Backend handling**
+   - Enforce email uniqueness
+   - Create user in auth provider (Cognito if chosen) or store `password_hash` (bcrypt/argon2) if custom
+   - Set account state to “pending verification” until email is confirmed
+   - Send verification email (SES or chosen provider) with time-limited token (e.g., 24h expiry)
+
+3. **Email verification**
+   - User clicks link → frontend route consumes token → API verifies
+   - On success: mark email verified, start session/login flow, audit-log
+   - Resend limit (example): 3 attempts/hour per email + per IP
+
+4. **Post-registration**
+   - Redirect to profile completion
+   - If the user has no entitlement yet: show “Get a license” CTA (PayPal) and/or a “Talk to us” support path
+
+### Employee onboarding (separate flow)
+
+- Employee accounts are **not** self-registered.
+- Flow: Admin creates invite → employee accepts → sets password/MFA → role/permissions assigned.
+- MFA: required (see Open decisions).
+
+### Profile management page (`/account/profile`)
+
+- Editable: name, company, phone, avatar, password change (if applicable), newsletter preferences + unsubscribe
+- Customers-only: view entitlements, masked license keys, device activations, billing history (as implemented)
+- All sensitive changes produce **AuditLog** entries
+
+### Security & compliance baseline (MVP)
+
+- Password policy (if password-based): minimum 12 characters (complexity optional but rate limiting is mandatory)
+- Account lockout: 5 failed attempts → 15-minute lock (tunable)
+- Consent captured for newsletter + privacy notice version
+- Audit log: login/logout, email verify/resend, profile edits, license/device changes, billing state changes
+
+### Success criteria (initial targets)
+
+- ≥ 95% of registrations complete email verification within 24 hours (measure once instrumentation exists)
+- No “unverified but active” accounts remain older than 30 days in production (cleanup job / policy)
+
+---
+
+## Minimal data model (MVP)
+
+This is intentionally small—enough to unblock the API + portals. Expand as needs emerge.
+
+**Reference:** [`DATA-MODEL.md`](./DATA-MODEL.md)
+
+- **User**
+  - id, email, password_hash, email_verified_at, created_at, disabled_at
+- **Customer**
+  - id, primary_user_id, display_name (individual/company), created_at
+- **Employee**
+  - id, user_id, created_at
+- **Role / Permission / UserRole / RolePermission**
+  - role names + permission slugs; join tables
+- **Entitlement**
+  - id, customer_id, sku, status, starts_at, ends_at (nullable), created_at, updated_at
+- **LicenseKey**
+  - id, entitlement_id, license_key_hash (never store raw if possible), display_key_last4, status, created_at
+- **Activation (Device)**
+  - id, license_key_id, device_id, activated_at, revoked_at (nullable), last_validated_at, metadata_json
+- **AuditLog (append-only)**
+  - id, actor_user_id (nullable), actor_type, action, resource_type, resource_id, metadata_json, created_at
+- **NewsletterSubscriber**
+  - id, email, consented_at, consent_source, unsubscribed_at, privacy_notice_version
+
+---
+
+## API baseline
+
+### Purpose
+
+Provide a secure, scalable backend for user management, license validation, payments, and customer/employee portals. The API supports both:
+
+- **Public** marketing site flows (newsletter, visitor support/feedback)
+- **Protected** customer/employee portals (authenticated)
+- **Public-but-abuse-prone** license validation (must be rate-limited + monitored)
+
+### Technology stack
+
+- **Runtime**: Node.js (LTS) with Fastify (preferred) *(Express acceptable if it wins on team familiarity)*
+- **Hosting**: AWS Lambda + API Gateway **or** ECS/Fargate (see Open decisions)
+- **Database**: **PostgreSQL (managed)** as primary (per Decisions captured); optional **Redis** for MFA/rate limits
+  - If we later need a non-relational store (e.g., event ingestion), treat that as an additive decision rather than replacing Postgres.
+- **Authentication**: **AWS Cognito** (User Pools) integrated with Amplify on the frontend (per Open decisions)
+- **Authorization**: **RBAC** enforced at API middleware + business logic layer
+  - **Portal auth**: HTTP-only secure cookies (preferred) or bearer tokens (see Open decisions)
+- **API style**: REST + JSON; consider GraphQL only if/when it solves a real client problem
+- **Documentation**: OpenAPI/Swagger spec maintained with the code
+
+### Environment URLs (planned)
+
+- Development: `https://api.dev.project8x.com`
+- Staging: `https://api.staging.project8x.com`
+- Production: `https://api.project8x.com`
+
+### Core cross-cutting concerns
+
+- **Logging & tracing**:
+  - Structured JSON logs
+  - Request correlation id on every request
+  - Add distributed tracing (e.g., AWS X-Ray) when the first multi-service boundary exists
+- **Error handling**:
+  - Standard error envelope: `{ code, message, details? }`
+  - Correct HTTP status codes (`400/401/403/404/409/422/429/5xx`)
+  - No sensitive data in responses or logs (license keys, passwords, MFA codes)
+- **Rate limiting**:
+  - Public endpoints: per-IP baseline (exact numbers tuned later)
+  - License validation: per-key + per-IP fallback (see Open decisions row); return `429` + retry hints
+- **Security**:
+  - Strict CORS (explicit allowlist per environment)
+  - Input validation (Zod/Joi/etc.) on every request
+  - Secure headers (“helmet-style”)
+  - Webhook signature verification (PayPal) + idempotency key storage
+- **Secrets management**:
+  - AWS Secrets Manager or SSM Parameter Store
+  - No secrets in repo; avoid printing secrets in logs; rotate as needed
+- **Monitoring**:
+  - CloudWatch metrics/alarms for error rate, latency, and license validation volume
+
+### Versioning strategy
+
+- URL-based versioning: `/v1/...`
+- Maintain backwards compatibility within a major version; plan deprecations before `/v2`
+
+**Implementation note:** start with a minimal viable API (auth + license validation + PayPal webhook ingestion) before expanding to full portal feature breadth.
+
+---
+
 ## Master checklist
 
 ### A. Foundation
@@ -188,6 +370,106 @@ Repeat for **`customer.project8x.com`** and **`employee.project8x.com`** (each u
 - [ ] **API rate limiting** + abuse monitoring
 - [ ] Optional: short-lived **signed token** after validation to reduce round-trips
 
+#### D.1 License validation contract (lock early)
+
+**Endpoint**
+
+- `POST /v1/licenses/validate`
+- **Public endpoint** (no portal session required). Must be heavily rate-limited + monitored.
+
+**Request payload**
+
+```json
+{
+  "licenseKey": "string (required)",
+  "deviceId": "string (required)",
+  "appVersion": "string (optional)",
+  "metadata": {
+    "os": "string (optional)",
+    "platform": "string (optional)",
+    "locale": "string (optional)"
+  }
+}
+```
+
+Validation rules (MVP):
+- `licenseKey`: treat as opaque; enforce basic length bounds (do not leak “exists/doesn’t exist” via timing/logging).
+- `deviceId`: treat as opaque stable identifier per device/instance (UUID or hardware-derived hash are both acceptable).
+- Never log `licenseKey` or `deviceId` in plaintext. Persist only **hashed** license keys.
+
+**Success response (200)**
+
+```json
+{
+  "valid": true,
+  "entitlements": [
+    {
+      "sku": "P8X-EXAMPLE",
+      "status": "ACTIVE",
+      "endsAt": "2026-12-31T23:59:59Z",
+      "maxDevices": 3
+    }
+  ],
+  "device": {
+    "deviceId": "opaque",
+    "activatedAt": "2026-05-06T15:04:05Z",
+    "revokedAt": null
+  }
+}
+```
+
+**Error responses (standardized)**
+
+- `400` — invalid request format (missing/invalid fields)
+- `401` — invalid, expired, or revoked license (treat as not authorized to use)
+- `403` — device limit reached (license valid but this device cannot activate)
+- `429` — rate limit exceeded (**include** `Retry-After` header)
+
+Recommended error body shape:
+
+```json
+{
+  "code": "INVALID_LICENSE",
+  "message": "License is invalid."
+}
+```
+
+Recommended `code` values:
+- `INVALID_LICENSE`
+- `LICENSE_EXPIRED`
+- `LICENSE_REVOKED`
+- `DEVICE_REVOKED`
+- `DEVICE_LIMIT_REACHED`
+- `RATE_LIMITED`
+
+**Behavior rules**
+- On first successful validation for a **new** device: create an **Activation** (counts toward `maxDevices`).
+- Device id must be unique **per license**. Normalize `deviceId` consistently (e.g., trim + lowercase) and enforce uniqueness on the normalized form.
+- If `maxDevices` would be exceeded: return `403` with `DEVICE_LIMIT_REACHED`.
+- Activation reset policy: allow reset **once per 30 days** via support/admin workflow (track last reset timestamp or derive from AuditLog).
+- Validation frequency: server-side cache validation results for **5 minutes** to reduce load.
+  - Cache key: licenseKeyHash/licenseKeyId + normalized deviceId + entitlement state version
+  - Revocation and payment status changes should invalidate relevant cache keys so “immediate revocation” remains true in practice.
+- Revocation: immediate on admin action or payment failure; grace period configurable per SKU (default **0 days**).
+- Rate limiting: **10 requests/min per licenseKeyHash (or internal licenseKeyId)** + per-IP fallback. Exceeding returns `429` + `Retry-After`.
+
+**Idempotency & security notes**
+- Every request carries/returns a correlation id (see API baseline).
+- Abuse detection: flag rapid device changes and repeated invalid keys per IP/customer; alert/log for support review.
+- PayPal webhook-driven updates must be the source of truth for entitlement status.
+
+#### D.2 PayPal → entitlement fulfillment (minimum detail)
+
+- Decide whether we support **one-time**, **subscription**, or both (see Open decisions)
+- Webhooks must be:
+  - verified (signature validation)
+  - idempotent (store event id + processed_at)
+  - mapped through an internal SKU table (PayPal product/plan → sku)
+- On successful payment/activation:
+  - create/update Entitlement
+  - issue LicenseKey(s) as needed
+  - audit-log the change
+
 ### E. Visitors and marketing
 
 - [ ] **Visitor capture** policy: forms only vs analytics (document in privacy notice)
@@ -216,6 +498,28 @@ Repeat for **`customer.project8x.com`** and **`employee.project8x.com`** (each u
 - [ ] **Backups** + restore test documented
 - [ ] **Dependency** and **container** scanning (if applicable)
 - [ ] **Incident response** runbook (short internal doc)
+
+---
+
+## Environments (dev / staging / prod)
+
+Define this early so PayPal, email, and DNS don’t become a late-stage tangle.
+
+- **Dev**
+  - local + `*.amplifyapp.com` preview URLs
+  - test email + test PayPal (if needed)
+- **Staging**
+  - mirrors production infrastructure where possible
+  - PayPal **sandbox** mapped to staging endpoints
+- **Production**
+  - `project8x.com`, `customer.project8x.com`, `employee.project8x.com`
+  - PayPal live, production webhooks, production email domain
+
+Secrets:
+- store per-environment in Amplify env vars and/or AWS parameter store; no secrets in repo
+
+QA:
+- one smoke flow per env: register → verify → login → MFA → view licenses; and PayPal webhook replay in staging
 
 ### H. QA and launch
 
@@ -248,6 +552,7 @@ Adjust order if PayPal or license API must come first for a pilot.
 | 2026-04-04 | **Locked hostnames:** F1 **`project8x.com`**, F2 **`customer.project8x.com`**, F3 **`employee.project8x.com`**. |
 | 2026-04-04 | Added **DNS, SSL, and Amplify — action items** (owner checklist) and **A. Foundation** link; clarified DNS point vs HTTP redirect. |
 | 2026-04-04 | Saved standalone runbook **DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md**; cross-linked from PLATFORM-PLAN and README. |
+| 2026-05-06 | Expanded plan with **Open decisions table**, **personas/roles**, **minimal data model**, **API baseline**, **license validation contract**, and **environments** section to reduce ambiguity before authenticated portal + licensing work begins. |
 
 ---
 

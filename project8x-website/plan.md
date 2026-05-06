@@ -52,11 +52,21 @@
 - [ ] Implement detailed content for each service as provided
 - [ ] Review all service pages for consistency and quality
 
+### Planned improvements (next iteration after remaining content)
+- [ ] Centralize service content into a single data module (move `serviceDetails` out of `src/ServiceDetail.jsx` into e.g. `src/data/services.js` or `src/data/services.ts`)
+- [ ] Define a consistent “service content schema” (overview, solutions/services, best practices, technologies, conclusion, CTA copy) to reduce duplication across pages
+- [ ] Add per-service SEO metadata (title/description + Open Graph) and wire it to routing
+- [ ] Add structured data (JSON-LD) for service pages (basic Service/Organization markup) if we want rich snippets
+- [ ] Performance pass: lazy-load service images + consider route-level code splitting for service pages
+- [ ] Accessibility pass: keyboard navigation, heading hierarchy, contrast check, skip-to-content link on long pages
+- [ ] Analytics plan (if desired): choose tooling, define minimal events (service page view + CTA click + contact submit)
+
 ### Open Questions for User Input
 1. ~~Would you like to add more visual elements or images to the Contact Center detail page?~~ **RESOLVED**: User tested and approved current implementation
 2. ~~Do you want to prioritize filling out content for any specific service detail pages next?~~ **RESOLVED**: User will provide content for each service page
 3. Are there any additional features or functionality you'd like to add to the service detail pages?
 4. Should we add any interactive elements or animations to enhance user experience?
+5. Do we want to prioritize SEO/analytics now (meta tags + basic tracking), or wait until content is finalized?
 
 ### Current Status
 - ✅ **Implementation Tested**: User confirmed current functionality works correctly

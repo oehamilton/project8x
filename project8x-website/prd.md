@@ -102,16 +102,27 @@ Enhance the Project8X website by adding detailed service pages that users can na
 - Navigation back to main services
 
 ### Success Metrics
-- User engagement: Time spent on service detail pages
-- Conversion: Contact form submissions from detail pages
+- User engagement: Time spent on service detail pages (set a target once analytics tooling is chosen)
+- Conversion: Contact form submissions from detail pages (track “service context” so we know which page drove it)
 - Navigation: Successful back-and-forth navigation usage
 - User feedback: Positive response to detailed content
+
+#### Instrumentation (optional, decide)
+- Define which tool we’ll use (e.g., Google Analytics, Plausible, or another provider) and document it
+- Minimum events:
+  - `service_detail_view` (serviceId)
+  - `service_detail_cta_click` (serviceId, cta=contact|view_all_services)
+  - `contact_submit` (serviceId if present)
 
 ### Future Enhancements
 - Content for remaining 3 service detail pages
 - Interactive elements (animations, hover effects)
 - Advanced filtering or search functionality
 - Integration with CRM for lead tracking
+- Per-service SEO metadata (title/description + Open Graph)
+- Structured data (JSON-LD) for service pages (if SEO is a priority)
+- Accessibility review (keyboard navigation, heading hierarchy, contrast)
+- Performance pass (lazy-load images, route-level code splitting)
 
 ### Technical Architecture
 - **Frontend**: React with React Router
@@ -132,6 +143,12 @@ Enhance the Project8X website by adding detailed service pages that users can na
   - **Mitigation**: Optimized assets and lazy loading if needed
 - **Risk**: Inconsistent design across pages
   - **Mitigation**: Reusable component patterns and design system
+- **Risk**: SEO discoverability is limited (no unique meta tags per service)
+  - **Mitigation**: Add per-route meta tags + Open Graph and ensure clean, stable URLs
+- **Risk**: Accessibility issues on content-heavy pages
+  - **Mitigation**: Keyboard navigation + heading hierarchy pass; run an a11y checklist in QA
+- **Risk**: Content freshness / drift over time
+  - **Mitigation**: Centralize service content in a data module and define a light review cadence
 
 ### Timeline
 - **Phase 1**: Core functionality (COMPLETED)
