@@ -10,7 +10,7 @@ Consulting company profile and marketing site for **Project8X**.
 
 ### Platform status
 
-Platform implementation is tracked on **`feature/platform-accounts-licensing`** (not `main`, which auto-deploys the marketing site). Merge to `main` when a release is production-ready. **MVP-A locked:** authentication **AWS Cognito**, portal sessions **HTTP-only cookies + CSRF**, transactional email **AWS SES** (ESP deferred). Remaining open items (Stripe Price→SKU mapping details, API hosting, analytics, etc.) live under **Open decisions** in [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md); use **Current focus** for the next concrete task.
+Platform implementation is tracked on **`feature/platform-accounts-licensing`** (not `main`, which auto-deploys the marketing site). Merge to `main` when a release is production-ready. **MVP-A locked:** authentication **AWS Cognito**, portal sessions **HTTP-only cookies + CSRF**, transactional email **AWS SES** (ESP deferred), API **AWS Lambda + API Gateway (HTTP API)** + Fastify. Remaining open items (Stripe Price→SKU/event specifics, analytics/consent, `www` canonical, etc.) live under **Open decisions** in [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md); use **Current focus** for the next concrete task.
 
 **Planned production hostnames:** marketing **`project8x.com`**, customer **`customer.project8x.com`**, employee **`employee.project8x.com`**. DNS steps: [`project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md`](project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md).
 
