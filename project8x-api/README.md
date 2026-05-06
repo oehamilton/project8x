@@ -35,6 +35,8 @@ sam --version
 
 Download the current Windows x64 installer from the [AWS SAM CLI releases](https://github.com/aws/aws-sam-cli/releases) page (`AWS_SAM_CLI_64_PY3.msi`), run it, reopen the terminal, then `sam --version`.
 
+**If winget fails with MSI exit `1602`:** Windows treats that as **installation cancelled** (UAC dismissed, MSI wizard closed, or policy blocked silent install). Run **Administrator** PowerShell and retry winget, or **double-click** `AWS_SAM_CLI_64_PY3.msi` from [SAM releases](https://github.com/aws/aws-sam-cli/releases) and complete the GUI—then reopen the terminal.
+
 **If `sam` still fails:** SAM usually installs under  
 `C:\Program Files\Amazon\AWSSAMCLI\bin\`. Check that folder exists and add it to your **user PATH**, or invoke explicitly:
 
