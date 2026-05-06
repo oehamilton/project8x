@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-05-11  
+**Last updated:** 2026-05-12  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, **Stripe** (payments + webhooks), MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -107,19 +107,21 @@ Use this table as the **handoff surface** for every platform session.
 | MFA | **Required** for every **authenticated portal user** (customers **and** employees). Prefer Cognito MFA (**email OTP**) backed by **SES**; never store raw OTPs—enforce TTL, resend limits, and lockouts (`AUTH_MFA_VERIFY` audit events). Visitors/newsletter-only flows remain MFA-free. |
 | Customers | **Individuals or companies**; anyone may own **many licenses** |
 | Deployment | **Marketing site** (brochure) stays **separate** from logged-in experiences. **Customer** and **Employee** portals are **separate apps/deployments**, each on its **own subdomain** of the existing domain (no second domain registration). Marketing site only **links** to portal URLs (env-configurable). |
-| Hostnames | **F1** `project8x.com` (marketing). **F2** `customer.project8x.com` (customer portal). **F3** `employee.project8x.com` (employee portal). DNS + TLS on the primary domain. |
+| Hostnames | **F1** `project8x.com` (marketing; apex canonical, **`www` → apex**). **F2** `customer.project8x.com` (customer portal). **F3** `employee.project8x.com` (employee portal). DNS + TLS on the primary domain. |
 | Compliance target | **SOC2-oriented** controls (audit logs, least privilege, vendor list, encryption) |
 | Database direction | **PostgreSQL** (managed) as primary; optional **Redis** for MFA/rate limits |
 | Git / website deploy | **`main`** auto-publishes the **marketing** site only (e.g. Amplify). Customer/employee portals use **their own** repos/branches and Amplify apps (see subdomains). Brochure repo may still use **`feature/platform-accounts-licensing`** for marketing-safe changes until merged to `main`. |
 | Authentication provider | **AWS Cognito** — User Pools for identities; **Identity Pools** when we need temporary AWS credentials or federation patterns Cognito recommends |
 | Portal authorization | **HTTP-only cookies** for browser portals (customer + employee), with **CSRF protection** (SameSite + CSRF token on mutating requests). Avoid storing access tokens in `localStorage` |
 | Transactional email | **AWS SES** for all transactional mail for MVP-A; **ESP deferred** until marketing automation warrants it |
+| Canonical domain / `www` | **`project8x.com` (apex) is primary**; **`www.project8x.com` → apex** permanent redirect (**301**) once custom domains are live on Amplify. One canonical URL for SEO and bookmarks. |
+| Analytics & cookie consent | **Minimal** measurement only (privacy-first defaults); **no non-essential** third-party trackers/scripts until **explicit user consent** (banner / CMP—keep scope small). Document categories + linkage to privacy notice; revisit when portals ship authenticated areas. |
 
 ---
 
 ## Open decisions
 
-Rows below are either **Decided** (locked) or **Open** (still need a call). **Decided** items unblock MVP-A identity + session work immediately.
+All rows below are **Decided** (locked). Re-open only if requirements change (document rationale + date in **Change log**).
 
 | Decision | Options | Recommended / Default | Owner | Target Decision Date | Status | Notes |
 |----------|---------|-----------------------|-------|----------------------|--------|-------|
@@ -128,8 +130,8 @@ Rows below are either **Decided** (locked) or **Open** (still need a call). **De
 | Email Service | AWS SES only, SendGrid/Mailgun (ESP) | **AWS SES** for transactional | Othell Hamilton | 2026-05-13 | **Decided** | **ESP deferred.** Cognito can send via SES; Lambda/backend sends MFA/license notices via SES. **Actions:** verify sending domain in SES; production sending limits/access if required; SES templates for consistent branding on verify/MFA/reset. |
 | Payment Processor Details | Stripe, PayPal (legacy) | **Stripe** — Checkout and/or Billing; webhooks → entitlements | Othell Hamilton | 2026-05-20 | **Decided** | **Locked for MVP.** Map Stripe Price/Product IDs to internal SKUs; define which events gate fulfillment (see **Stripe → entitlement fulfillment**). PayPal not in scope unless added later. |
 | API Architecture | Lambda + API Gateway, ECS/Fargate, EC2 | **AWS Lambda + API Gateway (HTTP API)** + Fastify (Node LTS) for MVP | Othell Hamilton | 2026-05-15 | **Decided** | **MVP hosting locked.** Lowest ops burden for solo/small team; pay-per-use; scales with bursts; integrates cleanly with Stripe webhooks + Cognito-backed APIs. **Revisit ECS/Fargate** if you need persistent connections, >15 min jobs, or Lambda packaging/runtime friction — see **API hosting options (comparison)** below. |
-| Analytics & Cookie Consent | None, Minimal (privacy-first), Full GA | **Minimal with explicit consent** | Othell Hamilton | 2026-05-20 | Open | Ensure GDPR/CCPA posture is documented in the privacy notice. |
-| Domain & Redirect Strategy | www → non-www, non-www → www | **Non-www primary with redirect** | Othell Hamilton | 2026-05-10 | Open | Implement via Amplify redirect rules; keep one canonical. |
+| Analytics & Cookie Consent | None, Minimal (privacy-first), Full GA | **Minimal with explicit consent** | Othell Hamilton | 2026-05-20 | **Decided** | **Locked.** Strong privacy posture; does not block core product work. Ship smallest viable analytics only after consent UX exists; document in privacy notice (categories, retention, opt-out). Avoid full **surveillance-style** stacks unless explicitly justified later. |
+| Domain & Redirect Strategy | www → non-www, non-www → www | **Non-www primary** (`project8x.com` apex) **with redirect** | Othell Hamilton | 2026-05-10 | **Decided** | **Locked.** **`www` → apex** (**301**) via **Amplify** redirect / domain rules once marketing + subdomains are wired—clean SEO and UX; single canonical hostname. |
 | MFA Requirement | Optional portals, MFA all portals | **Required for customers + employees** (portal accounts only) | Othell Hamilton | 2026-05-20 | **Decided** | Matches modern expectation for SaaS + license portals; phishing/credential-stuffing risk lowered. UX mitigations: Cognito “remember device,” clear MFA enrollment UX, SES-delivered codes with sane TTL/resend caps (already in checklist **B**). |
 | License Validation Rate Limits | Per-key, per-IP, blends | **10 requests/min per `licenseKeyHash` + per-IP fallback + `429` + `Retry-After`** | Othell Hamilton | 2026-05-15 | **Decided** | **Baseline locked** (matches § D.1 contract). Implement via API Gateway throttling **and/or** Redis/token bucket in Fastify. **Tune later** using metrics (invalid-key spikes vs legitimate desktop-app caches)—may split buckets for cached hits vs uncached DB lookups without relaxing abuse protections. |
 
@@ -139,7 +141,7 @@ Rows below are either **Decided** (locked) or **Open** (still need a call). **De
 2. **Sessions:** implement cookie-based session handoff between Cognito sign-in and API (BFF pattern if needed); enforce CSRF on mutating routes.
 3. **SES:** verify domain; wire Cognito custom messages or SES templates for verification/MFA/reset; log critical sends in **AuditLog** where applicable.
 
-**Decision process:** each **Open** item needs brief rationale + impact notes when moved to **Decided.**
+**Decision process:** if a row must change, update the table + **Decisions captured** + **Change log** in the same edit.
 
 ---
 
@@ -195,7 +197,7 @@ Use **subdomains of the existing registrable domain** (e.g. `project8x.com`). No
 
 | Purpose | Hostname | Deploy / repo |
 |--------|-------------------|---------------|
-| **F1 — Marketing / brochure** | **`project8x.com`** (apex; align `www` via redirect as you prefer) | Current Vite site; tied to **`main`** auto-publish |
+| **F1 — Marketing / brochure** | **`project8x.com`** (apex; **`www` → apex** **301** — locked) | Current Vite site; tied to **`main`** auto-publish |
 | **F2 — Customer portal** | **`customer.project8x.com`** | Separate Amplify app (or stack); auth, profile, licenses, Stripe checkout/billing, support |
 | **F3 — Employee portal** | **`employee.project8x.com`** | Separate Amplify app (or stack); admin/support tools |
 
@@ -230,10 +232,10 @@ Repeat for **`customer.project8x.com`** and **`employee.project8x.com`** (each u
 - [ ] Wait for **SSL certificate** status in Amplify to become **Available** (can take up to ~30–60 minutes after DNS propagates).
 - [ ] Open `https://customer.project8x.com` / `https://employee.project8x.com` in a browser and confirm the **expected app** loads with a **valid certificate**.
 
-### Marketing apex / `www` (optional cleanup)
+### Marketing apex / `www` (implementation — **locked:** apex canonical)
 
-- [ ] Decide **`www.project8x.com` ↔ `project8x.com`** behavior (redirect one to the other for SEO/bookmarks).
-- [ ] Implement in **Amplify domain settings** (redirect rules) or **DNS-only** redirect if your host supports it—keep **one canonical** URL.
+- [ ] **`www.project8x.com` → `project8x.com`** permanent redirect (**301**) in **Amplify** (Hosting → Rewrites and redirects, or domain wizard—match Amplify docs for your setup).
+- [ ] Confirm internal links and marketing assets use **`https://project8x.com/...`** as the canonical form (avoid mixing `www` in sitemap/canonical tags).
 
 ### After DNS is live
 
@@ -599,7 +601,7 @@ Expect `200` + JSON body on success; `401`/`403`/`429` per **Error responses** a
 
 ### E. Visitors and marketing
 
-- [ ] **Visitor capture** policy: forms only vs analytics (document in privacy notice)
+- [ ] **Visitor capture** policy: forms only vs analytics (**locked:** **minimal** analytics only **after explicit consent** UI; document categories + privacy notice)
 - [ ] **Newsletter signup** (email + basic info) + **unsubscribe** (token link)
 - [ ] **Double opt-in** if required by policy/region
 - [ ] Integrate chosen **ESP** or transactional + list in DB (TBD)
@@ -704,6 +706,7 @@ Adjust order if **Stripe** fulfillment or license API must come first for a pilo
 | 2026-05-09 | **Payments:** switched platform plan from PayPal to **Stripe** (Checkout/Billing + webhooks). Added **Stripe prerequisites (before integration)** checklist; updated fulfillment docs, environments, QA, AuditLog event names, and **Payment Processor** open decision to **Decided**. |
 | 2026-05-10 | **MFA:** required for **all portal users** (customers + employees). **API hosting:** documented pros/cons; **locked MVP** to Lambda + API Gateway HTTP API. **License validation limits:** formalized policy + locked baseline (10/min per key hash + IP fallback). |
 | 2026-05-11 | Added **`project8x-api/`** SAM scaffold: Fastify + `@fastify/aws-lambda`, `GET /health`, `POST /v1/webhooks/stripe` (raw body + signature verify). |
+| 2026-05-12 | **Locked** remaining open decisions: **Analytics & cookie consent** (minimal + explicit consent) and **Domain / `www`** (apex canonical, `www` → apex via Amplify **301**). **Decisions captured** + DNS/E checklist updated; **Open decisions** table is fully **Decided**. |
 
 ---
 
