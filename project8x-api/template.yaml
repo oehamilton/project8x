@@ -50,4 +50,4 @@ Resources:
 Outputs:
   HttpApiUrl:
     Description: Base URL for the HTTP API (append paths e.g. /health)
-    Value: !GetAtt HttpApi.ApiEndpoint
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
