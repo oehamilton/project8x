@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-05-09  
+**Last updated:** 2026-05-10  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, **Stripe** (payments + webhooks), MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -104,7 +104,7 @@ Use this table as the **handoff surface** for every platform session.
 | License in app | User enters **license key** in **external app**; app calls **validation API** with key + **device/instance id** |
 | Device model | **Per device**; track activations; **customer can revoke** a device to free a slot for a new one |
 | Payments | **Stripe** (Checkout and/or Billing + webhooks → entitlements) |
-| MFA | **Email** one-time code (hash + TTL server-side) |
+| MFA | **Required** for every **authenticated portal user** (customers **and** employees). Prefer Cognito MFA (**email OTP**) backed by **SES**; never store raw OTPs—enforce TTL, resend limits, and lockouts (`AUTH_MFA_VERIFY` audit events). Visitors/newsletter-only flows remain MFA-free. |
 | Customers | **Individuals or companies**; anyone may own **many licenses** |
 | Deployment | **Marketing site** (brochure) stays **separate** from logged-in experiences. **Customer** and **Employee** portals are **separate apps/deployments**, each on its **own subdomain** of the existing domain (no second domain registration). Marketing site only **links** to portal URLs (env-configurable). |
 | Hostnames | **F1** `project8x.com` (marketing). **F2** `customer.project8x.com` (customer portal). **F3** `employee.project8x.com` (employee portal). DNS + TLS on the primary domain. |
@@ -127,11 +127,11 @@ Rows below are either **Decided** (locked) or **Open** (still need a call). **De
 | Authorization Mechanism | HTTP-only cookies, Bearer JWT | **HTTP-only cookies** (CSRF protected) | Othell Hamilton | 2026-05-13 | **Decided** | **Locked for portals.** Backend sets `Set-Cookie` on login; SPA uses `credentials: 'include'` (Axios `withCredentials: true`). SameSite + CSRF token on forms/API mutations. **Bearer JWT** reserved for **non-browser** clients if needed (e.g. license-adjacent flows)—never primary storage in browser. |
 | Email Service | AWS SES only, SendGrid/Mailgun (ESP) | **AWS SES** for transactional | Othell Hamilton | 2026-05-13 | **Decided** | **ESP deferred.** Cognito can send via SES; Lambda/backend sends MFA/license notices via SES. **Actions:** verify sending domain in SES; production sending limits/access if required; SES templates for consistent branding on verify/MFA/reset. |
 | Payment Processor Details | Stripe, PayPal (legacy) | **Stripe** — Checkout and/or Billing; webhooks → entitlements | Othell Hamilton | 2026-05-20 | **Decided** | **Locked for MVP.** Map Stripe Price/Product IDs to internal SKUs; define which events gate fulfillment (see **Stripe → entitlement fulfillment**). PayPal not in scope unless added later. |
-| API Architecture | Node/Fastify on EC2/Lambda, AppSync/GraphQL, Serverless | **Node.js + Fastify** (start REST-first) | Othell Hamilton | 2026-05-15 | Open | Hosting target (Lambda vs ECS) decided with infra constraints. |
+| API Architecture | Lambda + API Gateway, ECS/Fargate, EC2 | **AWS Lambda + API Gateway (HTTP API)** + Fastify (Node LTS) for MVP | Othell Hamilton | 2026-05-15 | **Decided** | **MVP hosting locked.** Lowest ops burden for solo/small team; pay-per-use; scales with bursts; integrates cleanly with Stripe webhooks + Cognito-backed APIs. **Revisit ECS/Fargate** if you need persistent connections, >15 min jobs, or Lambda packaging/runtime friction — see **API hosting options (comparison)** below. |
 | Analytics & Cookie Consent | None, Minimal (privacy-first), Full GA | **Minimal with explicit consent** | Othell Hamilton | 2026-05-20 | Open | Ensure GDPR/CCPA posture is documented in the privacy notice. |
 | Domain & Redirect Strategy | www → non-www, non-www → www | **Non-www primary with redirect** | Othell Hamilton | 2026-05-10 | Open | Implement via Amplify redirect rules; keep one canonical. |
-| MFA Requirement | Optional for all, Required for employees/customers | **Required for employees; optional for customers** | Othell Hamilton | 2026-05-20 | Open | Balance security vs friction; still rate-limit + lockout on login. |
-| License Validation Rate Limits | Per-key, per-IP, per-device | **10 req/min per key + per-IP fallback** | Othell Hamilton | 2026-05-15 | Open | Tune based on observed abuse + legitimate app polling behavior. |
+| MFA Requirement | Optional portals, MFA all portals | **Required for customers + employees** (portal accounts only) | Othell Hamilton | 2026-05-20 | **Decided** | Matches modern expectation for SaaS + license portals; phishing/credential-stuffing risk lowered. UX mitigations: Cognito “remember device,” clear MFA enrollment UX, SES-delivered codes with sane TTL/resend caps (already in checklist **B**). |
+| License Validation Rate Limits | Per-key, per-IP, blends | **10 requests/min per `licenseKeyHash` + per-IP fallback + `429` + `Retry-After`** | Othell Hamilton | 2026-05-15 | **Decided** | **Baseline locked** (matches § D.1 contract). Implement via API Gateway throttling **and/or** Redis/token bucket in Fastify. **Tune later** using metrics (invalid-key spikes vs legitimate desktop-app caches)—may split buckets for cached hits vs uncached DB lookups without relaxing abuse protections. |
 
 ### MVP-A actions (from decided rows)
 
@@ -252,8 +252,8 @@ This section defines “who uses what” so we don’t accidentally blur marketi
 
 - **Visitor (default)**: unauthenticated; can browse marketing pages; may submit support/feedback and/or newsletter signup.
 - **Newsletter subscriber**: **not a product role**—a marketing list entry with consent fields (may or may not have a Customer account).
-- **Customer**: authenticated user with access to `customer.project8x.com`; can view entitlements/licenses/devices; manages billing outcomes and support.
-- **Employee**: authenticated user on `employee.project8x.com`; performs admin/support tasks by permission.
+- **Customer**: authenticated user with access to `customer.project8x.com`; can view entitlements/licenses/devices; manages billing outcomes and support — **MFA required** after account enrollment (modern baseline).
+- **Employee**: authenticated user on `employee.project8x.com`; performs admin/support tasks by permission — **MFA required**.
 
 ### Roles & permissions (implementation perspective)
 
@@ -298,7 +298,7 @@ This section defines “who uses what” so we don’t accidentally blur marketi
 
 - Employee accounts are **not** self-registered.
 - Flow: Admin creates invite → employee accepts → sets password/MFA → role/permissions assigned.
-- MFA: required (see Open decisions).
+- MFA: **required** (same policy as customers — locked).
 
 ### Profile management page (`/account/profile`)
 
@@ -360,7 +360,7 @@ Provide a secure, scalable backend for user management, license validation, paym
 ### Technology stack
 
 - **Runtime**: Node.js (LTS) with Fastify (preferred) *(Express acceptable if it wins on team familiarity)*
-- **Hosting**: AWS Lambda + API Gateway **or** ECS/Fargate (see Open decisions)
+- **Hosting (MVP — locked):** **AWS Lambda** behind **API Gateway HTTP API**, packaging Fastify via Lambda adapter or split handlers — see **API hosting options (comparison)** for trade-offs and when to migrate.
 - **Database**: **PostgreSQL (managed)** as primary (per **Decisions captured** — locked direction). Optional **Redis** for MFA tokens, rate limiting, or cache layers.
   - Relational model fits customers, entitlements, devices, payments idempotency, and audit rows. If we later add a non-relational store (e.g., event ingestion), treat it as **additive**, not a replacement for Postgres.
 - **Authentication**: **AWS Cognito** (User Pools; Identity Pools when needed) integrated with Amplify on the frontend (**locked** — see Open decisions table).
@@ -368,6 +368,24 @@ Provide a secure, scalable backend for user management, license validation, paym
   - **Portal auth**: **HTTP-only cookies** + CSRF protection (**locked**). Bearer JWT only where justified for non-browser clients—not stored in browser storage.
 - **API style**: REST + JSON; consider GraphQL only if/when it solves a real client problem
 - **Documentation**: OpenAPI/Swagger spec maintained with the code
+
+### API hosting options (comparison)
+
+| Option | Pros | Cons | Fit for Project8X (today) |
+|--------|------|------|-----------------------------|
+| **Lambda + API Gateway (HTTP API)** | Almost no servers to patch; auto-scale; pay per request; native IAM + CloudWatch; great for webhooks (Stripe) and bursty validate API | Cold starts (mitigate with provisioned concurrency only if needed); 15 min max runtime; local dev needs emulation (SAM/Serverless Framework) or test deploys | **Default MVP** — solo/small team, cost-sensitive, SOC2-friendly audit trail via AWS |
+| **ECS Fargate** (Fastify in containers) | Long-lived process; predictable perf; easier long connections; familiar “always-on” debugging | Always-pay baseline cost; more moving parts (cluster, task defs, ALB); you own patching cadence | Choose if Lambda limits, latency tails, or heavy background workers dominate |
+| **EC2** (VM + Docker or bare Node) | Maximum control; trivial local parity | Highest ops/maintenance; patching/SSH/autoscaling DIY | Avoid unless you have unusual constraints |
+| **API Gateway vs ALB** | REST HTTP API: JWT/Cognito authorizers, usage plans, WAF attach | REST HTTP API: API-specific quirks vs pure TCP | Pair **HTTP API + Lambda** for MVP; ALB + Fargate if you move to ECS |
+
+**Recommendation recorded:** start **Lambda + HTTP API**; document a trigger to revisit Fargate (e.g. sustained traffic, cold-start SLA, or worker queues).
+
+### License validation rate limiting (policy)
+
+- **Why two axes:** **Per license key** stops one compromised key from hammering the DB; **per IP** slows distributed guessing and rogue clients without keys.
+- **Locked baseline:** **10 req/min per license key hash** (never rate-limit on raw key strings in Redis keys) **plus** a **per-IP** ceiling (exact secondary number implemented with API GW usage plans or app middleware — document chosen values in OpenAPI/runbook).
+- **Interaction with cache:** § D.1 allows **5 min** success caching — legitimate apps should rarely exceed limits if they cache client-side too; abuse still hits IP/key buckets on churn or bypass.
+- **How to tune later:** watch CloudWatch/Lambda metrics + ratio of `401` vs `200`; increase buckets only if real customer apps demonstrate starvation (never based on anonymous abuse alone).
 
 ### Environment URLs (planned)
 
@@ -433,7 +451,7 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 - [ ] **AWS SES:** verify sending domain (and production sending access if required); wire Cognito to send via SES where applicable; SES templates for verification / MFA / password reset branding
 - [ ] Choose and provision **PostgreSQL** (e.g. RDS / Neon / Supabase) + environments (dev/staging/prod)
 - [ ] **Secrets** store (Amplify env, SSM, or vault) — no secrets in repo
-- [ ] **API** project (e.g. Node/Fastify, or Lambda + API Gateway) with health check and structured logging
+- [ ] **API** project — Fastify packaged for **Lambda + API Gateway HTTP API** (health route, structured logging, Stripe webhook route skeleton)
 - [ ] **Audit log** model (append-only: actor, action, resource, metadata, timestamp)
 - [ ] Document **subprocessors** (**Stripe**, email provider, DB host, hosting) for SOC2 packet
 - [ ] **Stripe — pre-integration:** complete [Stripe prerequisites (before integration)](#stripe-prerequisites-before-integration) checklist (account, keys, Products/Prices, webhooks, CLI for local testing)
@@ -442,7 +460,7 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 
 - [ ] **Registration** + **email verification** (Cognito User Pools + Amplify Auth; backend syncs Customer/profile as needed)
 - [ ] **Login** / logout / password reset
-- [ ] **Email MFA** (send code, verify, rate limits; lockout policy)
+- [ ] **Email MFA — required** for **all customer + employee** portal accounts (Cognito MFA + SES); rate limits, resend caps, lockout policy; audit success/failure
 - [ ] **Session** strategy — **locked:** **HttpOnly cookies** + CSRF for portals; document cookie names, TTL, and SameSite policy
 - [ ] **RBAC**: roles + permissions in DB; JWT or session includes **role/permissions**; API middleware enforces
 - [ ] **Employee** accounts with distinct **Admin** vs **Support** (and extend as needed)
@@ -600,7 +618,7 @@ Expect `200` + JSON body on success; `401`/`403`/`429` per **Error responses** a
 
 ### G. SOC2-oriented hardening
 
-- [ ] **MFA** for all employee logins
+- [ ] **MFA** enforced for **all portal logins** (customers + employees); aligned with Cognito + SES
 - [ ] **Least privilege** DB users; no shared prod passwords
 - [ ] **Backups** + restore test documented
 - [ ] **Dependency** and **container** scanning (if applicable)
@@ -682,6 +700,7 @@ Adjust order if **Stripe** fulfillment or license API must come first for a pilo
 | 2026-05-07 | Polish: **Current focus** template + example row; **API starter endpoints** + PostgreSQL clarification; license **cURL** + explicit **caching** wording; **AuditLog mandatory events** table under SOC2. |
 | 2026-05-08 | **Locked MVP-A decisions:** Authentication (**AWS Cognito** User Pools + Identity Pools when needed), portal authorization (**HTTP-only cookies** + CSRF), transactional email (**AWS SES**; ESP deferred). Added **Decisions captured** rows and **MVP-A actions** checklist under Open decisions. |
 | 2026-05-09 | **Payments:** switched platform plan from PayPal to **Stripe** (Checkout/Billing + webhooks). Added **Stripe prerequisites (before integration)** checklist; updated fulfillment docs, environments, QA, AuditLog event names, and **Payment Processor** open decision to **Decided**. |
+| 2026-05-10 | **MFA:** required for **all portal users** (customers + employees). **API hosting:** documented pros/cons; **locked MVP** to Lambda + API Gateway HTTP API. **License validation limits:** formalized policy + locked baseline (10/min per key hash + IP fallback). |
 
 ---
 
