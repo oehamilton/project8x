@@ -78,8 +78,8 @@ Port may differ; SAM prints it.
 
 On first run, **`sam deploy --guided`** prints `Looking for config file [samconfig.toml] : Not found` — that is **normal**. Finish the prompts; when asked whether to **save arguments to `samconfig.toml`**, choose **Y** so later you can run **`sam deploy`** without retyping stack name, region, S3 bucket, and IAM capabilities.
 
-- **Commit `samconfig.toml`** only if it contains **no secrets**. If `--guided` wrote **`StripeWebhookSecret=whsec_...`** into `parameter_overrides`, either remove that line and pass overrides at deploy time, or keep `samconfig.toml` local-only and don’t commit it.
-- Safe starting point: copy [`samconfig.toml.example`](./samconfig.toml.example) to `samconfig.toml`, edit `stack_name` / `region`, then deploy.
+- **`samconfig.toml` is gitignored** — `sam deploy --guided` may save **`StripeWebhookSecret`** in **`parameter_overrides`**; Git cannot ignore only one key. Commit **[`samconfig.toml.example`](./samconfig.toml.example)** only; copy to **`samconfig.toml`** locally (see `.gitignore`).
+- Safe starting point: `cp samconfig.toml.example samconfig.toml`, edit `stack_name` / `region`, then deploy.
 
 First time:
 

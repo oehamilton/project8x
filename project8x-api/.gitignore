@@ -3,3 +3,7 @@ node_modules/
 *.zip
 .env
 .env.*
+
+# SAM deploy config from `sam deploy --guided` — may contain secrets in parameter_overrides (e.g. StripeWebhookSecret).
+# Use samconfig.toml.example as the committed template; copy locally to samconfig.toml.
+samconfig.toml
