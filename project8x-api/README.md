@@ -10,8 +10,39 @@ First routes:
 ## Prerequisites
 
 - **Node.js 20+**
-- **AWS SAM CLI** — [Install SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+- **AWS SAM CLI** — [Install SAM (official guide)](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
 - AWS credentials configured (`aws configure` or env) for deploy
+
+### Windows — “sam is not recognized”
+
+SAM is **not** installed via npm; it is a separate CLI (often bundled with its own Python runtime).
+
+**Option A — winget (recommended)**
+
+Open **PowerShell as Administrator** (some setups accept non-admin; if install fails, use Admin):
+
+```powershell
+winget install Amazon.SAM-CLI --accept-package-agreements --accept-source-agreements
+```
+
+Then **close and reopen** the terminal (PATH updates apply on new sessions). Confirm:
+
+```powershell
+sam --version
+```
+
+**Option B — MSI**
+
+Download the current Windows x64 installer from the [AWS SAM CLI releases](https://github.com/aws/aws-sam-cli/releases) page (`AWS_SAM_CLI_64_PY3.msi`), run it, reopen the terminal, then `sam --version`.
+
+**If `sam` still fails:** SAM usually installs under  
+`C:\Program Files\Amazon\AWSSAMCLI\bin\`. Check that folder exists and add it to your **user PATH**, or invoke explicitly:
+
+```powershell
+& "C:\Program Files\Amazon\AWSSAMCLI\bin\sam.cmd" --version
+```
+
+**Docker:** Optional for `sam local start-api` / `sam local invoke`; install [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) if you plan to emulate Lambda locally.
 
 ## Install
 
