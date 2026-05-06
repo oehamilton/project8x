@@ -8,6 +8,8 @@ React (Vite) single-page app deployed via AWS Amplify (see `project8x-website/am
 
 **Roadmap (accounts, licensing, PayPal, etc.):** see [`project8x-website/PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md).
 
+**Planned production hostnames (see plan):** marketing **`project8x.com`**, customer portal **`customer.project8x.com`**, employee portal **`employee.project8x.com`**. When you are ready to point DNS at Amplify, use the saved checklist [`project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md`](project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md) (also linked from [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md)).
+
 ### Local development
 
 ```bash

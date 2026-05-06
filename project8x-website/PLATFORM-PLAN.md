@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-04-04 (Git branch workflow: feature branch, not `main`)  
+**Last updated:** 2026-04-04 (DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md runbook)  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, PayPal, MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -87,12 +87,68 @@ Update **Last updated** at the top when you edit this file meaningfully.
 | Payments | **PayPal** (account integration + webhooks → entitlements) |
 | MFA | **Email** one-time code (hash + TTL server-side) |
 | Customers | **Individuals or companies**; anyone may own **many licenses** |
-| Deployment | **One React app** for all users; **hide routes/UI** by role; **API enforces** access |
+| Deployment | **Marketing site** (brochure) stays **separate** from logged-in experiences. **Customer** and **Employee** portals are **separate apps/deployments**, each on its **own subdomain** of the existing domain (no second domain registration). Marketing site only **links** to portal URLs (env-configurable). |
+| Hostnames | **F1** `project8x.com` (marketing). **F2** `customer.project8x.com` (customer portal). **F3** `employee.project8x.com` (employee portal). DNS + TLS on the primary domain. |
 | Compliance target | **SOC2-oriented** controls (audit logs, least privilege, vendor list, encryption) |
 | Database direction | **PostgreSQL** (managed) as primary; optional **Redis** for MFA/rate limits |
-| Git / website deploy | **`main`** auto-publishes the marketing site (e.g. Amplify). Platform work ships on **`feature/platform-accounts-licensing`** until reviewed; **merge to `main`** only when ready for production. |
+| Git / website deploy | **`main`** auto-publishes the **marketing** site only (e.g. Amplify). Customer/employee portals use **their own** repos/branches and Amplify apps (see subdomains). Brochure repo may still use **`feature/platform-accounts-licensing`** for marketing-safe changes until merged to `main`. |
 
-**Open (owner to decide):** newsletter tooling (ESP vs SES-only), visitor analytics/cookies policy, exact PayPal products vs internal SKUs, whether to use **Cognito/Auth0** vs custom auth for MVP.
+**Open (owner to decide):** newsletter tooling (ESP vs SES-only), visitor analytics/cookies policy, exact PayPal products vs internal SKUs, whether to use **Cognito/Auth0** vs custom auth for MVP, whether **`www.project8x.com`** redirects to apex or the reverse.
+
+---
+
+## Hostnames (planned — subdomains)
+
+Use **subdomains of the existing registrable domain** (e.g. `project8x.com`). No additional domain purchase—only **DNS records** (and attach each hostname in Amplify or your CDN for TLS).
+
+| Purpose | Hostname | Deploy / repo |
+|--------|-------------------|---------------|
+| **F1 — Marketing / brochure** | **`project8x.com`** (apex; align `www` via redirect as you prefer) | Current Vite site; tied to **`main`** auto-publish |
+| **F2 — Customer portal** | **`customer.project8x.com`** | Separate Amplify app (or stack); auth, profile, licenses, PayPal, support |
+| **F3 — Employee portal** | **`employee.project8x.com`** | Separate Amplify app (or stack); admin/support tools |
+
+**Development:** each app can use its **default `*.amplifyapp.com`** URL until custom subdomains are wired.
+
+**Marketing site change:** header or menu entries **Customer portal** / **Employee portal** → `https://customer.project8x.com` and `https://employee.project8x.com` (use Vite env vars in code, e.g. `VITE_CUSTOMER_PORTAL_URL`, `VITE_EMPLOYEE_PORTAL_URL`, defaulting to these production URLs).
+
+---
+
+## DNS, SSL, and Amplify — action items (you / ops)
+
+**Standalone copy for day-to-day use:** [DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md](./DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md)
+
+Subdomains **do not use HTTP “redirects”** to reach Amplify. You **point DNS** at AWS so traffic for `customer.project8x.com` and `employee.project8x.com` is **served by the right Amplify app**; Amplify provisions **HTTPS** (ACM) once DNS validates.
+
+Complete these when each portal app exists in Amplify and you are ready to go live on custom hostnames.
+
+### Prerequisites
+
+- [ ] Know where **DNS for `project8x.com`** is managed (registrar only, **Route 53**, **Cloudflare**, etc.).
+- [ ] Ability to create **DNS records** (CNAME, and sometimes **CNAME flattening** or **ALIAS** at apex if you ever move the marketing apex—marketing is already on Amplify today).
+
+### Per subdomain (`customer` and `employee`)
+
+Repeat for **`customer.project8x.com`** and **`employee.project8x.com`** (each usually has its **own Amplify app** connected to its Git repo/branch).
+
+- [ ] In **AWS Amplify Console**, open the **correct app** (customer portal app or employee portal app).
+- [ ] Go to **Hosting** → **Custom domains** → **Add domain**.
+- [ ] Enter the subdomain (e.g. `customer.project8x.com` or `employee.project8x.com`). If Amplify asks to verify **root domain** ownership, follow the wizard (may add a one-time **CNAME** or **TXT** at the registrar).
+- [ ] Amplify shows **records to create** (typically **CNAME** from the subdomain to something like `xxxxx.cloudfront.net` or an Amplify target—copy exactly what the console displays).
+- [ ] In your **DNS provider**, create those records (no TTL change needed unless your provider requires it; lower TTL before a cutover can speed rollback).
+- [ ] Wait for **SSL certificate** status in Amplify to become **Available** (can take up to ~30–60 minutes after DNS propagates).
+- [ ] Open `https://customer.project8x.com` / `https://employee.project8x.com` in a browser and confirm the **expected app** loads with a **valid certificate**.
+
+### Marketing apex / `www` (optional cleanup)
+
+- [ ] Decide **`www.project8x.com` ↔ `project8x.com`** behavior (redirect one to the other for SEO/bookmarks).
+- [ ] Implement in **Amplify domain settings** (redirect rules) or **DNS-only** redirect if your host supports it—keep **one canonical** URL.
+
+### After DNS is live
+
+- [ ] Set **`VITE_CUSTOMER_PORTAL_URL`** / **`VITE_EMPLOYEE_PORTAL_URL`** in the **marketing** Amplify app (or build env) to the production `https://…` URLs so header links match production.
+- [ ] Document **which Amplify app** maps to which hostname in your runbook (helps SOC2 change tracking).
+
+**Note:** Until these steps are done, keep using each app’s **`*.amplifyapp.com`** URL in env vars for dev/staging and for early testing.
 
 ---
 
@@ -100,6 +156,7 @@ Update **Last updated** at the top when you edit this file meaningfully.
 
 ### A. Foundation
 
+- [ ] **DNS + Amplify:** complete [DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md](./DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md) when portal apps are ready
 - [ ] Choose and provision **PostgreSQL** (e.g. RDS / Neon / Supabase) + environments (dev/staging/prod)
 - [ ] **Secrets** store (Amplify env, SSM, or vault) — no secrets in repo
 - [ ] **API** project (e.g. Node/Fastify, or Lambda + API Gateway) with health check and structured logging
@@ -138,12 +195,19 @@ Update **Last updated** at the top when you edit this file meaningfully.
 - [ ] **Double opt-in** if required by policy/region
 - [ ] Integrate chosen **ESP** or transactional + list in DB (TBD)
 
-### F. Frontend (existing Vite app)
+### F. Frontend
 
-- [ ] Route guards: **public**, **customer**, **employee** (by permission)
-- [ ] Pages: register, verify email, login, MFA step, profile, licenses, support, newsletter prefs
-- [ ] Employee areas: ticket queue, admin license overrides (as per permissions)
-- [ ] Hide nav/links based on **permissions**; mirror checks on API
+**F1. Marketing site — `project8x.com` (existing Vite app)**  
+- [ ] **Portals** entry in header: links to **`https://customer.project8x.com`** and **`https://employee.project8x.com`** (env-driven for non-prod; Amplify default URLs OK until DNS is live)  
+- [ ] No embedded login for portals—users authenticate **on the portal host** only  
+
+**F2. Customer portal — `customer.project8x.com` (new app / deployment)**  
+- [ ] Pages: register, verify email, login, MFA, profile, licenses/devices, PayPal flows, support/feedback  
+- [ ] Route guards + **API** enforce customer role  
+
+**F3. Employee portal — `employee.project8x.com` (new app / deployment)**  
+- [ ] Ticket queue, license admin, other tools by **permission**  
+- [ ] Route guards + **API** enforce employee permissions  
 
 ### G. SOC2-oriented hardening
 
@@ -180,6 +244,10 @@ Adjust order if PayPal or license API must come first for a pilot.
 | 2026-04-04 | Initial plan and checklist from stakeholder decisions |
 | 2026-04-04 | Added **Working agreement** (implement → automate tests → manual test → commit/push per feature); **end-of-group review** for A–H; **ideas during testing** (backlog vs next); **Current focus** and **Backlog / parking lot** tables for handoff |
 | 2026-04-04 | **Git workflow:** commits for platform work go to **`feature/platform-accounts-licensing`**, not **`main`** (production auto-deploy). Merge to `main` when release-ready. |
+| 2026-04-04 | **Architecture:** marketing site separate from portals; **subdomains** on existing domain for customer + employee apps; brochure site only **links** out (env URLs). Updated **Decisions**, **Hostnames (planned)**, and **F. Frontend** checklist. |
+| 2026-04-04 | **Locked hostnames:** F1 **`project8x.com`**, F2 **`customer.project8x.com`**, F3 **`employee.project8x.com`**. |
+| 2026-04-04 | Added **DNS, SSL, and Amplify — action items** (owner checklist) and **A. Foundation** link; clarified DNS point vs HTTP redirect. |
+| 2026-04-04 | Saved standalone runbook **DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md**; cross-linked from PLATFORM-PLAN and README. |
 
 ---
 
