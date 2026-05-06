@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-05-07  
+**Last updated:** 2026-05-08  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, PayPal, MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -111,18 +111,21 @@ Use this table as the **handoff surface** for every platform session.
 | Compliance target | **SOC2-oriented** controls (audit logs, least privilege, vendor list, encryption) |
 | Database direction | **PostgreSQL** (managed) as primary; optional **Redis** for MFA/rate limits |
 | Git / website deploy | **`main`** auto-publishes the **marketing** site only (e.g. Amplify). Customer/employee portals use **their own** repos/branches and Amplify apps (see subdomains). Brochure repo may still use **`feature/platform-accounts-licensing`** for marketing-safe changes until merged to `main`. |
+| Authentication provider | **AWS Cognito** — User Pools for identities; **Identity Pools** when we need temporary AWS credentials or federation patterns Cognito recommends |
+| Portal authorization | **HTTP-only cookies** for browser portals (customer + employee), with **CSRF protection** (SameSite + CSRF token on mutating requests). Avoid storing access tokens in `localStorage` |
+| Transactional email | **AWS SES** for all transactional mail for MVP-A; **ESP deferred** until marketing automation warrants it |
 
 ---
 
 ## Open decisions
 
-These are the decisions most likely to block implementation if left ambiguous. Each row includes a **default** so we can keep shipping.
+Rows below are either **Decided** (locked) or **Open** (still need a call). **Decided** items unblock MVP-A identity + session work immediately.
 
 | Decision | Options | Recommended / Default | Owner | Target Decision Date | Status | Notes |
 |----------|---------|-----------------------|-------|----------------------|--------|-------|
-| Authentication Provider | AWS Cognito, Auth0, Custom auth | **AWS Cognito** (aligns with Amplify) | Othell Hamilton | 2026-05-13 | Open | Prioritize Amplify-compatible rollout; keep portal + API models stable if provider changes later. |
-| Authorization Mechanism | HTTP-only cookies, Bearer JWT | **HTTP-only cookies** (with CSRF protection) | Othell Hamilton | 2026-05-13 | Open | Better fit for web portals. |
-| Email Service | AWS SES only, SendGrid/Mailgun (ESP) | **AWS SES** for transactional (MFA, verify, reset) | Othell Hamilton | 2026-05-13 | Open | Add ESP later if we need richer templates/marketing automation. |
+| Authentication Provider | AWS Cognito, Auth0, Custom auth | **AWS Cognito** (User Pools + Identity Pools when needed; aligns with Amplify) | Othell Hamilton | 2026-05-13 | **Decided** | **Locked for MVP-A.** Amplify Auth (`amplify add auth` or equivalent); built-in verify/MFA/password policy; CloudTrail-ready; low ops overhead. Drawback: less UI polish than Auth0 — use Amplify hosted UI or custom UI on Cognito primitives. SAML/social later without migration off Cognito. |
+| Authorization Mechanism | HTTP-only cookies, Bearer JWT | **HTTP-only cookies** (CSRF protected) | Othell Hamilton | 2026-05-13 | **Decided** | **Locked for portals.** Backend sets `Set-Cookie` on login; SPA uses `credentials: 'include'` (Axios `withCredentials: true`). SameSite + CSRF token on forms/API mutations. **Bearer JWT** reserved for **non-browser** clients if needed (e.g. license-adjacent flows)—never primary storage in browser. |
+| Email Service | AWS SES only, SendGrid/Mailgun (ESP) | **AWS SES** for transactional | Othell Hamilton | 2026-05-13 | **Decided** | **ESP deferred.** Cognito can send via SES; Lambda/backend sends MFA/license notices via SES. **Actions:** verify sending domain in SES; production sending limits/access if required; SES templates for consistent branding on verify/MFA/reset. |
 | Payment Processor Details | PayPal only, Stripe secondary | **PayPal primary** (one-time + subscriptions) | Othell Hamilton | 2026-05-20 | Open | Define internal SKUs and the webhook events we will support. |
 | API Architecture | Node/Fastify on EC2/Lambda, AppSync/GraphQL, Serverless | **Node.js + Fastify** (start REST-first) | Othell Hamilton | 2026-05-15 | Open | Hosting target (Lambda vs ECS) decided with infra constraints. |
 | Analytics & Cookie Consent | None, Minimal (privacy-first), Full GA | **Minimal with explicit consent** | Othell Hamilton | 2026-05-20 | Open | Ensure GDPR/CCPA posture is documented in the privacy notice. |
@@ -130,7 +133,13 @@ These are the decisions most likely to block implementation if left ambiguous. E
 | MFA Requirement | Optional for all, Required for employees/customers | **Required for employees; optional for customers** | Othell Hamilton | 2026-05-20 | Open | Balance security vs friction; still rate-limit + lockout on login. |
 | License Validation Rate Limits | Per-key, per-IP, per-device | **10 req/min per key + per-IP fallback** | Othell Hamilton | 2026-05-15 | Open | Tune based on observed abuse + legitimate app polling behavior. |
 
-**Decision process:** each open item needs brief rationale + impact notes recorded here when moved to “Decided.”
+### MVP-A actions (from decided rows)
+
+1. **Cognito:** run `amplify add auth` (or create User Pool + app clients manually), configure callbacks for `customer.*` / `employee.*` portal URLs per environment.
+2. **Sessions:** implement cookie-based session handoff between Cognito sign-in and API (BFF pattern if needed); enforce CSRF on mutating routes.
+3. **SES:** verify domain; wire Cognito custom messages or SES templates for verification/MFA/reset; log critical sends in **AuditLog** where applicable.
+
+**Decision process:** each **Open** item needs brief rationale + impact notes when moved to **Decided.**
 
 ---
 
@@ -226,7 +235,7 @@ This section defines “who uses what” so we don’t accidentally blur marketi
 
 2. **Backend handling**
    - Enforce email uniqueness
-   - Create user in auth provider (Cognito if chosen) or store `password_hash` (bcrypt/argon2) if custom
+   - Create user via **Cognito User Pools** (MVP-A default); backend persists linkage to Customer/profile tables as needed
    - Set account state to “pending verification” until email is confirmed
    - Send verification email (SES or chosen provider) with time-limited token (e.g., 24h expiry)
 
@@ -308,9 +317,9 @@ Provide a secure, scalable backend for user management, license validation, paym
 - **Hosting**: AWS Lambda + API Gateway **or** ECS/Fargate (see Open decisions)
 - **Database**: **PostgreSQL (managed)** as primary (per **Decisions captured** — locked direction). Optional **Redis** for MFA tokens, rate limiting, or cache layers.
   - Relational model fits customers, entitlements, devices, payments idempotency, and audit rows. If we later add a non-relational store (e.g., event ingestion), treat it as **additive**, not a replacement for Postgres.
-- **Authentication**: **AWS Cognito** (User Pools) integrated with Amplify on the frontend (per Open decisions)
+- **Authentication**: **AWS Cognito** (User Pools; Identity Pools when needed) integrated with Amplify on the frontend (**locked** — see Open decisions table).
 - **Authorization**: **RBAC** enforced at API middleware + business logic layer
-  - **Portal auth**: HTTP-only secure cookies (preferred) or bearer tokens (see Open decisions)
+  - **Portal auth**: **HTTP-only cookies** + CSRF protection (**locked**). Bearer JWT only where justified for non-browser clients—not stored in browser storage.
 - **API style**: REST + JSON; consider GraphQL only if/when it solves a real client problem
 - **Documentation**: OpenAPI/Swagger spec maintained with the code
 
@@ -374,6 +383,8 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 ### A. Foundation
 
 - [ ] **DNS + Amplify:** complete [DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md](./DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md) when portal apps are ready
+- [ ] **AWS Cognito (MVP-A):** User Pool + app clients per env (`amplify add auth` or manual); redirect/callback URLs for `customer.*` / `employee.*`; Identity Pools only if needed for AWS credential federation
+- [ ] **AWS SES:** verify sending domain (and production sending access if required); wire Cognito to send via SES where applicable; SES templates for verification / MFA / password reset branding
 - [ ] Choose and provision **PostgreSQL** (e.g. RDS / Neon / Supabase) + environments (dev/staging/prod)
 - [ ] **Secrets** store (Amplify env, SSM, or vault) — no secrets in repo
 - [ ] **API** project (e.g. Node/Fastify, or Lambda + API Gateway) with health check and structured logging
@@ -382,10 +393,10 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 
 ### B. Identity and access
 
-- [ ] **Registration** + **email verification** (token link or code; store hashed token + expiry)
+- [ ] **Registration** + **email verification** (Cognito User Pools + Amplify Auth; backend syncs Customer/profile as needed)
 - [ ] **Login** / logout / password reset
 - [ ] **Email MFA** (send code, verify, rate limits; lockout policy)
-- [ ] **Session** strategy (prefer **HttpOnly cookie** or secure token pattern; document cookie use)
+- [ ] **Session** strategy — **locked:** **HttpOnly cookies** + CSRF for portals; document cookie names, TTL, and SameSite policy
 - [ ] **RBAC**: roles + permissions in DB; JWT or session includes **role/permissions**; API middleware enforces
 - [ ] **Employee** accounts with distinct **Admin** vs **Support** (and extend as needed)
 
@@ -621,6 +632,7 @@ Adjust order if PayPal or license API must come first for a pilot.
 | 2026-04-04 | Saved standalone runbook **DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md**; cross-linked from PLATFORM-PLAN and README. |
 | 2026-05-06 | Expanded plan with **Open decisions table**, **personas/roles**, **minimal data model**, **API baseline**, **license validation contract**, and **environments** section to reduce ambiguity before authenticated portal + licensing work begins. |
 | 2026-05-07 | Polish: **Current focus** template + example row; **API starter endpoints** + PostgreSQL clarification; license **cURL** + explicit **caching** wording; **AuditLog mandatory events** table under SOC2. |
+| 2026-05-08 | **Locked MVP-A decisions:** Authentication (**AWS Cognito** User Pools + Identity Pools when needed), portal authorization (**HTTP-only cookies** + CSRF), transactional email (**AWS SES**; ESP deferred). Added **Decisions captured** rows and **MVP-A actions** checklist under Open decisions. |
 
 ---
 
