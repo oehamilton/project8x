@@ -4,13 +4,13 @@ Consulting company profile and marketing site for **Project8X**.
 
 ## Platform roadmap (accounts, licensing, APIs)
 
-**Primary planning doc:** **[`project8x-website/PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md)** — auth, customer/employee portals, license validation, PayPal, MFA, newsletter/compliance, SOC2-oriented tasks, and the **Current focus** handoff table.
+**Primary planning doc:** **[`project8x-website/PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md)** — auth, customer/employee portals, license validation, **Stripe** billing and webhooks, MFA, newsletter/compliance, SOC2-oriented tasks, and the **Current focus** handoff table.
 
 **Related:** [`project8x-website/DATA-MODEL.md`](project8x-website/DATA-MODEL.md) (draft entities).
 
 ### Platform status
 
-Platform implementation is tracked on **`feature/platform-accounts-licensing`** (not `main`, which auto-deploys the marketing site). Merge to `main` when a release is production-ready. **MVP-A locked:** authentication **AWS Cognito**, portal sessions **HTTP-only cookies + CSRF**, transactional email **AWS SES** (ESP deferred). Remaining open items (PayPal SKUs, API hosting, analytics, etc.) live under **Open decisions** in [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md); use **Current focus** for the next concrete task.
+Platform implementation is tracked on **`feature/platform-accounts-licensing`** (not `main`, which auto-deploys the marketing site). Merge to `main` when a release is production-ready. **MVP-A locked:** authentication **AWS Cognito**, portal sessions **HTTP-only cookies + CSRF**, transactional email **AWS SES** (ESP deferred). Remaining open items (Stripe Price→SKU mapping details, API hosting, analytics, etc.) live under **Open decisions** in [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md); use **Current focus** for the next concrete task.
 
 **Planned production hostnames:** marketing **`project8x.com`**, customer **`customer.project8x.com`**, employee **`employee.project8x.com`**. DNS steps: [`project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md`](project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md).
 

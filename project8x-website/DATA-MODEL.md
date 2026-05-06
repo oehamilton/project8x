@@ -98,13 +98,16 @@ Holds the billing facts + idempotency keys for webhook processing.
 
 - `id` (UUID, PK)
 - `customerId` (FK → Customer)
-- `provider` (enum: PAYPAL)
-- `paypalOrderId` (string, nullable)
-- `paypalSubscriptionId` (string, nullable)
+- `provider` (enum: STRIPE)
+- `stripeCustomerId` (string, nullable)
+- `stripeCheckoutSessionId` (string, nullable)
+- `stripePaymentIntentId` (string, nullable)
+- `stripeInvoiceId` (string, nullable)
+- `stripeSubscriptionId` (string, nullable)
 - `amount` (integer or decimal)
 - `currency` (string)
 - `status` (string/enum)
-- `webhookEventId` (string, unique) *(for idempotency)*
+- `webhookEventId` (string, unique) *(Stripe `evt_…` — idempotency)*
 - `linkedEntitlementId` (FK → Entitlement, nullable)
 - `createdAt`, `updatedAt`
 

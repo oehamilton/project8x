@@ -1,9 +1,9 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-05-08  
+**Last updated:** 2026-05-09  
 
-This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, PayPal, MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
+This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, **Stripe** (payments + webhooks), MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
 ---
 
@@ -103,7 +103,7 @@ Use this table as the **handoff surface** for every platform session.
 | Newsletter | **Marketing list** + consent flag/timestamp; **not** the same as Customer |
 | License in app | User enters **license key** in **external app**; app calls **validation API** with key + **device/instance id** |
 | Device model | **Per device**; track activations; **customer can revoke** a device to free a slot for a new one |
-| Payments | **PayPal** (account integration + webhooks → entitlements) |
+| Payments | **Stripe** (Checkout and/or Billing + webhooks → entitlements) |
 | MFA | **Email** one-time code (hash + TTL server-side) |
 | Customers | **Individuals or companies**; anyone may own **many licenses** |
 | Deployment | **Marketing site** (brochure) stays **separate** from logged-in experiences. **Customer** and **Employee** portals are **separate apps/deployments**, each on its **own subdomain** of the existing domain (no second domain registration). Marketing site only **links** to portal URLs (env-configurable). |
@@ -126,7 +126,7 @@ Rows below are either **Decided** (locked) or **Open** (still need a call). **De
 | Authentication Provider | AWS Cognito, Auth0, Custom auth | **AWS Cognito** (User Pools + Identity Pools when needed; aligns with Amplify) | Othell Hamilton | 2026-05-13 | **Decided** | **Locked for MVP-A.** Amplify Auth (`amplify add auth` or equivalent); built-in verify/MFA/password policy; CloudTrail-ready; low ops overhead. Drawback: less UI polish than Auth0 — use Amplify hosted UI or custom UI on Cognito primitives. SAML/social later without migration off Cognito. |
 | Authorization Mechanism | HTTP-only cookies, Bearer JWT | **HTTP-only cookies** (CSRF protected) | Othell Hamilton | 2026-05-13 | **Decided** | **Locked for portals.** Backend sets `Set-Cookie` on login; SPA uses `credentials: 'include'` (Axios `withCredentials: true`). SameSite + CSRF token on forms/API mutations. **Bearer JWT** reserved for **non-browser** clients if needed (e.g. license-adjacent flows)—never primary storage in browser. |
 | Email Service | AWS SES only, SendGrid/Mailgun (ESP) | **AWS SES** for transactional | Othell Hamilton | 2026-05-13 | **Decided** | **ESP deferred.** Cognito can send via SES; Lambda/backend sends MFA/license notices via SES. **Actions:** verify sending domain in SES; production sending limits/access if required; SES templates for consistent branding on verify/MFA/reset. |
-| Payment Processor Details | PayPal only, Stripe secondary | **PayPal primary** (one-time + subscriptions) | Othell Hamilton | 2026-05-20 | Open | Define internal SKUs and the webhook events we will support. |
+| Payment Processor Details | Stripe, PayPal (legacy) | **Stripe** — Checkout and/or Billing; webhooks → entitlements | Othell Hamilton | 2026-05-20 | **Decided** | **Locked for MVP.** Map Stripe Price/Product IDs to internal SKUs; define which events gate fulfillment (see **Stripe → entitlement fulfillment**). PayPal not in scope unless added later. |
 | API Architecture | Node/Fastify on EC2/Lambda, AppSync/GraphQL, Serverless | **Node.js + Fastify** (start REST-first) | Othell Hamilton | 2026-05-15 | Open | Hosting target (Lambda vs ECS) decided with infra constraints. |
 | Analytics & Cookie Consent | None, Minimal (privacy-first), Full GA | **Minimal with explicit consent** | Othell Hamilton | 2026-05-20 | Open | Ensure GDPR/CCPA posture is documented in the privacy notice. |
 | Domain & Redirect Strategy | www → non-www, non-www → www | **Non-www primary with redirect** | Othell Hamilton | 2026-05-10 | Open | Implement via Amplify redirect rules; keep one canonical. |
@@ -143,6 +143,52 @@ Rows below are either **Decided** (locked) or **Open** (still need a call). **De
 
 ---
 
+## Stripe prerequisites (before integration)
+
+Complete this checklist **before** wiring Checkout/Billing or webhook handlers in code. Integration order: **account → products/prices → webhook endpoint → secrets → then API.**
+
+### Account & activation
+
+- [ ] **Create Stripe account** at [https://dashboard.stripe.com](https://dashboard.stripe.com) (use a dedicated business/workspace login if possible).
+- [ ] **Activate the account** per Stripe prompts (business profile, representative, bank account for payouts—required before **live** charges).
+- [ ] Decide **test vs live** rhythm: build entirely in **Test mode** first; switch to live keys only after verification and legal pages are ready.
+
+### API keys & environments
+
+- [ ] In **Developers → API keys**, record **Publishable** and **Secret** keys for **test** (per env: local dev may share one test account; staging vs prod should use distinct Stripe accounts or clear key separation—document choice).
+- [ ] Store secrets only in **Amplify env / SSM / Secrets Manager** — never in git. Use different webhook signing secrets per endpoint/env.
+
+### Catalog (Products, Prices, SKUs)
+
+- [ ] Create **Products** and **Prices** in Stripe for each licensable offering (one-time **Payment** mode and/or **Subscription** recurring prices).
+- [ ] Maintain an internal **Price ID → SKU** mapping (spreadsheet or migration table); this replaces PayPal SKU tables.
+
+### Checkout / Billing surface
+
+- [ ] Choose integration shape for MVP (pick one primary path and document it):
+  - **Stripe Checkout** (hosted, fastest PCI story), or
+  - **Stripe Billing** (subscriptions + Customer Portal optional), or
+  - **Payment Links** for minimal custom UI (early pilots).
+- [ ] Pass **`client_reference_id`** or **metadata** (`customerId`, internal user id) from portal → Stripe so webhooks can tie payments to **Customer** rows.
+
+### Webhooks
+
+- [ ] In **Developers → Webhooks**, add endpoint URL per environment, e.g. `POST https://api.staging.project8x.com/v1/webhooks/stripe` (and prod equivalent).
+- [ ] Subscribe to events needed for fulfillment (tune to your flows), commonly including:
+  - `checkout.session.completed`
+  - `invoice.paid` / `invoice.payment_succeeded` (subscriptions)
+  - `customer.subscription.updated` / `customer.subscription.deleted`
+- [ ] Copy the **Signing secret** (`whsec_…`) into your secrets store for that endpoint.
+- [ ] For **local development**, install **[Stripe CLI](https://stripe.com/docs/stripe-cli)** and use `stripe listen --forward-to localhost:<port>/v1/webhooks/stripe` to verify signature handling before deploying.
+
+### Compliance & ops (before live money)
+
+- [ ] Add **Stripe** to your **subprocessor / vendor** list (SOC2 packet).
+- [ ] Ensure **privacy policy** and **refund/chargeback** posture mention card processing via Stripe where relevant.
+- [ ] Optional: enable **Stripe Tax** if you sell into jurisdictions that require it.
+
+---
+
 ## Hostnames (planned — subdomains)
 
 Use **subdomains of the existing registrable domain** (e.g. `project8x.com`). No additional domain purchase—only **DNS records** (and attach each hostname in Amplify or your CDN for TLS).
@@ -150,7 +196,7 @@ Use **subdomains of the existing registrable domain** (e.g. `project8x.com`). No
 | Purpose | Hostname | Deploy / repo |
 |--------|-------------------|---------------|
 | **F1 — Marketing / brochure** | **`project8x.com`** (apex; align `www` via redirect as you prefer) | Current Vite site; tied to **`main`** auto-publish |
-| **F2 — Customer portal** | **`customer.project8x.com`** | Separate Amplify app (or stack); auth, profile, licenses, PayPal, support |
+| **F2 — Customer portal** | **`customer.project8x.com`** | Separate Amplify app (or stack); auth, profile, licenses, Stripe checkout/billing, support |
 | **F3 — Employee portal** | **`employee.project8x.com`** | Separate Amplify app (or stack); admin/support tools |
 
 **Development:** each app can use its **default `*.amplifyapp.com`** URL until custom subdomains are wired.
@@ -246,7 +292,7 @@ This section defines “who uses what” so we don’t accidentally blur marketi
 
 4. **Post-registration**
    - Redirect to profile completion
-   - If the user has no entitlement yet: show “Get a license” CTA (PayPal) and/or a “Talk to us” support path
+   - If the user has no entitlement yet: show “Get a license” CTA (**Stripe Checkout** or equivalent) and/or a “Talk to us” support path
 
 ### Employee onboarding (separate flow)
 
@@ -346,7 +392,7 @@ Provide a secure, scalable backend for user management, license validation, paym
   - Strict CORS (explicit allowlist per environment)
   - Input validation (Zod/Joi/etc.) on every request
   - Secure headers (“helmet-style”)
-  - Webhook signature verification (PayPal) + idempotency key storage
+  - Webhook signature verification (**Stripe**, `Stripe-Signature` header) + idempotency (store Stripe **event id**)
 - **Secrets management**:
   - AWS Secrets Manager or SSM Parameter Store
   - No secrets in repo; avoid printing secrets in logs; rotate as needed
@@ -371,10 +417,10 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 | Customer | `GET /v1/me`, `PATCH /v1/me/profile` | Current user + profile |
 | Customer | `GET /v1/customer/entitlements` | Licenses / SKUs / status for portal |
 | Licenses (public) | `POST /v1/licenses/validate` | External apps; no portal session |
-| PayPal | `POST /v1/webhooks/paypal` | Signature verify + idempotent processing |
+| Stripe | `POST /v1/webhooks/stripe` | Verify signing secret + idempotent processing (`evt_…`) |
 | Marketing / ops | `POST /v1/newsletter/subscribe`, `POST /v1/support/contact` | Optional early slice |
 
-**Implementation note:** start with a minimal viable API (auth + license validation + PayPal webhook ingestion) before expanding to full portal feature breadth.
+**Implementation note:** start with a minimal viable API (auth + license validation + **Stripe webhook** ingestion) before expanding to full portal feature breadth.
 
 ---
 
@@ -389,7 +435,8 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 - [ ] **Secrets** store (Amplify env, SSM, or vault) — no secrets in repo
 - [ ] **API** project (e.g. Node/Fastify, or Lambda + API Gateway) with health check and structured logging
 - [ ] **Audit log** model (append-only: actor, action, resource, metadata, timestamp)
-- [ ] Document **subprocessors** (PayPal, email provider, DB host, hosting) for SOC2 packet
+- [ ] Document **subprocessors** (**Stripe**, email provider, DB host, hosting) for SOC2 packet
+- [ ] **Stripe — pre-integration:** complete [Stripe prerequisites (before integration)](#stripe-prerequisites-before-integration) checklist (account, keys, Products/Prices, webhooks, CLI for local testing)
 
 ### B. Identity and access
 
@@ -404,8 +451,8 @@ Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-an
 
 - [ ] **Profile** CRUD (basic fields; optional org/company name)
 - [ ] **License list**: products, keys (masked?), device count, revoke device UI
-- [ ] **PayPal** checkout or subscription flow wired to **customer id** metadata
-- [ ] **Webhook** handler: idempotent create/update **entitlements** from PayPal events
+- [ ] **Stripe** Checkout or Billing flow wired to **customer id** metadata (`client_reference_id` / **metadata**)
+- [ ] **Webhook** handler: idempotent create/update **entitlements** from Stripe events (see **D.2**)
 - [ ] **Support / feedback** form for customers (and optionally visitors with email)
 
 ### D. License API (for external apps)
@@ -502,7 +549,7 @@ Recommended `code` values:
 **Idempotency & security notes**
 - Every request carries/returns a correlation id (see API baseline).
 - Abuse detection: flag rapid device changes and repeated invalid keys per IP/customer; alert/log for support review.
-- PayPal webhook-driven updates must be the source of truth for entitlement status.
+- Stripe webhook-driven updates must be the source of truth for entitlement status.
 
 **Quick test (once implemented)** — replace host and sample values:
 
@@ -517,17 +564,18 @@ Use a unique `X-Correlation-Id` per request in shared environments.
 
 Expect `200` + JSON body on success; `401`/`403`/`429` per **Error responses** above.
 
-#### D.2 PayPal → entitlement fulfillment (minimum detail)
+#### D.2 Stripe → entitlement fulfillment (minimum detail)
 
-- Decide whether we support **one-time**, **subscription**, or both (see Open decisions)
+- Decide whether MVP uses **one-time** (Checkout **payment** mode), **subscriptions** (Billing), or both (defaults may vary per SKU).
 - Webhooks must be:
-  - verified (signature validation)
-  - idempotent (store event id + processed_at)
-  - mapped through an internal SKU table (PayPal product/plan → sku)
-- On successful payment/activation:
-  - create/update Entitlement
-  - issue LicenseKey(s) as needed
+  - verified (**Stripe signing secret**, `Stripe-Signature` header)
+  - idempotent (store Stripe **`evt_` id** + processed outcome; skip duplicates)
+  - mapped through **Price / Product ID → internal SKU** table
+- On successful payment / active subscription (per chosen events):
+  - create/update **Entitlement**
+  - issue **LicenseKey(s)** as needed
   - audit-log the change
+- Typical events to evaluate (subscribe only to what you handle): `checkout.session.completed`, `invoice.paid` / `invoice.payment_succeeded`, `customer.subscription.updated`, `customer.subscription.deleted`
 
 ### E. Visitors and marketing
 
@@ -543,7 +591,7 @@ Expect `200` + JSON body on success; `401`/`403`/`429` per **Error responses** a
 - [ ] No embedded login for portals—users authenticate **on the portal host** only  
 
 **F2. Customer portal — `customer.project8x.com` (new app / deployment)**  
-- [ ] Pages: register, verify email, login, MFA, profile, licenses/devices, PayPal flows, support/feedback  
+- [ ] Pages: register, verify email, login, MFA, profile, licenses/devices, **Stripe** purchase/manage billing, support/feedback  
 - [ ] Route guards + **API** enforce customer role  
 
 **F3. Employee portal — `employee.project8x.com` (new app / deployment)**  
@@ -573,37 +621,37 @@ Append-only audit rows for the actions below (actor, timestamp, resource id, cor
 | `ROLE_ASSIGN` / `ROLE_REVOKE` | Employee permission changes | Who granted + target user |
 | `LICENSE_ISSUED` / `LICENSE_REVOKED` | Entitlement or key lifecycle | Link entitlement/key ids |
 | `DEVICE_ACTIVATED` / `DEVICE_REVOKED` | Activation slot consumed or freed | Normalized device id reference |
-| `PAYPAL_WEBHOOK_RECEIVED` | Webhook accepted (pre-processing) | Store event id for idempotency |
-| `PAYPAL_WEBHOOK_PROCESSED` | Entitlement/payment updated | Outcome + linked records |
+| `STRIPE_WEBHOOK_RECEIVED` | Webhook accepted (pre-processing) | Store Stripe event id (`evt_…`) for idempotency |
+| `STRIPE_WEBHOOK_PROCESSED` | Entitlement/payment updated | Outcome + linked records |
 | `NEWSLETTER_CONSENT` / `NEWSLETTER_UNSUBSCRIBE` | Marketing consent changes | Consent version + source |
 
 ---
 
 ## Environments (dev / staging / prod)
 
-Define this early so PayPal, email, and DNS don’t become a late-stage tangle.
+Define this early so **Stripe**, email, and DNS don’t become a late-stage tangle.
 
 - **Dev**
   - local + `*.amplifyapp.com` preview URLs
-  - test email + test PayPal (if needed)
+  - test email + Stripe **test mode** keys + Stripe CLI webhook forwarding
 - **Staging**
   - mirrors production infrastructure where possible
-  - PayPal **sandbox** mapped to staging endpoints
+  - Stripe **test** keys + Dashboard webhook endpoint (or CLI in CI) mapped to staging API URL
 - **Production**
   - `project8x.com`, `customer.project8x.com`, `employee.project8x.com`
-  - PayPal live, production webhooks, production email domain
+  - Stripe **live** keys, live webhook endpoint, production email domain
 
 Secrets:
 - store per-environment in Amplify env vars and/or AWS parameter store; no secrets in repo
 
 QA:
-- one smoke flow per env: register → verify → login → MFA → view licenses; and PayPal webhook replay in staging
+- one smoke flow per env: register → verify → login → MFA → view licenses; and Stripe webhook replay / CLI-triggered events in staging
 
 ### H. QA and launch
 
-- [ ] Webhook **replay** tests (PayPal)
+- [ ] Webhook **replay** tests (**Stripe** Dashboard resend or fixture payloads + signature tests)
 - [ ] License **validate** integration tests (key + device + revoke)
-- [ ] Staging **e2e** smoke: register → verify → buy (sandbox) → validate → revoke
+- [ ] Staging **e2e** smoke: register → verify → pay (**Stripe test mode**) → validate → revoke
 - [ ] Production cutover checklist
 
 ---
@@ -611,11 +659,11 @@ QA:
 ## Phased delivery (suggested)
 
 1. **MVP-A:** DB + API skeleton + register/verify/login + email MFA + audit log  
-2. **MVP-B:** Entitlements + PayPal webhook + customer portal license view + validate API + per-device activation  
+2. **MVP-B:** Entitlements + **Stripe** webhook + customer portal license view + validate API + per-device activation  
 3. **MVP-C:** Support/feedback + employee roles + ticket UI  
 4. **MVP-D:** Newsletter list + consent + employee admin polish + SOC2 evidence pack  
 
-Adjust order if PayPal or license API must come first for a pilot.
+Adjust order if **Stripe** fulfillment or license API must come first for a pilot.
 
 ---
 
@@ -633,6 +681,7 @@ Adjust order if PayPal or license API must come first for a pilot.
 | 2026-05-06 | Expanded plan with **Open decisions table**, **personas/roles**, **minimal data model**, **API baseline**, **license validation contract**, and **environments** section to reduce ambiguity before authenticated portal + licensing work begins. |
 | 2026-05-07 | Polish: **Current focus** template + example row; **API starter endpoints** + PostgreSQL clarification; license **cURL** + explicit **caching** wording; **AuditLog mandatory events** table under SOC2. |
 | 2026-05-08 | **Locked MVP-A decisions:** Authentication (**AWS Cognito** User Pools + Identity Pools when needed), portal authorization (**HTTP-only cookies** + CSRF), transactional email (**AWS SES**; ESP deferred). Added **Decisions captured** rows and **MVP-A actions** checklist under Open decisions. |
+| 2026-05-09 | **Payments:** switched platform plan from PayPal to **Stripe** (Checkout/Billing + webhooks). Added **Stripe prerequisites (before integration)** checklist; updated fulfillment docs, environments, QA, AuditLog event names, and **Payment Processor** open decision to **Decided**. |
 
 ---
 

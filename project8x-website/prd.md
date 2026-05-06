@@ -3,7 +3,7 @@
 
 ### Related initiative: platform and licensing
 
-Customer accounts, employee roles, PayPal billing, license validation API, MFA, support, and newsletter work are specified and tracked in **[PLATFORM-PLAN.md](./PLATFORM-PLAN.md)** (plan + master checklist). Extend or split this PRD when those features are specified in detail.
+Customer accounts, employee roles, **Stripe** billing and webhooks, license validation API, MFA, support, and newsletter work are specified and tracked in **[PLATFORM-PLAN.md](./PLATFORM-PLAN.md)** (plan + master checklist). Extend or split this PRD when those features are specified in detail.
 
 ---
 
