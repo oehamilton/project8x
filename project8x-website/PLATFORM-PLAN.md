@@ -1,7 +1,7 @@
 # Project8X — Platform, accounts, and licensing (living plan)
 
 **Status:** Planning / not started (implementation tracked below)  
-**Last updated:** 2026-05-06  
+**Last updated:** 2026-05-07  
 
 This document is the **single place** we update for the backend-adjacent work: auth, customers, employees, licenses, PayPal, MFA, support, newsletter, and SOC2-oriented practices. Check boxes as work completes; add notes under **Change log**.
 
@@ -55,15 +55,34 @@ Update **Last updated** at the top when you edit this file meaningfully.
 
 ## Current focus (edit when you start / stop)
 
+Use this table as the **handoff surface** for every platform session.
+
+**When you start:** set **Date**, **Git branch**, **Active feature group**, and exactly one **Next step** (verb + artifact + environment, e.g. “Create Cognito User Pool in staging”).  
+**When you stop:** fill **Last completed** (what shipped + commit SHA), update **In progress** (or `_none_`), and note **Blockers**.
+
+### Template (replace placeholders)
+
 | Field | Value |
 |--------|--------|
-| **Date** | _YYYY-MM-DD_ |
-| **Git branch** | e.g. `feature/platform-accounts-licensing` (not `main` until production-ready) |
-| **Active feature group** | e.g. A. Foundation |
-| **Last completed** | _task + commit SHA_ |
-| **In progress** | _none / description_ |
-| **Next step** | _single concrete action_ |
-| **Blockers** | _none / …_ |
+| **Date** | `_YYYY-MM-DD_` |
+| **Git branch** | `_feature/platform-accounts-licensing_` (not `main` until production-ready) |
+| **Active feature group** | `_e.g. B. Identity and access_` |
+| **Last completed** | `_task summary + short SHA (or “none”)_` |
+| **In progress** | `_none / short description_` |
+| **Next step** | `_one concrete next action_` |
+| **Blockers** | `_none / …_` |
+
+### Example row (typical next step — copy and adapt)
+
+| Field | Value |
+|--------|--------|
+| **Date** | `2026-05-07` |
+| **Git branch** | `feature/platform-accounts-licensing` |
+| **Active feature group** | `B. Identity and access` |
+| **Last completed** | `PLATFORM-PLAN polish — commit abc1234` |
+| **In progress** | `none` |
+| **Next step** | `Provision Cognito User Pool + app client in **staging**; document pool IDs and callback URLs in Amplify env` |
+| **Blockers** | `none` |
 
 ---
 
@@ -287,8 +306,8 @@ Provide a secure, scalable backend for user management, license validation, paym
 
 - **Runtime**: Node.js (LTS) with Fastify (preferred) *(Express acceptable if it wins on team familiarity)*
 - **Hosting**: AWS Lambda + API Gateway **or** ECS/Fargate (see Open decisions)
-- **Database**: **PostgreSQL (managed)** as primary (per Decisions captured); optional **Redis** for MFA/rate limits
-  - If we later need a non-relational store (e.g., event ingestion), treat that as an additive decision rather than replacing Postgres.
+- **Database**: **PostgreSQL (managed)** as primary (per **Decisions captured** — locked direction). Optional **Redis** for MFA tokens, rate limiting, or cache layers.
+  - Relational model fits customers, entitlements, devices, payments idempotency, and audit rows. If we later add a non-relational store (e.g., event ingestion), treat it as **additive**, not a replacement for Postgres.
 - **Authentication**: **AWS Cognito** (User Pools) integrated with Amplify on the frontend (per Open decisions)
 - **Authorization**: **RBAC** enforced at API middleware + business logic layer
   - **Portal auth**: HTTP-only secure cookies (preferred) or bearer tokens (see Open decisions)
@@ -329,6 +348,22 @@ Provide a secure, scalable backend for user management, license validation, paym
 
 - URL-based versioning: `/v1/...`
 - Maintain backwards compatibility within a major version; plan deprecations before `/v2`
+
+### Starter endpoints (MVP — adjust names in OpenAPI)
+
+Exact paths and payloads ship with the OpenAPI spec; this list is the **bread-and-butter surface** for portals + licensing.
+
+| Area | Method & path | Notes |
+|------|----------------|-------|
+| Auth / session | `POST /v1/auth/register` | If signup flows through our API; may be partially Cognito-hosted — document whichever is true |
+| Auth / session | `POST /v1/auth/verify-email` | Token from email → verified user |
+| Auth / session | `POST /v1/auth/login`, `POST /v1/auth/logout` | Session cookies or provider tokens |
+| Auth / session | `POST /v1/auth/mfa/challenge`, `POST /v1/auth/mfa/verify` | Email OTP |
+| Customer | `GET /v1/me`, `PATCH /v1/me/profile` | Current user + profile |
+| Customer | `GET /v1/customer/entitlements` | Licenses / SKUs / status for portal |
+| Licenses (public) | `POST /v1/licenses/validate` | External apps; no portal session |
+| PayPal | `POST /v1/webhooks/paypal` | Signature verify + idempotent processing |
+| Marketing / ops | `POST /v1/newsletter/subscribe`, `POST /v1/support/contact` | Optional early slice |
 
 **Implementation note:** start with a minimal viable API (auth + license validation + PayPal webhook ingestion) before expanding to full portal feature breadth.
 
@@ -447,9 +482,9 @@ Recommended `code` values:
 - Device id must be unique **per license**. Normalize `deviceId` consistently (e.g., trim + lowercase) and enforce uniqueness on the normalized form.
 - If `maxDevices` would be exceeded: return `403` with `DEVICE_LIMIT_REACHED`.
 - Activation reset policy: allow reset **once per 30 days** via support/admin workflow (track last reset timestamp or derive from AuditLog).
-- Validation frequency: server-side cache validation results for **5 minutes** to reduce load.
+- **Caching (explicit):** successful validation responses may be cached **server-side for up to 5 minutes** (TTL = 300s) per cache key. Negative results (invalid/expired) may use a shorter TTL or no cache—pick one policy in implementation and document it.
   - Cache key: licenseKeyHash/licenseKeyId + normalized deviceId + entitlement state version
-  - Revocation and payment status changes should invalidate relevant cache keys so “immediate revocation” remains true in practice.
+  - Revocation and payment status changes **must invalidate** affected keys so entitlement changes remain consistent with “immediate” revocation policy.
 - Revocation: immediate on admin action or payment failure; grace period configurable per SKU (default **0 days**).
 - Rate limiting: **10 requests/min per licenseKeyHash (or internal licenseKeyId)** + per-IP fallback. Exceeding returns `429` + `Retry-After`.
 
@@ -457,6 +492,19 @@ Recommended `code` values:
 - Every request carries/returns a correlation id (see API baseline).
 - Abuse detection: flag rapid device changes and repeated invalid keys per IP/customer; alert/log for support review.
 - PayPal webhook-driven updates must be the source of truth for entitlement status.
+
+**Quick test (once implemented)** — replace host and sample values:
+
+```bash
+curl -sS -X POST "https://api.staging.project8x.com/v1/licenses/validate" \
+  -H "Content-Type: application/json" \
+  -H "X-Correlation-Id: manual-test-1" \
+  -d "{\"licenseKey\":\"YOUR_LICENSE_KEY\",\"deviceId\":\"550e8400-e29b-41d4-a716-446655440000\",\"appVersion\":\"1.0.0\"}"
+```
+
+Use a unique `X-Correlation-Id` per request in shared environments.
+
+Expect `200` + JSON body on success; `401`/`403`/`429` per **Error responses** above.
 
 #### D.2 PayPal → entitlement fulfillment (minimum detail)
 
@@ -498,6 +546,25 @@ Recommended `code` values:
 - [ ] **Backups** + restore test documented
 - [ ] **Dependency** and **container** scanning (if applicable)
 - [ ] **Incident response** runbook (short internal doc)
+
+#### AuditLog — mandatory events (minimum bar)
+
+Append-only audit rows for the actions below (actor, timestamp, resource id, correlation id where available). Extend the list as features ship.
+
+| Event / action | When to log | Notes |
+|----------------|-------------|--------|
+| `AUTH_LOGIN_SUCCESS` | Successful portal login | No passwords/tokens in payload |
+| `AUTH_LOGIN_FAILURE` | Failed login | Reason code only; avoid leaking account existence |
+| `AUTH_LOGOUT` | Explicit logout | |
+| `AUTH_MFA_VERIFY` | MFA success/failure | Never store raw OTP |
+| `USER_EMAIL_VERIFIED` | Email verification completed | |
+| `PROFILE_UPDATE` | Profile or preferences changed | Diff summary optional |
+| `ROLE_ASSIGN` / `ROLE_REVOKE` | Employee permission changes | Who granted + target user |
+| `LICENSE_ISSUED` / `LICENSE_REVOKED` | Entitlement or key lifecycle | Link entitlement/key ids |
+| `DEVICE_ACTIVATED` / `DEVICE_REVOKED` | Activation slot consumed or freed | Normalized device id reference |
+| `PAYPAL_WEBHOOK_RECEIVED` | Webhook accepted (pre-processing) | Store event id for idempotency |
+| `PAYPAL_WEBHOOK_PROCESSED` | Entitlement/payment updated | Outcome + linked records |
+| `NEWSLETTER_CONSENT` / `NEWSLETTER_UNSUBSCRIBE` | Marketing consent changes | Consent version + source |
 
 ---
 
@@ -553,6 +620,7 @@ Adjust order if PayPal or license API must come first for a pilot.
 | 2026-04-04 | Added **DNS, SSL, and Amplify — action items** (owner checklist) and **A. Foundation** link; clarified DNS point vs HTTP redirect. |
 | 2026-04-04 | Saved standalone runbook **DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md**; cross-linked from PLATFORM-PLAN and README. |
 | 2026-05-06 | Expanded plan with **Open decisions table**, **personas/roles**, **minimal data model**, **API baseline**, **license validation contract**, and **environments** section to reduce ambiguity before authenticated portal + licensing work begins. |
+| 2026-05-07 | Polish: **Current focus** template + example row; **API starter endpoints** + PostgreSQL clarification; license **cURL** + explicit **caching** wording; **AuditLog mandatory events** table under SOC2. |
 
 ---
 

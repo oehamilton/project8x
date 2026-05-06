@@ -2,13 +2,23 @@
 
 Consulting company profile and marketing site for **Project8X**.
 
+## Platform roadmap (accounts, licensing, APIs)
+
+**Primary planning doc:** **[`project8x-website/PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md)** — auth, customer/employee portals, license validation, PayPal, MFA, newsletter/compliance, SOC2-oriented tasks, and the **Current focus** handoff table.
+
+**Related:** [`project8x-website/DATA-MODEL.md`](project8x-website/DATA-MODEL.md) (draft entities).
+
+### Platform status
+
+Platform implementation is tracked on **`feature/platform-accounts-licensing`** (not `main`, which auto-deploys the marketing site). Merge to `main` when a release is production-ready. For day-one priorities and open decisions (Cognito, SES, PayPal SKUs, etc.), start with **Open decisions** and **Current focus** in [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md).
+
+**Planned production hostnames:** marketing **`project8x.com`**, customer **`customer.project8x.com`**, employee **`employee.project8x.com`**. DNS steps: [`project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md`](project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md).
+
+---
+
 ## Website (`project8x-website`)
 
 React (Vite) single-page app deployed via AWS Amplify (see `project8x-website/amplify.yml`).
-
-**Roadmap (accounts, licensing, PayPal, etc.):** see [`project8x-website/PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md).
-
-**Planned production hostnames (see plan):** marketing **`project8x.com`**, customer portal **`customer.project8x.com`**, employee portal **`employee.project8x.com`**. When you are ready to point DNS at Amplify, use the saved checklist [`project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md`](project8x-website/DNS-AMPLIFY-SUBDOMAIN-CHECKLIST.md) (also linked from [`PLATFORM-PLAN.md`](project8x-website/PLATFORM-PLAN.md)).
 
 ### Local development
 
