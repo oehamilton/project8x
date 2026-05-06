@@ -1,0 +1,22 @@
+# Copy to `samconfig.toml` and adjust, OR let `sam deploy --guided` generate `samconfig.toml` for you.
+# Do NOT commit real secrets (e.g. Stripe `whsec_...`). Prefer CLI overrides or CI secrets for those.
+#
+#   cp samconfig.toml.example samconfig.toml
+
+version = 0.1
+
+[default.global.parameters]
+stack_name = "project8x-api"
+region = "us-east-1"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = true
+resolve_s3 = true
+# Leave empty until Stripe webhook exists; pass at deploy time instead of storing secrets in git:
+#   sam deploy --parameter-overrides StripeWebhookSecret=whsec_...
+parameter_overrides = "StripeWebhookSecret="

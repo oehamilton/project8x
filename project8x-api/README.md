@@ -74,7 +74,14 @@ Port may differ; SAM prints it.
 
 ## Deploy
 
-First time (stores config in `samconfig.toml`):
+### `samconfig.toml` — yes, configure it
+
+On first run, **`sam deploy --guided`** prints `Looking for config file [samconfig.toml] : Not found` — that is **normal**. Finish the prompts; when asked whether to **save arguments to `samconfig.toml`**, choose **Y** so later you can run **`sam deploy`** without retyping stack name, region, S3 bucket, and IAM capabilities.
+
+- **Commit `samconfig.toml`** only if it contains **no secrets**. If `--guided` wrote **`StripeWebhookSecret=whsec_...`** into `parameter_overrides`, either remove that line and pass overrides at deploy time, or keep `samconfig.toml` local-only and don’t commit it.
+- Safe starting point: copy [`samconfig.toml.example`](./samconfig.toml.example) to `samconfig.toml`, edit `stack_name` / `region`, then deploy.
+
+First time:
 
 ```bash
 sam build
@@ -83,7 +90,13 @@ sam deploy --guided
 
 Set parameter **`StripeWebhookSecret`** when you have `whsec_...` from Stripe Dashboard → Webhooks → your endpoint (or leave empty until then; webhook route returns `503 webhook_not_configured`).
 
-Later deploys:
+Deploy without storing the webhook secret in TOML:
+
+```bash
+sam build && sam deploy --parameter-overrides StripeWebhookSecret=whsec_xxxxx
+```
+
+Later deploys (after a saved, sanitized `samconfig.toml`):
 
 ```bash
 sam build && sam deploy
