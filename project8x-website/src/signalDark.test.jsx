@@ -14,9 +14,11 @@ describe("Signal Dark information architecture", () => {
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(
       screen.getByRole("heading", {
-        name: /contact-center systems that hold under real load/i,
+        level: 1,
+        name: "Contact-center systems that hold under real load.",
       })
     ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 }).textContent).not.toMatch(/agentforge/i);
     expect(screen.queryByRole("link", { name: /^options$/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^home$/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^platforms$/i })).not.toBeInTheDocument();
@@ -31,7 +33,7 @@ describe("Signal Dark information architecture", () => {
     );
     expect(
       screen.getByText(
-        /Project8X designs, integrates, and stabilizes Genesys, Avaya, and Cisco platforms for Fortune 500 operations — with 35\+ years in the chair\./i
+        "Project8X designs, integrates, and stabilizes Genesys, Avaya, and Cisco platforms for Fortune 500 operations — with 35+ years in the chair."
       )
     ).toBeInTheDocument();
     expect(
@@ -43,17 +45,17 @@ describe("Signal Dark information architecture", () => {
     expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
       screen.getByText(
-        /contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working\./i
+        "Contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working."
       )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /platform depth grounded in queues, routing, and multi-site ops — not generic it slides\./i
+        "Platform depth grounded in queues, routing, and multi-site ops — not generic IT slides."
       )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /an agenticai backbone for agent communication and governance — isolation, schemas, and control from pilot to production\./i
+        "An AgenticAI backbone for agent communication and governance — isolation, schemas, and control from pilot to production."
       )
     ).toBeInTheDocument();
     expect(
@@ -67,7 +69,15 @@ describe("Signal Dark information architecture", () => {
     expect(screen.queryByText(/event-driven/i)).not.toBeInTheDocument();
     expect(
       screen.getByText(
-        /35\+ years in contact-center and telecom delivery · fortune 500 programs · genesys · avaya · cisco/i
+        "35+ years in contact-center and telecom delivery · Fortune 500 programs · Genesys · Avaya · Cisco"
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Need an architect on the next cutover?" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Tell us the platform, the constraint, and the date. We’ll answer with a clear plan — not a pitch deck."
       )
     ).toBeInTheDocument();
     expect(screen.queryByText(/comms/i)).not.toBeInTheDocument();

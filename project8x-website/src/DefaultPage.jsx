@@ -3,16 +3,19 @@ import Page from "./Page.jsx";
 
 const capabilities = [
   {
+    index: "01",
     title: "Consulting & delivery",
     text: "Contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working.",
     to: "/CompanyServices",
   },
   {
+    index: "02",
     title: "Genesys · Avaya · Cisco",
     text: "Platform depth grounded in queues, routing, and multi-site ops — not generic IT slides.",
     to: "/platforms",
   },
   {
+    index: "03",
     title: "AgentForge",
     text: "An AgenticAI backbone for agent communication and governance — isolation, schemas, and control from pilot to production.",
     to: "/AgentForge",
@@ -54,6 +57,9 @@ function DefaultPage() {
         <div className="sd-capability-grid">
           {capabilities.map((item) => (
             <article className="sd-capability" key={item.title}>
+              <span className="sd-capability-index" aria-hidden="true">
+                {item.index}
+              </span>
               <h3>
                 <Link to={item.to}>{item.title}</Link>
               </h3>

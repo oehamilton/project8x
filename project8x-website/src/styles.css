@@ -315,7 +315,7 @@ textarea:focus-visible {
 }
 
 .sd-page .sd-hero-mark {
-  height: 3.75rem;
+  height: 3.25rem;
   width: auto;
   max-width: min(28rem, 100%);
 }
@@ -341,9 +341,9 @@ textarea:focus-visible {
 
 .sd-hero-mark {
   display: block;
-  height: 3.75rem;
+  height: 3.25rem;
   width: auto;
-  margin: 0 0 var(--sd-space-xl);
+  margin: 0 0 var(--sd-space-lg);
 }
 
 .sd-kicker {
@@ -369,18 +369,27 @@ textarea:focus-visible {
   max-width: 18ch;
   font-family: var(--sd-display);
   font-size: clamp(2.15rem, 4.4vw, 3.25rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.034em;
+  line-height: 1.08;
   color: var(--sd-text);
 }
 
+.sd-page .sd-hero h1 {
+  max-width: 16ch;
+  font-size: clamp(2.45rem, 5vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
 .sd-lede {
-  max-width: var(--sd-measure);
-  margin: var(--sd-space-md) 0 0;
+  max-width: 36rem;
+  margin: 0;
   color: var(--sd-text-muted);
-  font-size: 1.2rem;
-  line-height: 1.55;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.65;
 }
 
 .sd-actions {
@@ -447,6 +456,23 @@ textarea:focus-visible {
   color: #d7eef8;
 }
 
+.sd-hero .sd-btn-secondary {
+  padding-left: 0.15rem;
+  padding-right: 0.15rem;
+  border-color: transparent;
+  background: transparent;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+}
+
+.sd-hero .sd-btn-secondary:hover {
+  border-color: transparent;
+  background: transparent;
+  color: #d7eef8;
+}
+
 .sd-nav-cta {
   margin-left: 0.35rem;
 }
@@ -463,19 +489,24 @@ textarea:focus-visible {
 }
 
 .sd-trust {
-  margin-top: var(--sd-space-xl);
-  padding: var(--sd-space-md) var(--sd-space-md);
-  border: 1px solid rgba(176, 188, 202, 0.28);
-  border-radius: var(--sd-radius-card);
-  background: rgba(18, 24, 32, 0.72);
+  margin-top: var(--sd-space-2xl);
+  padding: 1.15rem 0;
+  border: 0;
+  border-top: 1px solid var(--sd-line);
+  border-bottom: 1px solid var(--sd-line);
+  border-radius: 0;
+  background: transparent;
 }
 
 .sd-trust p,
 .sd-trust li {
   margin: 0;
+  max-width: 46rem;
   color: var(--sd-text-muted);
-  font-size: 0.98rem;
-  line-height: 1.5;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
 }
 
 .sd-trust ul {
@@ -493,15 +524,21 @@ textarea:focus-visible {
 }
 
 .sd-band {
-  margin-top: var(--sd-space-xl);
-  padding: var(--sd-space-lg);
-  border: 1px solid rgba(176, 196, 210, 0.28);
-  border-radius: var(--sd-radius-card);
-  background: #10192c;
+  margin-top: var(--sd-space-2xl);
+  padding: var(--sd-space-2xl) 0 0;
+  border: 0;
+  border-top: 1px solid var(--sd-line);
+  border-radius: 0;
+  background: transparent;
 }
 
-.sd-band h2 {
-  margin-bottom: var(--sd-space-sm);
+.sd-page .sd-band h2 {
+  max-width: 16ch;
+  margin: 0 0 var(--sd-space-sm);
+  font-size: clamp(1.7rem, 3vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
 }
 
 .sd-band p {
@@ -532,12 +569,24 @@ textarea:focus-visible {
 }
 
 .sd-capability {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(12rem, 17rem) minmax(0, 34rem);
+  column-gap: 1.75rem;
+  align-items: baseline;
   margin: 0;
-  padding: var(--sd-space-lg) 0;
+  padding: 1.85rem 0;
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--sd-line);
   border-radius: 0;
+}
+
+.sd-capability-index {
+  color: var(--sd-teal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
 }
 
 .sd-page h1.sd-h1-wide {
@@ -579,11 +628,12 @@ textarea:focus-visible {
 }
 
 .sd-capability h3 {
-  margin: 0 0 var(--sd-space-xs);
+  margin: 0;
   font-family: var(--sd-display);
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 600;
   letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .sd-capability h3 a {
@@ -596,8 +646,10 @@ textarea:focus-visible {
 }
 
 .sd-capability p {
-  margin: 0 0 var(--sd-space-md);
+  margin: 0;
+  max-width: 34rem;
   color: var(--sd-text-muted);
+  line-height: 1.6;
 }
 
 .sd-group + .sd-group {
@@ -1113,6 +1165,15 @@ textarea:focus-visible {
   .sd-service-link,
   .sd-person {
     grid-template-columns: 1fr;
+  }
+
+  .sd-capability {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    row-gap: 0.45rem;
+  }
+
+  .sd-capability p {
+    grid-column: 1 / -1;
   }
 
   .sd-page {
