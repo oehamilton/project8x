@@ -3,18 +3,18 @@ import Page from "./Page.jsx";
 
 const capabilities = [
   {
-    title: "Delivery that survives cutover",
-    text: "Architecture, integration, and program leadership for contact-center programs that have to work on day one — and day one hundred.",
+    title: "Consulting & delivery",
+    text: "Contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working.",
     to: "/CompanyServices",
   },
   {
-    title: "Genesys · Avaya · Cisco depth",
-    text: "Platform work grounded in how queues, routing, and multi-site ops actually run — not generic IT slides.",
+    title: "Genesys · Avaya · Cisco",
+    text: "Platform depth grounded in queues, routing, and multi-site ops — not generic IT slides.",
     to: "/platforms",
   },
   {
     title: "AgentForge",
-    text: "An AgenticAI backbone for agent communication and governance — how autonomous agents exchange work under isolation, schemas, and control, from pilot to production.",
+    text: "An AgenticAI backbone for agent communication and governance — isolation, schemas, and control from pilot to production.",
     to: "/AgentForge",
   },
 ];

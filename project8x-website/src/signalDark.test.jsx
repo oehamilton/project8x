@@ -35,25 +35,25 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /delivery that survives cutover/i })
+      screen.getByRole("heading", { name: /^consulting & delivery$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /genesys · avaya · cisco depth/i })
+      screen.getByRole("heading", { name: /^genesys · avaya · cisco$/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
       screen.getByText(
-        /architecture, integration, and program leadership for contact-center programs that have to work on day one — and day one hundred\./i
+        /contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working\./i
       )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /platform work grounded in how queues, routing, and multi-site ops actually run — not generic it slides\./i
+        /platform depth grounded in queues, routing, and multi-site ops — not generic it slides\./i
       )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /an agenticai backbone for agent communication and governance — how autonomous agents exchange work under isolation, schemas, and control, from pilot to production\./i
+        /an agenticai backbone for agent communication and governance — isolation, schemas, and control from pilot to production\./i
       )
     ).toBeInTheDocument();
     expect(
