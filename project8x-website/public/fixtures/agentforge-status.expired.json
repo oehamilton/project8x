@@ -1,0 +1,7 @@
+{
+  "live": true,
+  "demo_url": "https://example.com/ui/demo.html",
+  "ttl_ends_at": "2020-01-01T00:00:00.000Z",
+  "updated_at": "2026-09-22T15:00:00.000Z",
+  "message": "Local fixture: demo window has ended."
+}

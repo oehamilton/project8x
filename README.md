@@ -25,6 +25,25 @@ npm run build
 
 Output is written to `project8x-website/build/`.
 
+### Admin demo gate (`/admin`)
+
+Unlisted page for the AgentForge demo link. It is not in the public navigation. `/admin` responds with `noindex, nofollow`.
+
+This host is a static Vite build (AWS Amplify). There is no server runtime, so the passphrase check is a **client-side SHA-256 compare**. The hash is compiled into the admin bundle. Treat that as obfuscation, not authentication. Do not commit a real passphrase or a real demo hostname.
+
+Set these at **build time** (Amplify Console → Environment variables, or `project8x-website/.env` locally). Changing them requires a new build.
+
+| Name | Purpose |
+| --- | --- |
+| `ADMIN_PASSWORD_HASH` | Lowercase SHA-256 hex of the shared passphrase. Empty keeps the gate closed. |
+| `AGENTFORGE_STATUS_URL` | HTTPS URL of the AgentForge status JSON. Empty, invalid, or unreachable shows the offline state. |
+
+```bash
+node -e "const c=require('crypto');process.stdout.write(c.createHash('sha256').update(process.argv[1]).digest('hex'))" 'your-passphrase'
+```
+
+Local fixtures (no AgentForge): see `project8x-website/.env.example` and `project8x-website/public/fixtures/`.
+
 ## Recent updates
 
 ### 2026-03 — Products and AZIMUTH

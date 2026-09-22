@@ -23,6 +23,15 @@ The `amplify.yml` file is already configured with the correct build settings:
 If you have any environment variables, add them in the Amplify Console under:
 - App settings → Environment variables
 
+The `/admin` demo gate reads two build-time variables. They are inlined into the static bundle (this app has no server runtime). Leave them unset to keep the gate closed and the demo offline. Do not commit real values.
+
+| Name | Purpose |
+| --- | --- |
+| `ADMIN_PASSWORD_HASH` | Lowercase SHA-256 hex of the shared passphrase |
+| `AGENTFORGE_STATUS_URL` | HTTPS URL of the AgentForge status JSON |
+
+See the repository README and `project8x-website/.env.example`. A new Amplify build is required after either value changes. Public demo exposure (ALB and similar) is out of scope for the site repo.
+
 ### 4. Custom Headers (Optional)
 For additional security, you can add custom headers in the Amplify Console:
 - App settings → Custom headers

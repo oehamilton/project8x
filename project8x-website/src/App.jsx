@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header.jsx";
 import DefaultPage from "./DefaultPage.jsx";
@@ -8,6 +8,16 @@ import CompanyServices from "./CompanyServices.jsx";
 import ExecutiveLeadership from "./ExecutiveLeadership.jsx";
 import ServiceDetail from "./ServiceDetail.jsx";
 import "./App.css"; // Import the CSS file
+
+const AdminDemo = lazy(() => import("./admin/AdminDemo.jsx"));
+
+function AdminRoute() {
+  return (
+    <Suspense fallback={<div className="p-6 text-gray-200">Loading…</div>}>
+      <AdminDemo />
+    </Suspense>
+  );
+}
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -41,6 +51,8 @@ function App() {
               element={<ExecutiveLeadership />}
             />
             <Route path="/service/:serviceId" element={<ServiceDetail />} />
+            <Route path="/admin" element={<AdminRoute />} />
+            <Route path="/admin/" element={<AdminRoute />} />
           </Routes>
         </main>
       </div>
