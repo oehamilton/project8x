@@ -10,9 +10,11 @@ function renderAt(path) {
 describe("Signal Dark information architecture", () => {
   it("puts delivery CTAs and three capabilities on the home page", () => {
     renderAt("/");
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(
       screen.getByRole("heading", { name: /enterprise contact centers, delivered/i })
     ).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /^options$/i })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /talk to an architect/i })).toHaveAttribute(
       "href",
       "/ContactUs"

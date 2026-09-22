@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { platforms, serviceGroups } from "./siteContent.js";
+import { platforms, serviceGroups, softwareProducts } from "./siteContent.js";
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(null);
@@ -42,7 +42,8 @@ function Header() {
   const servicesActive =
     location.pathname === "/CompanyServices" ||
     location.pathname.startsWith("/service/");
-  const platformsActive = location.pathname === "/platforms";
+  const platformsActive =
+    location.pathname === "/platforms" || location.pathname === "/Products";
 
   const menuPress = useRef({});
 
@@ -156,6 +157,9 @@ function Header() {
                   {platform.label}
                 </NavLink>
               ))}
+              <NavLink to={softwareProducts.to} className="sd-menu-link">
+                {softwareProducts.label}
+              </NavLink>
               <NavLink to="/platforms" className="sd-menu-all">
                 All platforms
               </NavLink>

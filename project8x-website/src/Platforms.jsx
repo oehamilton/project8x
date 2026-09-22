@@ -49,6 +49,21 @@ function Platforms() {
         </section>
       ))}
 
+      <section className="sd-platform" aria-labelledby="software-products-heading">
+        <h2 id="software-products-heading">Software products</h2>
+        <div className="sd-prose">
+          <p>
+            COMMS, EZ-SMS.NET, and AZIMUTH are Project8X products. They are not
+            the Genesys, Avaya, or Cisco platforms above.
+          </p>
+        </div>
+        <div className="sd-actions">
+          <Link to="/Products" className="sd-text-link">
+            View products
+          </Link>
+        </div>
+      </section>
+
       <div className="sd-actions">
         <Link to="/ContactUs" className="sd-btn sd-btn-primary">
           Talk to an architect

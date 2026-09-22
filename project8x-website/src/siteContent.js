@@ -81,3 +81,9 @@ export const platforms = [
   { id: "avaya", label: "Avaya", to: "/platforms#avaya" },
   { id: "cisco", label: "Cisco", to: "/platforms#cisco" },
 ];
+
+export const softwareProducts = {
+  id: "products",
+  label: "Software products",
+  to: "/Products",
+};

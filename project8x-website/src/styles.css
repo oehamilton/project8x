@@ -43,6 +43,25 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-color: #3a424c var(--sd-ground-deep);
+  scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--sd-ground-deep);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #3a424c;
+  border-radius: 8px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--sd-cyan);
 }
 
 body {
