@@ -155,7 +155,7 @@ textarea:focus-visible {
 }
 
 .sd-brand img {
-  height: 2.35rem;
+  height: 1.85rem;
   width: auto;
   display: block;
 }
@@ -314,6 +314,12 @@ textarea:focus-visible {
   height: auto;
 }
 
+.sd-page .sd-hero-mark {
+  height: 3.75rem;
+  width: auto;
+  max-width: min(28rem, 100%);
+}
+
 .sd-page .flex,
 .sd-page .grid,
 .sd-page .flex > *,
@@ -335,9 +341,9 @@ textarea:focus-visible {
 
 .sd-hero-mark {
   display: block;
-  height: 5.5rem;
+  height: 3.75rem;
   width: auto;
-  margin: 0 0 var(--sd-space-lg);
+  margin: 0 0 var(--sd-space-xl);
 }
 
 .sd-kicker {
@@ -520,17 +526,18 @@ textarea:focus-visible {
 }
 
 .sd-capability-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sd-space-md);
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--sd-line);
 }
 
 .sd-capability {
   margin: 0;
-  padding: var(--sd-space-lg) var(--sd-space-md);
-  background: rgba(18, 24, 33, 0.9);
-  border: 1px solid rgba(176, 188, 202, 0.28);
-  border-radius: var(--sd-radius-card);
+  padding: var(--sd-space-lg) 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sd-line);
+  border-radius: 0;
 }
 
 .sd-h1-wide {
@@ -835,8 +842,39 @@ textarea:focus-visible {
 .sd-page h2 {
   font-family: var(--sd-display);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--sd-text);
+}
+
+.sd-page h1 {
+  max-width: 14em;
+  font-size: clamp(1.85rem, 3.4vw, 2.55rem);
+  line-height: 1.12;
+}
+
+.sd-page h2 {
+  margin-top: var(--sd-space-lg);
+  font-size: 1.2rem;
+}
+
+.sd-page .grid {
+  display: block;
+}
+
+.sd-page .grid > * {
+  margin: 0;
+  padding: 1.15rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sd-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sd-page,
+.sd-main,
+.sd-frame {
+  overflow-x: clip;
 }
 
 .sd-page [class*="text-gray-200"],

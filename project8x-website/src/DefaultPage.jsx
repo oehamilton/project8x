@@ -14,7 +14,7 @@ const capabilities = [
   },
   {
     title: "AgentForge",
-    text: "Agent desktop, treated as delivery — the experience, the work routed to it, and how it’s stood up with Genesys, Avaya, or Cisco rather than bolted on later.",
+    text: "Copy pending — an AgenticAI backbone for agent communication and governance.",
     to: "/AgentForge",
   },
 ];
