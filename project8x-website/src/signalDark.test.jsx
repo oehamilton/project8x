@@ -52,9 +52,15 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/copy pending — an agenticai backbone for agent communication and governance\./i)
+      screen.getByText(
+        /an agenticai backbone for agent communication and governance — how autonomous agents exchange work under isolation, schemas, and control, from pilot to production\./i
+      )
     ).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/agenticai backbone for agent communication and governance\./i).length
+    ).toBeGreaterThan(0);
     expect(screen.queryByText(/agent desktop/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/agent experience/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/workspace/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/kafka/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/event-driven/i)).not.toBeInTheDocument();
@@ -69,12 +75,29 @@ describe("Signal Dark information architecture", () => {
   it("opens AgentForge from the secondary CTA", async () => {
     renderAt("/");
     await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
-    expect(screen.getByRole("heading", { level: 1, name: /copy pending\./i })).toBeInTheDocument();
-    expect(screen.getByRole("note")).toHaveTextContent(/working draft — copy pending/i);
     expect(
-      screen.getByText(/agenticai backbone for agent communication and governance/i)
+      screen.getByRole("heading", {
+        level: 1,
+        name: /agenticai backbone for agent communication and governance\./i,
+      })
     ).toBeInTheDocument();
+    expect(screen.getByRole("note")).toHaveTextContent(
+      /working draft — scope and proof points are still being sharpened\./i
+    );
+    expect(
+      screen.getByText(
+        /agentforge is project8x’s name for the fabric that lets autonomous agents communicate and stay governed — isolation, schemas, and control with a clear path from pilot to production\./i
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^communication$/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^governance$/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^pilot to production$/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /see our services/i })).toHaveAttribute(
+      "href",
+      "/CompanyServices"
+    );
     expect(screen.queryByText(/agent desktop/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/agent experience/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/workspace/i)).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: /^desktop$/i })).not.toBeInTheDocument();
     screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {

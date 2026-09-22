@@ -137,7 +137,10 @@ function Header() {
                 : "sd-nav-link"
             }
           >
-            AgentForge
+            <span>AgentForge</span>
+            <span className="sd-nav-teaser">
+              AgenticAI backbone for agent communication and governance.
+            </span>
           </NavLink>
           <NavLink
             to="/work"

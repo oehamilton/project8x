@@ -14,7 +14,7 @@ const capabilities = [
   },
   {
     title: "AgentForge",
-    text: "Copy pending — an AgenticAI backbone for agent communication and governance.",
+    text: "An AgenticAI backbone for agent communication and governance — how autonomous agents exchange work under isolation, schemas, and control, from pilot to production.",
     to: "/AgentForge",
   },
 ];
@@ -38,6 +38,9 @@ function DefaultPage() {
             See AgentForge
           </Link>
         </div>
+        <p className="sd-teaser">
+          AgenticAI backbone for agent communication and governance.
+        </p>
       </header>
 
       <section className="sd-trust" aria-label="Trust">
