@@ -83,6 +83,7 @@ function AdminDemo() {
       }
       writeAdminSession(true);
       setPassphrase('');
+      setLoading(true);
       setUnlocked(true);
     } catch {
       setError('Could not verify the passphrase in this browser.');
