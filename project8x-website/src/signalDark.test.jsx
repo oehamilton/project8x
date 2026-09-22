@@ -125,9 +125,15 @@ describe("Signal Dark information architecture", () => {
         /the through-line is contact-center delivery: cutover discipline, multi-site ops, and systems that hold under real load/i
       )
     ).toBeInTheDocument();
-    expect(screen.getByText(/cloud contact center on aws/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/workforce and customer engagement platforms/i)
+      screen.getByText(
+        /cloud contact-center delivery on amazon connect — designed into the estate, not a parallel experiment/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /workforce engagement and analytics kept in the same program as the voice\/digital platform — so measurement moves with the cutover/i
+      )
     ).toBeInTheDocument();
     expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /talk to an architect/i }).length).toBeGreaterThan(0);

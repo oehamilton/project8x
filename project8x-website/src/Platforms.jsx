@@ -21,12 +21,12 @@ const platformSections = [
   {
     id: "amazon-connect",
     title: "Amazon Connect",
-    body: "Cloud contact center on AWS — designed, integrated, and stood up for the operations you already run.",
+    body: "Cloud contact-center delivery on Amazon Connect — designed into the estate, not a parallel experiment.",
   },
   {
     id: "verint",
     title: "Verint",
-    body: "Workforce and customer engagement platforms — integrated with the contact-center estate rather than bolted on beside it.",
+    body: "Workforce engagement and analytics kept in the same program as the voice/digital platform — so measurement moves with the cutover.",
   },
 ];
 
