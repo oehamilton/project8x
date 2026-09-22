@@ -17,6 +17,7 @@ function App() {
     <Router>
       <div className="sd-shell">
         <Header />
+        <div className="sd-frame">
         <main id="main" className="sd-main">
           <Routes>
             <Route path="/" element={<DefaultPage />} />
@@ -32,6 +33,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        </div>
       </div>
     </Router>
   );

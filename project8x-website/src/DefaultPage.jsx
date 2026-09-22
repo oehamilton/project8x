@@ -29,6 +29,7 @@ function DefaultPage() {
   return (
     <Page>
       <header className="sd-hero">
+        <img className="sd-hero-mark" src="/Project8Xwt_tr.png" alt="" />
         <p className="sd-kicker">Contact center delivery</p>
         <h1>Enterprise contact centers, delivered.</h1>
         <hr className="sd-rule" />

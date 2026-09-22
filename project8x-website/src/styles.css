@@ -12,11 +12,14 @@
   --sd-text: #e8e6e1;
   --sd-text-muted: #b7bec7;
   --sd-cyan: #5ed4ea;
+  --sd-cyan-fill: #1ec8e0;
+  --sd-cyan-fill-hover: #49d6ea;
+  --sd-cyan-ink: #04181c;
   --sd-amber: #e2a23a;
   --sd-amber-hover: #f0b85a;
   --sd-amber-ink: #1c1406;
   --sd-font: "IBM Plex Sans", "Segoe UI", sans-serif;
-  --sd-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --sd-display: "IBM Plex Sans", "Segoe UI", sans-serif;
   --sd-space-2xs: 0.25rem;
   --sd-space-xs: 0.5rem;
   --sd-space-sm: 1rem;
@@ -26,7 +29,8 @@
   --sd-space-2xl: 7rem;
   --sd-content: 72rem;
   --sd-measure: 40rem;
-  --sd-radius: 2px;
+  --sd-radius: 8px;
+  --sd-radius-card: 12px;
   --sd-header: 4.25rem;
   color-scheme: dark;
 }
@@ -79,8 +83,8 @@ textarea:focus-visible {
   left: var(--sd-space-sm);
   top: -4rem;
   z-index: 100;
-  background: var(--sd-amber);
-  color: var(--sd-amber-ink);
+  background: var(--sd-cyan-fill);
+  color: var(--sd-cyan-ink);
   padding: var(--sd-space-xs) var(--sd-space-sm);
   text-decoration: none;
 }
@@ -93,23 +97,24 @@ textarea:focus-visible {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background:
-    radial-gradient(1200px 480px at 80% -10%, rgba(94, 212, 234, 0.05), transparent 60%),
-    var(--sd-ground);
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #0b0e13;
 }
 
 .sd-header {
   position: sticky;
-  top: 0;
+  top: 0.75rem;
   z-index: 40;
-  height: var(--sd-header);
+  min-height: var(--sd-header);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--sd-space-md);
-  padding: 0 var(--sd-space-md);
-  background: rgba(20, 23, 28, 0.92);
-  border-bottom: 1px solid var(--sd-line);
+  padding: 0.35rem var(--sd-space-md);
+  background: rgba(16, 21, 28, 0.94);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
   backdrop-filter: blur(10px);
 }
 
@@ -121,8 +126,9 @@ textarea:focus-visible {
 }
 
 .sd-brand img {
-  height: 1.75rem;
+  height: 2.35rem;
   width: auto;
+  display: block;
 }
 
 .sd-nav {
@@ -183,7 +189,7 @@ textarea:focus-visible {
 .sd-nav-link.is-active,
 .sd-dropdown > button.is-active {
   color: var(--sd-text);
-  box-shadow: inset 0 -2px 0 var(--sd-amber);
+  box-shadow: inset 0 -2px 0 var(--sd-cyan);
 }
 
 .sd-caret {
@@ -207,7 +213,7 @@ textarea:focus-visible {
   padding: var(--sd-space-sm) 0 var(--sd-space-xs);
   background: var(--sd-surface);
   border: 1px solid var(--sd-line-strong);
-  border-radius: var(--sd-radius);
+  border-radius: var(--sd-radius-card);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
 }
 
@@ -251,6 +257,16 @@ textarea:focus-visible {
   color: var(--sd-cyan);
 }
 
+.sd-frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 1px solid rgba(176, 188, 202, 0.22);
+  border-radius: var(--sd-radius-card);
+  background: #10151c;
+}
+
 .sd-main {
   flex: 1;
 }
@@ -263,6 +279,13 @@ textarea:focus-visible {
 
 .sd-page-narrow {
   width: min(46rem, calc(100% - 2 * var(--sd-space-md)));
+}
+
+.sd-hero-mark {
+  display: block;
+  height: 5.5rem;
+  width: auto;
+  margin: 0 0 var(--sd-space-lg);
 }
 
 .sd-kicker {
@@ -285,21 +308,13 @@ textarea:focus-visible {
 .sd-hero h1,
 .sd-h1 {
   margin: 0;
+  max-width: 18ch;
   font-family: var(--sd-display);
-  font-size: clamp(2.5rem, 6vw, 4.4rem);
-  font-weight: 500;
+  font-size: clamp(2.15rem, 4.4vw, 3.25rem);
+  font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.05;
+  line-height: 1.12;
   color: var(--sd-text);
-}
-
-.sd-hero h1 {
-  max-width: 12ch;
-}
-
-.sd-h1 {
-  max-width: 16ch;
-  font-size: clamp(2.15rem, 4vw, 3.25rem);
 }
 
 .sd-lede {
@@ -327,33 +342,34 @@ textarea:focus-visible {
   border: 1px solid transparent;
   font-family: inherit;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
 }
 
 .sd-btn-primary {
-  background: var(--sd-amber);
-  border-color: var(--sd-amber);
-  color: var(--sd-amber-ink);
+  background: var(--sd-cyan-fill);
+  border-color: var(--sd-cyan-fill);
+  color: var(--sd-cyan-ink);
 }
 
 .sd-btn-primary:hover {
-  background: var(--sd-amber-hover);
-  border-color: var(--sd-amber-hover);
-  color: var(--sd-amber-ink);
+  background: var(--sd-cyan-fill-hover);
+  border-color: var(--sd-cyan-fill-hover);
+  color: var(--sd-cyan-ink);
 }
 
 .sd-btn-secondary {
   background: transparent;
-  border-color: var(--sd-line-strong);
-  color: var(--sd-text);
+  border-color: var(--sd-amber);
+  color: var(--sd-amber);
 }
 
 .sd-btn-secondary:hover {
-  border-color: var(--sd-cyan);
-  color: var(--sd-cyan);
+  background: rgba(226, 162, 58, 0.12);
+  border-color: var(--sd-amber-hover);
+  color: var(--sd-amber-hover);
 }
 
 .sd-text-link {
@@ -369,9 +385,10 @@ textarea:focus-visible {
 
 .sd-trust {
   margin-top: var(--sd-space-xl);
-  padding: var(--sd-space-md) 0;
-  border-top: 1px solid var(--sd-line);
-  border-bottom: 1px solid var(--sd-line);
+  padding: var(--sd-space-md) var(--sd-space-md);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
+  background: rgba(18, 24, 32, 0.72);
 }
 
 .sd-trust p {
@@ -390,7 +407,7 @@ textarea:focus-visible {
   margin: 0 0 var(--sd-space-md);
   font-family: var(--sd-display);
   font-size: clamp(1.6rem, 3vw, 2.15rem);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
   color: var(--sd-text);
@@ -399,24 +416,22 @@ textarea:focus-visible {
 .sd-capability-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  border-top: 1px solid var(--sd-line);
+  gap: var(--sd-space-md);
 }
 
 .sd-capability {
-  padding: var(--sd-space-lg) var(--sd-space-md) 0 0;
-}
-
-.sd-capability + .sd-capability {
-  padding-left: var(--sd-space-md);
-  border-left: 1px solid var(--sd-line);
+  margin: 0;
+  padding: var(--sd-space-lg) var(--sd-space-md);
+  background: rgba(18, 24, 33, 0.9);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-capability h3 {
   margin: 0 0 var(--sd-space-xs);
   font-family: var(--sd-display);
-  font-size: 1.45rem;
-  font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
@@ -451,17 +466,21 @@ textarea:focus-visible {
   padding: 0;
 }
 
-.sd-service-list li + li {
-  border-top: 1px solid var(--sd-line);
+.sd-service-list li {
+  margin-top: 0.65rem;
+  background: rgba(18, 24, 33, 0.9);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-service-link {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
   gap: var(--sd-space-md);
-  padding: var(--sd-space-md) 0;
+  padding: var(--sd-space-md);
   color: inherit;
   text-decoration: none;
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-service-link:hover h3 {
@@ -471,7 +490,7 @@ textarea:focus-visible {
 .sd-service-link h3 {
   margin: 0;
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -480,10 +499,12 @@ textarea:focus-visible {
   color: var(--sd-text-muted);
 }
 
-.sd-platform + .sd-platform {
-  margin-top: var(--sd-space-xl);
-  padding-top: var(--sd-space-lg);
-  border-top: 1px solid var(--sd-line);
+.sd-platform {
+  margin-top: var(--sd-space-md);
+  padding: var(--sd-space-lg);
+  background: rgba(18, 24, 33, 0.9);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-platform h2 {
@@ -554,8 +575,11 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: 8.5rem minmax(0, 1fr);
   gap: var(--sd-space-lg);
-  padding: var(--sd-space-lg) 0;
-  border-top: 1px solid var(--sd-line);
+  margin-top: var(--sd-space-md);
+  padding: var(--sd-space-lg);
+  background: rgba(18, 24, 33, 0.9);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-person img {
@@ -570,7 +594,7 @@ textarea:focus-visible {
   margin: 0;
   font-family: var(--sd-display);
   font-size: 1.7rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .sd-role {
@@ -585,10 +609,12 @@ textarea:focus-visible {
   max-width: 46rem;
 }
 
-.sd-product + .sd-product {
-  margin-top: var(--sd-space-xl);
-  padding-top: var(--sd-space-lg);
-  border-top: 1px solid var(--sd-line);
+.sd-product {
+  margin-top: var(--sd-space-md);
+  padding: var(--sd-space-lg);
+  background: rgba(18, 24, 33, 0.9);
+  border: 1px solid rgba(176, 188, 202, 0.28);
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-product h2 {
@@ -657,7 +683,7 @@ textarea:focus-visible {
 .sd-page h1,
 .sd-page h2 {
   font-family: var(--sd-display);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--sd-text);
 }
@@ -711,35 +737,38 @@ textarea:focus-visible {
 .sd-page button[class*="bg-blue-600"],
 .sd-page a[class*="bg-emerald-600"],
 .sd-page a[class*="bg-green-600"] {
-  background-color: var(--sd-amber);
-  border-color: var(--sd-amber);
-  color: var(--sd-amber-ink);
+  background-color: var(--sd-cyan-fill);
+  border-color: var(--sd-cyan-fill);
+  color: var(--sd-cyan-ink);
   border-radius: var(--sd-radius);
   box-shadow: none;
+  font-weight: 700;
 }
 
 .sd-page a[class*="bg-blue-600"]:hover,
 .sd-page button[class*="bg-blue-600"]:hover,
 .sd-page a[class*="bg-emerald-600"]:hover {
-  background-color: var(--sd-amber-hover);
-  color: var(--sd-amber-ink);
+  background-color: var(--sd-cyan-fill-hover);
+  color: var(--sd-cyan-ink);
 }
 
 .sd-page a[class*="bg-gray-600"],
 .sd-page button[class*="bg-gray-600"],
 .sd-page a[class*="bg-gray-700"] {
   background-color: transparent;
-  color: var(--sd-text);
-  border: 1px solid var(--sd-line-strong);
+  color: var(--sd-amber);
+  border: 1px solid var(--sd-amber);
   border-radius: var(--sd-radius);
   box-shadow: none;
+  font-weight: 700;
 }
 
 .sd-page a[class*="bg-gray-600"]:hover,
 .sd-page button[class*="bg-gray-600"]:hover,
 .sd-page a[class*="bg-gray-700"]:hover {
-  border-color: var(--sd-cyan);
-  color: var(--sd-cyan);
+  background-color: rgba(226, 162, 58, 0.12);
+  border-color: var(--sd-amber-hover);
+  color: var(--sd-amber-hover);
 }
 
 .sd-page [class*="bg-blue-600/20"] {
@@ -767,8 +796,9 @@ textarea:focus-visible {
   border-radius: var(--sd-radius);
 }
 
-.sd-page [class*="rounded-lg"] {
-  border-radius: var(--sd-radius);
+.sd-page [class*="rounded-lg"],
+.sd-page [class*="bg-gray-800"] {
+  border-radius: var(--sd-radius-card);
 }
 
 .sd-anchor {
@@ -779,7 +809,7 @@ textarea:focus-visible {
   margin: var(--sd-space-md) 0 var(--sd-space-xs);
   font-family: var(--sd-display);
   font-size: 1.15rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .sd-feature-list {
@@ -810,9 +840,11 @@ textarea:focus-visible {
   .sd-nav-panel {
     display: none;
     position: absolute;
-    top: var(--sd-header);
+    top: calc(100% + 0.45rem);
     left: 0;
     right: 0;
+    border: 1px solid rgba(176, 188, 202, 0.28);
+    border-radius: var(--sd-radius-card);
     flex-direction: column;
     align-items: stretch;
     gap: 0;
@@ -863,14 +895,6 @@ textarea:focus-visible {
   .sd-capability-grid,
   .sd-contact-grid {
     grid-template-columns: 1fr;
-  }
-
-  .sd-capability + .sd-capability {
-    padding-left: 0;
-    border-left: 0;
-    border-top: 1px solid var(--sd-line);
-    margin-top: var(--sd-space-md);
-    padding-top: var(--sd-space-md);
   }
 
   .sd-service-link,
