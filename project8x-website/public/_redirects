@@ -1,3 +1,9 @@
-/admin     /admin.html   200
-/admin/    /admin.html   200
-/*         /index.html   200
+# Amplify reads this from the publish root. Existing files are served first.
+# /admin (no slash) is the unlisted demo document. /admin/ is admin/index.html.
+/admin          /admin.html   200
+
+# Extensionless routes, including a trailing slash. Assets keep their own URLs.
+</^[^.]+$|\.(?!(css|gif|ico|jpg|jpeg|js|png|txt|svg|woff|woff2|ttf|map|json|webp|pdf|html|xml|webmanifest)$)([^.]+$)/>    /index.html   200
+
+# Simple splat for hosts that only honor this form.
+/*              /index.html   200

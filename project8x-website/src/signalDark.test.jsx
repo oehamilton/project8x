@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
+import { spaFallbackRoutes } from "../spaFallback.js";
 
 function renderAt(path) {
   window.history.pushState({}, "", path);
@@ -82,5 +83,36 @@ describe("Signal Dark information architecture", () => {
     window.history.pushState({}, "", "/work");
     renderAt("/work");
     expect(screen.getByText(/does not publish written case studies/i)).toBeInTheDocument();
+  });
+
+  it("puts Marketing’s tagline and the legal PDFs in the footer", () => {
+    renderAt("/");
+    expect(screen.getByText(/contact-center technology consulting · project8x/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /^privacy$/i })).toHaveAttribute(
+      "href",
+      "/Privacy Policy SMS.pdf"
+    );
+    expect(screen.getByRole("link", { name: /^terms$/i })).toHaveAttribute(
+      "href",
+      "/Terms and Conditions SMS.pdf"
+    );
+  });
+
+  it("uses links on a service detail page and does not show a watermarked hero", () => {
+    renderAt("/service/contact-center-technology-consulting");
+    const back = screen.getByRole("link", { name: /back to services/i });
+    expect(back).toHaveAttribute("href", "/CompanyServices");
+    screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
+      expect(link).toHaveAttribute("href", "/ContactUs");
+    });
+    expect(screen.queryByRole("img", { name: /contact center technology consulting/i })).not.toBeInTheDocument();
+    expect(document.querySelector('img[src="/cct.png"]')).toBeNull();
+  });
+
+  it("publishes a folder index for the trailing-slash routes Amplify 404s", () => {
+    for (const route of ["/ContactUs/", "/CompanyServices/", "/Products/", "/ExecutiveLeadership/"]) {
+      const folder = route.replace(/^\/|\/$/g, "");
+      expect(spaFallbackRoutes).toContain(folder);
+    }
   });
 });

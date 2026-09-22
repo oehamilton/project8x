@@ -302,8 +302,31 @@ textarea:focus-visible {
 
 .sd-page {
   width: min(var(--sd-content), calc(100% - 2 * var(--sd-space-md)));
+  max-width: 100%;
   margin: 0 auto;
   padding: var(--sd-space-xl) 0 var(--sd-space-2xl);
+  min-width: 0;
+}
+
+.sd-page img,
+.sd-page svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.sd-page .flex,
+.sd-page .grid,
+.sd-page .flex > *,
+.sd-page .grid > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sd-page h1,
+.sd-page h2,
+.sd-page h3,
+.sd-page p {
+  overflow-wrap: break-word;
 }
 
 .sd-page-narrow {
