@@ -14,8 +14,7 @@ const capabilities = [
   },
   {
     title: "AgentForge",
-    draft: true,
-    text: "The agent desktop, treated as delivery — work routed to it and stood up with Genesys, Avaya, and Cisco, not bolted on later.",
+    text: "Agent desktop, treated as delivery — the experience, the work routed to it, and how it’s stood up with Genesys, Avaya, or Cisco rather than bolted on later.",
     to: "/AgentForge",
   },
 ];
@@ -55,7 +54,6 @@ function DefaultPage() {
         <div className="sd-capability-grid">
           {capabilities.map((item) => (
             <article className="sd-capability" key={item.title}>
-              {item.draft && <p className="sd-draft-label">Draft</p>}
               <h3>
                 <Link to={item.to}>{item.title}</Link>
               </h3>

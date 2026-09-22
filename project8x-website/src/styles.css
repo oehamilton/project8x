@@ -533,8 +533,11 @@ textarea:focus-visible {
   border-radius: var(--sd-radius-card);
 }
 
-.sd-draft,
-.sd-draft-label {
+.sd-h1-wide {
+  max-width: 16em;
+}
+
+.sd-draft {
   margin: 0 0 var(--sd-space-sm);
   color: var(--sd-text);
   font-weight: 700;
@@ -548,11 +551,22 @@ textarea:focus-visible {
   font-size: 1rem;
 }
 
-.sd-draft-label {
-  color: var(--sd-cyan);
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.sd-af-section {
+  margin-top: var(--sd-space-lg);
+}
+
+.sd-af-section h2 {
+  margin: 0 0 var(--sd-space-xs);
+  font-family: var(--sd-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.sd-af-section p {
+  margin: 0;
+  max-width: var(--sd-measure);
+  color: var(--sd-text-muted);
 }
 
 .sd-capability h3 {

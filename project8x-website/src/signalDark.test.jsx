@@ -51,10 +51,9 @@ describe("Signal Dark information architecture", () => {
         /platform work grounded in how queues, routing, and multi-site ops actually run — not generic it slides\./i
       )
     ).toBeInTheDocument();
-    expect(screen.getByText(/^draft$/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /the agent desktop, treated as delivery — work routed to it and stood up with genesys, avaya, and cisco, not bolted on later\./i
+        /agent desktop, treated as delivery — the experience, the work routed to it, and how it’s stood up with genesys, avaya, or cisco rather than bolted on later\./i
       )
     ).toBeInTheDocument();
     expect(screen.queryByText(/backbone/i)).not.toBeInTheDocument();
@@ -71,16 +70,30 @@ describe("Signal Dark information architecture", () => {
   it("opens AgentForge from the secondary CTA", async () => {
     renderAt("/");
     await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
-    expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("note")
-    ).toHaveTextContent(/draft\. marketing still owns final positioning, scope, and proof\./i);
+      screen.getByRole("heading", { level: 1, name: /agent desktop, treated as delivery\./i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("note")).toHaveTextContent(
+      /working draft — positioning and proof points are still being sharpened\./i
+    );
     expect(
       screen.getByText(
-        /agentforge is the project8x name for the agent experience: the desktop, the work routed to it, and standing that up with genesys, avaya, and cisco rather than bolting it on later\./i
+        /agentforge is the project8x name for the agent experience: the desktop, the work that reaches it, and how that experience is delivered on the contact-center platforms you already run\./i
       )
     ).toBeInTheDocument();
-    expect(screen.getByText(/the agent desktop is delivery\./i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /^desktop$/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /^work routed$/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /stood up on genesys · avaya · cisco/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /see our services/i })).toHaveAttribute(
+      "href",
+      "/CompanyServices"
+    );
     screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
       expect(link).toHaveAttribute("href", "/ContactUs");
     });
