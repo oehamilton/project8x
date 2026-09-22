@@ -352,6 +352,19 @@ textarea:focus-visible {
   height: auto;
 }
 
+.sd-page-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(14rem, 0.8fr);
+  gap: var(--sd-space-lg);
+  align-items: center;
+}
+
+.sd-figure {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .sd-hero-mark {
   display: block;
   height: 3.25rem;
@@ -1216,6 +1229,7 @@ textarea:focus-visible {
 
 @media (max-width: 800px) {
   .sd-hero,
+  .sd-page-head,
   .sd-trust ul,
   .sd-capability-grid,
   .sd-contact-grid,

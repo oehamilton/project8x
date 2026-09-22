@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
+import SignalFigure from "./SignalFigure.jsx";
 
 const groups = [
   {
@@ -34,10 +35,12 @@ const groups = [
 function ContactUs() {
   return (
     <Page title="Contact">
-      <p className="sd-kicker">Contact</p>
-      <h1 className="sd-h1">Talk to an architect.</h1>
-      <hr className="sd-rule" />
-      <div className="sd-contact-primary">
+      <header className="sd-page-head">
+        <div>
+          <p className="sd-kicker">Contact</p>
+          <h1 className="sd-h1">Talk to an architect.</h1>
+          <hr className="sd-rule" />
+          <div className="sd-contact-primary">
         <p className="sd-lede">
           New contact center work starts with sales. For anything else, use the
           address that matches the question.
@@ -49,8 +52,11 @@ function ContactUs() {
           <a className="sd-btn sd-btn-secondary" href="mailto:contact@project8x.com">
             contact@project8x.com
           </a>
+          </div>
         </div>
-      </div>
+        </div>
+        <SignalFigure variant="contact" />
+      </header>
 
       <div className="sd-contact-grid">
         {groups.map((group) => (

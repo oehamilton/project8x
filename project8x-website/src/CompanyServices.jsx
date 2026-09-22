@@ -1,17 +1,23 @@
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
+import SignalFigure from "./SignalFigure.jsx";
 import { serviceGroups } from "./siteContent.js";
 
 function CompanyServices() {
   return (
     <Page title="Services">
-      <p className="sd-kicker">Services</p>
-      <h1 className="sd-h1">Platforms, architecture, and programs.</h1>
-      <hr className="sd-rule" />
-      <p className="sd-lede">
-        Contact center technology, from the recommendation through deployment
-        and the systems that have to keep running afterward.
-      </p>
+      <header className="sd-page-head">
+        <div>
+          <p className="sd-kicker">Services</p>
+          <h1 className="sd-h1">Platforms, architecture, and programs.</h1>
+          <hr className="sd-rule" />
+          <p className="sd-lede">
+            Contact center technology, from the recommendation through deployment
+            and the systems that have to keep running afterward.
+          </p>
+        </div>
+        <SignalFigure variant="topology" />
+      </header>
 
       {serviceGroups.map((group) => (
         <section className="sd-group" key={group.id} aria-labelledby={`${group.id}-heading`}>

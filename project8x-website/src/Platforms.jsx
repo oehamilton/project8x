@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Page from "./Page.jsx";
+import SignalFigure from "./SignalFigure.jsx";
 
 const platformSections = [
   {
@@ -41,16 +42,21 @@ function Platforms() {
 
   return (
     <Page title="Platforms">
-      <p className="sd-kicker">Platforms</p>
-      <h1 className="sd-h1 sd-h1-platforms">
-        Delivery on the contact-center platforms enterprises already run — and the adjacent systems that make them measurable.
-      </h1>
-      <hr className="sd-rule" />
-      <div className="sd-prose">
-        <p>
-          We architect and integrate Genesys, Avaya, Cisco, and Amazon Connect, and we work Verint into the same delivery story when workforce engagement and analytics have to move with the platform — not as a bolted-on afterthought.
-        </p>
-      </div>
+      <header className="sd-page-head">
+        <div>
+          <p className="sd-kicker">Platforms</p>
+          <h1 className="sd-h1 sd-h1-platforms">
+            Delivery on the contact-center platforms enterprises already run — and the adjacent systems that make them measurable.
+          </h1>
+          <hr className="sd-rule" />
+          <div className="sd-prose">
+            <p>
+              We architect and integrate Genesys, Avaya, Cisco, and Amazon Connect, and we work Verint into the same delivery story when workforce engagement and analytics have to move with the platform — not as a bolted-on afterthought.
+            </p>
+          </div>
+        </div>
+        <SignalFigure variant="topology" />
+      </header>
 
       {platformSections.map((platform) => (
         <section className="sd-platform sd-anchor" id={platform.id} key={platform.id}>

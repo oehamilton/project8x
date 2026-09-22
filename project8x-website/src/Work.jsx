@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
+import SignalFigure from "./SignalFigure.jsx";
 
 function Work() {
   return (
     <Page title="Work">
-      <p className="sd-kicker">Work</p>
-      <h1 className="sd-h1">Organizations already on the record.</h1>
-      <hr className="sd-rule" />
-      <div className="sd-prose">
+      <header className="sd-page-head">
+        <div>
+          <p className="sd-kicker">Work</p>
+          <h1 className="sd-h1">Organizations already on the record.</h1>
+          <hr className="sd-rule" />
+          <div className="sd-prose">
         <p>
           Project8X publishes the organizations its practitioners have worked
           with. It does not publish written case studies on this site.
@@ -18,7 +21,10 @@ function Work() {
           Exxon, Aetna, Allstate, CSAA, and IKEA. Ask for work that is relevant
           to your estate. We will not dress a logo list up as a result.
         </p>
-      </div>
+          </div>
+        </div>
+        <SignalFigure variant="sites" />
+      </header>
       <div className="sd-actions">
         <Link to="/ContactUs" className="sd-btn sd-btn-primary">
           Talk to an architect

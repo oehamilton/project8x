@@ -9,6 +9,7 @@ import CompanyServices from "./CompanyServices.jsx";
 import ExecutiveLeadership from "./ExecutiveLeadership.jsx";
 import ServiceDetail from "./ServiceDetail.jsx";
 import Platforms from "./Platforms.jsx";
+import PlatformMigrations from "./PlatformMigrations.jsx";
 import AgentForge from "./AgentForge.jsx";
 import Work from "./Work.jsx";
 import "./App.css";
@@ -35,6 +36,7 @@ function App() {
             <Route path="/Products" element={<Products />} />
             <Route path="/CompanyServices" element={<CompanyServices />} />
             <Route path="/platforms" element={<Platforms />} />
+            <Route path="/platform-migrations" element={<PlatformMigrations />} />
             <Route path="/agentforge" element={<AgentForge />} />
             <Route path="/AgentForge" element={<AgentForge />} />
             <Route path="/work" element={<Work />} />

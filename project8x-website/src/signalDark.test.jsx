@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
 import { spaFallbackRoutes } from "../spaFallback.js";
@@ -60,6 +60,10 @@ describe("Signal Dark information architecture", () => {
     expect(screen.getByRole("link", { name: "Verint" })).toHaveAttribute(
       "href",
       "/platforms#verint"
+    );
+    expect(screen.getByRole("link", { name: "Platform migrations" })).toHaveAttribute(
+      "href",
+      "/platform-migrations"
     );
     expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
     expect(
@@ -140,6 +144,41 @@ describe("Signal Dark information architecture", () => {
     screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
       expect(link).toHaveAttribute("href", "/ContactUs");
     });
+  });
+
+  it("describes platform migrations as contact-center cutover work", async () => {
+    renderAt("/");
+    await userEvent.click(screen.getByRole("button", { name: /services/i }));
+    await userEvent.click(screen.getByRole("link", { name: "Platform migrations" }));
+    expect(
+      screen.getByRole("heading", { name: /^platform migrations$/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/moving between contact-center platforms without losing the floor/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /migrations across genesys, avaya, cisco, and amazon connect — architecture, parallel run, and cutover discipline so queues, routing, and reporting hold on day one/i
+      )
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
+    expect(document.querySelector("svg.sd-figure")).toBeTruthy();
+  });
+
+  it("draws a signal figure on the major pages", () => {
+    const paths = [
+      "/CompanyServices",
+      "/platforms",
+      "/AgentForge",
+      "/work",
+      "/about",
+      "/ContactUs",
+    ];
+    for (const path of paths) {
+      cleanup();
+      renderAt(path);
+      expect(document.querySelector("svg.sd-figure")).toBeTruthy();
+    }
   });
 
   it("opens AgentForge from the secondary CTA", async () => {
