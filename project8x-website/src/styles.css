@@ -533,6 +533,28 @@ textarea:focus-visible {
   border-radius: var(--sd-radius-card);
 }
 
+.sd-draft,
+.sd-draft-label {
+  margin: 0 0 var(--sd-space-sm);
+  color: var(--sd-text);
+  font-weight: 700;
+}
+
+.sd-draft {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--sd-cyan-fill);
+  border-radius: var(--sd-radius);
+  background: rgba(27, 139, 184, 0.16);
+  font-size: 1rem;
+}
+
+.sd-draft-label {
+  color: var(--sd-cyan);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .sd-capability h3 {
   margin: 0 0 var(--sd-space-xs);
   font-family: var(--sd-display);

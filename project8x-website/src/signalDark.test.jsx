@@ -51,11 +51,15 @@ describe("Signal Dark information architecture", () => {
         /platform work grounded in how queues, routing, and multi-site ops actually run — not generic it slides\./i
       )
     ).toBeInTheDocument();
+    expect(screen.getByText(/^draft$/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /an event-driven backbone for coordinating autonomous ai agents — isolation, schemas, and a clear path from pilot to production\./i
+        /the agent desktop, treated as delivery — work routed to it and stood up with genesys, avaya, and cisco, not bolted on later\./i
       )
     ).toBeInTheDocument();
+    expect(screen.queryByText(/backbone/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/kafka/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/event-driven/i)).not.toBeInTheDocument();
     expect(
       screen.getByText(
         /35\+ years in contact-center and telecom delivery · fortune 500 programs · genesys · avaya · cisco/i
@@ -69,10 +73,19 @@ describe("Signal Dark information architecture", () => {
     await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
     expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
+      screen.getByRole("note")
+    ).toHaveTextContent(/draft\. marketing still owns final positioning, scope, and proof\./i);
+    expect(
       screen.getByText(
-        /coordinate autonomous ai agents on an event-driven backbone built for real tenants — not a bolt-on chatbot\./i
+        /agentforge is the project8x name for the agent experience: the desktop, the work routed to it, and standing that up with genesys, avaya, and cisco rather than bolting it on later\./i
       )
     ).toBeInTheDocument();
+    expect(screen.getByText(/the agent desktop is delivery\./i)).toBeInTheDocument();
+    screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
+      expect(link).toHaveAttribute("href", "/ContactUs");
+    });
+    expect(screen.queryByText(/backbone/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/kafka/i)).not.toBeInTheDocument();
   });
 
   it("hides the unpublished CTO and does not invent case-study metrics", () => {
