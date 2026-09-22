@@ -11,10 +11,11 @@ vi.mock('./config.js', () => ({
 import { getAdminConfig } from './config.js';
 
 const liveDocument = {
+  schema_version: 1,
   live: true,
   demo_url: 'https://example.com/ui/demo.html',
-  ttl_ends_at: '2099-12-31T23:59:59.000Z',
-  updated_at: '2026-09-22T15:00:00.000Z',
+  ttl_ends_at: '2099-12-31T23:59:59Z',
+  updated_at: '2026-09-22T15:00:00Z',
   message: 'Local fixture: demo is live.',
 };
 
@@ -81,6 +82,35 @@ describe('AdminDemo', () => {
     expect(link).toHaveAttribute('target', '_blank');
     expect(link.getAttribute('rel')).toContain('noopener');
     expect(screen.getByText('Local fixture: demo is live.')).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows the internal state when the demo is live without a public URL', async () => {
+    getAdminConfig.mockReturnValue({
+      passwordHash: await sha256Hex('local-test-only'),
+      statusUrl: '/fixtures/agentforge-status.internal.json',
+    });
+    fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        schema_version: 1,
+        live: true,
+        demo_url: null,
+        ttl_ends_at: null,
+        updated_at: '2026-09-22T15:00:00Z',
+        message: 'Local fixture: demo is live on the internal network only.',
+      }),
+    });
+    render(<AdminDemo />);
+    fireEvent.change(screen.getByLabelText('Passphrase'), {
+      target: { value: 'local-test-only' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(await screen.findByTestId('demo-internal')).toHaveTextContent('Live — internal only');
+    expect(screen.getByTestId('demo-message')).toHaveTextContent(
+      'Local fixture: demo is live on the internal network only.'
+    );
+    expect(screen.queryByTestId('open-demo')).not.toBeInTheDocument();
   });
 
   it('signs out back to the gate', async () => {

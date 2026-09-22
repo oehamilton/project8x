@@ -1,7 +1,8 @@
 {
+  "schema_version": 1,
   "live": true,
   "demo_url": "https://example.com/ui/demo.html",
-  "ttl_ends_at": "2099-12-31T23:59:59.000Z",
-  "updated_at": "2026-09-22T15:00:00.000Z",
+  "ttl_ends_at": "2099-12-31T23:59:59Z",
+  "updated_at": "2026-09-22T15:00:00Z",
   "message": "Local fixture: demo is live."
 }

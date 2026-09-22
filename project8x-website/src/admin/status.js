@@ -1,4 +1,6 @@
 export const DEFAULT_OFFLINE_MESSAGE = 'Demo is offline.';
+export const DEFAULT_INTERNAL_MESSAGE =
+  'Demo is live on the internal network. No public link yet.';
 
 const STATUS_TIMEOUT_MS = 8000;
 
@@ -43,117 +45,74 @@ function readMessage(data) {
   return data.message.trim();
 }
 
-function readUpdatedAt(value) {
+function readTimestamp(value) {
   if (typeof value !== 'string' || !value.trim()) return '';
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return '';
   return value.trim();
 }
 
-function offlineResult(data) {
+function blankOffline() {
   return {
     state: 'offline',
-    message: readMessage(data) || DEFAULT_OFFLINE_MESSAGE,
-    updatedAt: readUpdatedAt(data && data.updated_at),
+    message: DEFAULT_OFFLINE_MESSAGE,
+    updatedAt: '',
+    ttlEndsAt: '',
   };
 }
 
 /**
- * Map a status document to a live or offline view.
- * Live requires `live === true`, a non-empty https `demo_url`, and a
- * `ttl_ends_at` that is either absent or still in the future.
+ * Schema v1.
+ * Open demo only when live is true and demo_url is a non-empty https URL.
+ * live true with a null (or otherwise non-public) demo_url is internal-only.
+ * live false is offline. ttl_ends_at is informational and does not hide the link.
  */
-export function interpretStatus(data, now = new Date()) {
-  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+export function interpretStatus(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return blankOffline();
+  if (data.schema_version !== undefined && data.schema_version !== 1) return blankOffline();
+
+  const updatedAt = readTimestamp(data.updated_at);
+  const ttlEndsAt = readTimestamp(data.ttl_ends_at);
+  const message = readMessage(data);
+
+  if (data.live !== true) {
     return {
       state: 'offline',
-      message: DEFAULT_OFFLINE_MESSAGE,
-      updatedAt: '',
+      message: message || DEFAULT_OFFLINE_MESSAGE,
+      updatedAt,
+      ttlEndsAt,
     };
   }
 
-  if (data.live !== true) return offlineResult(data);
-
-  if (data.ttl_ends_at) {
-    const ends = new Date(data.ttl_ends_at);
-    if (Number.isNaN(ends.getTime()) || ends.getTime() <= now.getTime()) {
-      return offlineResult(data);
-    }
-  }
-
   const demoUrl = typeof data.demo_url === 'string' ? data.demo_url.trim() : '';
-  if (!isHttpsDemoUrl(demoUrl)) return offlineResult(data);
+  if (isHttpsDemoUrl(demoUrl)) {
+    return {
+      state: 'live',
+      demoUrl,
+      message,
+      updatedAt,
+      ttlEndsAt,
+    };
+  }
 
   return {
-    state: 'live',
-    demoUrl,
-    message: readMessage(data),
-    updatedAt: readUpdatedAt(data.updated_at),
+    state: 'internal',
+    message: message || DEFAULT_INTERNAL_MESSAGE,
+    updatedAt,
+    ttlEndsAt,
   };
-}
-
-/**
- * Reachability probe. `no-cors` cannot read status codes; a resolved response
- * means the host answered, and a rejection means it was unreachable.
- * CORS failures are not treated as offline, because the demo host is not
- * required to allow this origin.
- */
-export async function isDemoReachable(url, fetchImpl = fetch) {
-  try {
-    await fetchImpl(url, fetchInit({ method: 'HEAD', mode: 'no-cors' }));
-    return true;
-  } catch {
-    try {
-      await fetchImpl(url, fetchInit({ method: 'GET', mode: 'no-cors' }));
-      return true;
-    } catch {
-      return false;
-    }
-  }
 }
 
 export async function loadDemoState(statusUrl, options = {}) {
   const fetchImpl = options.fetchImpl || fetch;
-  const now = options.now || new Date();
-  const checkHealth = options.checkHealth !== false;
 
-  if (!isAcceptableStatusUrl(statusUrl)) {
-    return {
-      state: 'offline',
-      message: DEFAULT_OFFLINE_MESSAGE,
-      updatedAt: '',
-    };
-  }
+  if (!isAcceptableStatusUrl(statusUrl)) return blankOffline();
 
-  let data;
   try {
     const response = await fetchImpl(String(statusUrl).trim(), fetchInit({ method: 'GET' }));
-    if (!response || !response.ok) {
-      return {
-        state: 'offline',
-        message: DEFAULT_OFFLINE_MESSAGE,
-        updatedAt: '',
-      };
-    }
-    data = await response.json();
+    if (!response || !response.ok) return blankOffline();
+    return interpretStatus(await response.json());
   } catch {
-    return {
-      state: 'offline',
-      message: DEFAULT_OFFLINE_MESSAGE,
-      updatedAt: '',
-    };
+    return blankOffline();
   }
-
-  const interpreted = interpretStatus(data, now);
-  if (interpreted.state !== 'live' || !checkHealth) return interpreted;
-
-  const reachable = await isDemoReachable(interpreted.demoUrl, fetchImpl);
-  if (!reachable) {
-    return {
-      state: 'offline',
-      message: DEFAULT_OFFLINE_MESSAGE,
-      updatedAt: interpreted.updatedAt,
-    };
-  }
-  return interpreted;
 }

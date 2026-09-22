@@ -7,6 +7,16 @@ import {
 } from './gate.js';
 import { DEFAULT_OFFLINE_MESSAGE, loadDemoState } from './status.js';
 
+function StatusDetails({ status }) {
+  if (!status?.updatedAt && !status?.ttlEndsAt) return null;
+  return (
+    <div className="mt-3 text-sm text-gray-400">
+      {status.updatedAt && <p>Updated {status.updatedAt}</p>}
+      {status.ttlEndsAt && <p>Window ends {status.ttlEndsAt}</p>}
+    </div>
+  );
+}
+
 function useAdminNoIndex() {
   useLayoutEffect(() => {
     const meta = document.createElement('meta');
@@ -132,29 +142,38 @@ function AdminDemo() {
             <p className="text-gray-200 drop-shadow-md mb-4">
               {status.message || 'Demo is available.'}
             </p>
-            {status.updatedAt && (
-              <p className="text-sm text-gray-400 mb-4">Updated {status.updatedAt}</p>
-            )}
+            <StatusDetails status={status} />
             <a
               href={status.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
               data-testid="open-demo"
-              className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg"
+              className="inline-flex items-center mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg"
             >
               Open demo
             </a>
           </div>
         )}
 
+        {phase === 'internal' && (
+          <div className="mt-6" data-testid="demo-internal">
+            <p className="text-sm font-semibold uppercase tracking-wide text-amber-300 mb-2">
+              Live — internal only
+            </p>
+            <p className="text-gray-200 drop-shadow-md" data-testid="demo-message">
+              {status?.message || 'Demo is live on the internal network. No public link yet.'}
+            </p>
+            <StatusDetails status={status} />
+          </div>
+        )}
+
         {phase === 'offline' && (
-          <div className="mt-6">
+          <div className="mt-6" data-testid="demo-offline">
+            <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-2">Offline</p>
             <p className="text-gray-200 drop-shadow-md" data-testid="demo-message">
               {status?.message || DEFAULT_OFFLINE_MESSAGE}
             </p>
-            {status?.updatedAt && (
-              <p className="text-sm text-gray-400 mt-3">Updated {status.updatedAt}</p>
-            )}
+            <StatusDetails status={status} />
           </div>
         )}
 

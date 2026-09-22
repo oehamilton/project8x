@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
+  DEFAULT_INTERNAL_MESSAGE,
   DEFAULT_OFFLINE_MESSAGE,
   interpretStatus,
   isAcceptableStatusUrl,
@@ -8,11 +9,21 @@ import {
 } from './status.js';
 
 const liveDocument = {
+  schema_version: 1,
   live: true,
   demo_url: 'https://example.com/ui/demo.html',
-  ttl_ends_at: '2099-12-31T23:59:59.000Z',
-  updated_at: '2026-09-22T15:00:00.000Z',
+  ttl_ends_at: '2099-12-31T23:59:59Z',
+  updated_at: '2026-09-22T15:00:00Z',
   message: 'Local fixture: demo is live.',
+};
+
+const offlineDocument = {
+  schema_version: 1,
+  live: false,
+  demo_url: null,
+  ttl_ends_at: '2026-09-25T01:07:11Z',
+  updated_at: '2026-09-22T15:00:00Z',
+  message: 'Demo offline — next window TBD',
 };
 
 function jsonResponse(body, ok = true) {
@@ -36,34 +47,57 @@ describe('agentforge status', () => {
     expect(isHttpsDemoUrl('')).toBe(false);
   });
 
-  it('shows live only when the flag and https demo URL are both set', () => {
-    expect(interpretStatus(liveDocument).state).toBe('live');
-    expect(interpretStatus(liveDocument).demoUrl).toBe('https://example.com/ui/demo.html');
-    expect(interpretStatus({ ...liveDocument, live: false }).message).toBe(
-      'Local fixture: demo is live.'
-    );
-    expect(interpretStatus({ ...liveDocument, demo_url: '' }).state).toBe('offline');
-    expect(interpretStatus({ live: true, demo_url: 'http://example.com/demo' }).state).toBe('offline');
+  it('shows Open demo only when live and demo_url is https', () => {
+    const live = interpretStatus(liveDocument);
+    expect(live.state).toBe('live');
+    expect(live.demoUrl).toBe('https://example.com/ui/demo.html');
+    expect(interpretStatus({ ...liveDocument, schema_version: undefined }).state).toBe('live');
   });
 
-  it('treats an elapsed ttl as offline and keeps the publisher message', () => {
-    const result = interpretStatus(
-      {
-        ...liveDocument,
-        ttl_ends_at: '2020-01-01T00:00:00.000Z',
-        message: 'Local fixture: demo window has ended.',
-      },
-      new Date('2026-09-22T00:00:00.000Z')
-    );
-    expect(result).toMatchObject({
-      state: 'offline',
-      message: 'Local fixture: demo window has ended.',
+  it('treats live with a null demo_url as internal and hides the public link', () => {
+    const result = interpretStatus({
+      schema_version: 1,
+      live: true,
+      demo_url: null,
+      ttl_ends_at: null,
+      updated_at: '2026-09-22T15:00:00Z',
+      message: 'Local fixture: demo is live on the internal network only.',
     });
+    expect(result).toMatchObject({
+      state: 'internal',
+      message: 'Local fixture: demo is live on the internal network only.',
+    });
+    expect(result.demoUrl).toBeUndefined();
   });
 
-  it('uses the default offline copy when the document has no message', () => {
-    expect(interpretStatus({ live: false }).message).toBe(DEFAULT_OFFLINE_MESSAGE);
+  it('uses the internal default when live has no message and no public URL', () => {
+    expect(interpretStatus({ live: true, demo_url: null }).message).toBe(DEFAULT_INTERNAL_MESSAGE);
+    expect(interpretStatus({ live: true, demo_url: '' }).state).toBe('internal');
+    expect(interpretStatus({ live: true, demo_url: 'http://example.com/demo' }).state).toBe('internal');
+  });
+
+  it('keeps a public link when ttl_ends_at is null or already past', () => {
+    expect(interpretStatus({ ...liveDocument, ttl_ends_at: null }).state).toBe('live');
+    expect(
+      interpretStatus({
+        ...liveDocument,
+        ttl_ends_at: '2020-01-01T00:00:00Z',
+      }).state
+    ).toBe('live');
+  });
+
+  it('shows the publisher message when the demo is offline', () => {
+    expect(interpretStatus(offlineDocument)).toMatchObject({
+      state: 'offline',
+      message: 'Demo offline — next window TBD',
+      updatedAt: '2026-09-22T15:00:00Z',
+      ttlEndsAt: '2026-09-25T01:07:11Z',
+    });
+    expect(interpretStatus({ live: false, demo_url: null }).message).toBe(DEFAULT_OFFLINE_MESSAGE);
     expect(interpretStatus(null).message).toBe(DEFAULT_OFFLINE_MESSAGE);
+    expect(interpretStatus({ schema_version: 2, live: true, demo_url: 'https://example.com/a' }).state).toBe(
+      'offline'
+    );
   });
 
   it('stays offline when the status URL is missing or the fetch fails', async () => {
@@ -77,47 +111,26 @@ describe('agentforge status', () => {
     await expect(
       loadDemoState('https://status.example/status.json', { fetchImpl })
     ).resolves.toMatchObject({ state: 'offline' });
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
   });
 
-  it('returns the demo link when status is live and the host answers', async () => {
-    const fetchImpl = vi.fn(async (url) => {
-      if (String(url).includes('status.json')) return jsonResponse(liveDocument);
-      return { ok: true };
-    });
+  it('returns the demo link from a direct status GET', async () => {
+    const fetchImpl = vi.fn(async () => jsonResponse(liveDocument));
     const result = await loadDemoState('https://status.example/status.json', { fetchImpl });
     expect(result).toMatchObject({
       state: 'live',
       demoUrl: 'https://example.com/ui/demo.html',
       message: 'Local fixture: demo is live.',
     });
+    expect(fetchImpl).toHaveBeenCalledTimes(1);
   });
 
-  it('degrades to offline when the demo host is unreachable', async () => {
-    const fetchImpl = vi.fn(async (url) => {
-      if (String(url).includes('status.json')) return jsonResponse(liveDocument);
-      throw new Error('unreachable');
-    });
-    const result = await loadDemoState('https://status.example/status.json', { fetchImpl });
+  it('reads the offline fixture message from a direct status GET', async () => {
+    const fetchImpl = vi.fn(async () => jsonResponse(offlineDocument));
+    const result = await loadDemoState('/fixtures/agentforge-status.offline.json', { fetchImpl });
     expect(result).toMatchObject({
       state: 'offline',
-      message: DEFAULT_OFFLINE_MESSAGE,
-    });
-  });
-
-  it('prefers the offline fixture message', async () => {
-    const fetchImpl = vi.fn(async () =>
-      jsonResponse({
-        live: false,
-        demo_url: '',
-        message: 'Local fixture: demo is offline.',
-      })
-    );
-    const result = await loadDemoState('/fixtures/agentforge-status.offline.json', {
-      fetchImpl,
-    });
-    expect(result).toMatchObject({
-      state: 'offline',
-      message: 'Local fixture: demo is offline.',
+      message: 'Demo offline — next window TBD',
     });
   });
 });

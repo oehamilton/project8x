@@ -36,7 +36,7 @@ Set these at **build time** (Amplify Console → Environment variables, or `proj
 | Name | Purpose |
 | --- | --- |
 | `ADMIN_PASSWORD_HASH` | Lowercase SHA-256 hex of the shared passphrase. Empty keeps the gate closed. |
-| `AGENTFORGE_STATUS_URL` | HTTPS URL of the AgentForge status JSON. Empty, invalid, or unreachable shows the offline state. |
+| `AGENTFORGE_DEMO_STATUS_URL` | Status JSON URL. Blank uses `https://agentforge-foundation-status.s3.us-east-1.amazonaws.com/demo/status.json`. A failed fetch shows offline. |
 
 ```bash
 node -e "const c=require('crypto');process.stdout.write(c.createHash('sha256').update(process.argv[1]).digest('hex'))" 'your-passphrase'
