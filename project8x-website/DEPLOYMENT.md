@@ -27,8 +27,8 @@ The `/admin` demo gate reads two build-time variables. They are inlined into the
 
 | Name | Purpose |
 | --- | --- |
-| `ADMIN_PASSWORD_HASH` | Lowercase SHA-256 hex of the shared passphrase |
-| `AGENTFORGE_DEMO_STATUS_URL` | Status JSON URL. Default: `https://agentforge-foundation-status.s3.us-east-1.amazonaws.com/demo/status.json` |
+| `ADMIN_PASSWORD_HASH` | Lowercase SHA-256 hex of the shared passphrase. No trailing newline (`echo` adds one; use the node one-liner in the README). |
+| `AGENTFORGE_DEMO_STATUS_URL` | Status JSON URL. Default: `https://agentforge-foundation-status.s3.us-east-1.amazonaws.com/demo/status.json`. `AGENTFORGE_STATUS_URL` is used when this name is unset. |
 
 See the repository README and `project8x-website/.env.example`. A new Amplify build is required after either value changes. Public demo exposure (ALB and similar) is out of scope for the site repo.
 
