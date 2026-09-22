@@ -43,14 +43,14 @@ function Platforms() {
     <Page title="Platforms">
       <p className="sd-kicker">Platforms</p>
       <h1 className="sd-h1 sd-h1-platforms">
-        Genesys · Avaya · Cisco · Amazon&nbsp;Connect · Verint.
+        Delivery on the contact-center platforms enterprises already run — and the adjacent systems that make them measurable.
       </h1>
       <hr className="sd-rule" />
-      <p className="sd-lede">
-        Project8X integrates contact center platforms with the infrastructure
-        already running. Related delivery work has also included Google
-        Dialogflow.
-      </p>
+      <div className="sd-prose">
+        <p>
+          We architect and integrate Genesys, Avaya, Cisco, and Amazon Connect, and we work Verint into the same delivery story when workforce engagement and analytics have to move with the platform — not as a bolted-on afterthought.
+        </p>
+      </div>
 
       {platformSections.map((platform) => (
         <section className="sd-platform sd-anchor" id={platform.id} key={platform.id}>
@@ -60,6 +60,10 @@ function Platforms() {
           </div>
         </section>
       ))}
+
+      <p className="sd-lede sd-platform-close">
+        The through-line is contact-center delivery: cutover discipline, multi-site ops, and systems that hold under real load.
+      </p>
 
       <div className="sd-actions">
         <Link to="/ContactUs" className="sd-btn sd-btn-primary">

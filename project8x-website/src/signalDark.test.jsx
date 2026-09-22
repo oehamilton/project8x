@@ -110,6 +110,21 @@ describe("Signal Dark information architecture", () => {
       screen.getByRole("heading", { name: /^amazon connect$/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^verint$/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /delivery on the contact-center platforms enterprises already run — and the adjacent systems that make them measurable/i,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /we architect and integrate genesys, avaya, cisco, and amazon connect, and we work verint into the same delivery story when workforce engagement and analytics have to move with the platform — not as a bolted-on afterthought/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /the through-line is contact-center delivery: cutover discipline, multi-site ops, and systems that hold under real load/i
+      )
+    ).toBeInTheDocument();
     expect(screen.getByText(/cloud contact center on aws/i)).toBeInTheDocument();
     expect(
       screen.getByText(/workforce and customer engagement platforms/i)

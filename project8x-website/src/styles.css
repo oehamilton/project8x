@@ -397,7 +397,12 @@ textarea:focus-visible {
 }
 
 .sd-h1-platforms {
-  max-width: 28ch;
+  max-width: 22em;
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+}
+
+.sd-platform-close {
+  margin-top: var(--sd-space-lg);
 }
 
 .sd-lede {
