@@ -25,7 +25,7 @@ describe('AgentForge admin entry', () => {
 
     await userEvent.click(adminLinks[0]);
     expect(await screen.findByLabelText('Passphrase')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /agentforge demo/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /demo access/i })).toBeInTheDocument();
     expect(
       screen.queryByRole('heading', { name: /contact-center systems that hold under real load/i })
     ).not.toBeInTheDocument();

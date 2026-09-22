@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
+import Page from '../Page.jsx';
 import { getAdminConfig } from './config.js';
 import {
   normalizePassphrase,
@@ -8,10 +9,13 @@ import {
 } from './gate.js';
 import { DEFAULT_OFFLINE_MESSAGE, loadDemoState } from './status.js';
 
+const PUBLIC_LINK_NOTE =
+  'No public demo link is published. Open demo appears only when a later status includes an https URL.';
+
 function StatusDetails({ status }) {
   if (!status?.updatedAt && !status?.ttlEndsAt) return null;
   return (
-    <div className="mt-3 text-sm text-gray-400">
+    <div className="sd-note">
       {status.updatedAt && <p>Updated {status.updatedAt}</p>}
       {status.ttlEndsAt && <p>Window ends {status.ttlEndsAt}</p>}
     </div>
@@ -79,6 +83,7 @@ function AdminDemo() {
       }
       writeAdminSession(true);
       setPassphrase('');
+      setLoading(true);
       setUnlocked(true);
     } catch {
       setError('Could not verify the passphrase in this browser.');
@@ -99,14 +104,16 @@ function AdminDemo() {
   const phase = !unlocked ? 'gate' : loading ? 'loading' : status?.state || 'offline';
 
   return (
-    <div className="bg-transparent p-6 text-gray-200" data-testid="admin-demo" data-state={phase}>
-      <div className="max-w-lg mx-auto">
-        <h1 className="text-3xl font-bold mb-2 text-gray-100 drop-shadow-lg">AgentForge demo</h1>
+    <div data-testid="admin-demo" data-state={phase}>
+      <Page title="Admin" width="narrow">
+        <p className="sd-kicker">AgentForge</p>
+        <h1 className="sd-h1">Demo access</h1>
+        <hr className="sd-rule" />
 
         {phase === 'gate' && (
-          <form onSubmit={onSubmit} className="mt-6">
-            <p className="text-gray-300 drop-shadow-md mb-4">Enter the passphrase to continue.</p>
-            <label htmlFor="admin-passphrase" className="block text-sm text-gray-300 mb-2">
+          <form onSubmit={onSubmit}>
+            <p className="sd-lede">Enter the passphrase to continue.</p>
+            <label htmlFor="admin-passphrase" className="sd-kicker">
               Passphrase
             </label>
             <input
@@ -120,77 +127,79 @@ function AdminDemo() {
               value={passphrase}
               onChange={(event) => setPassphrase(event.target.value)}
               disabled={submitting}
-              className="w-full bg-gray-900/80 border border-gray-600 rounded-lg px-3 py-2 text-white"
+              className="sd-admin-input"
             />
             {error && (
-              <p role="alert" className="text-red-300 mt-3">
+              <p role="alert" className="sd-note">
                 {error}
               </p>
             )}
-            <button
-              type="submit"
-              disabled={submitting}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-            >
-              {submitting ? 'Checking…' : 'Continue'}
-            </button>
+            <div className="sd-actions">
+              <button type="submit" disabled={submitting} className="sd-btn sd-btn-primary">
+                {submitting ? 'Checking…' : 'Continue'}
+              </button>
+            </div>
           </form>
         )}
 
-        {phase === 'loading' && (
-          <p className="text-gray-300 drop-shadow-md mt-6">Checking demo status…</p>
-        )}
+        {phase === 'loading' && <p className="sd-lede">Checking demo status…</p>}
 
         {phase === 'live' && status && (
-          <div className="mt-6">
-            <p className="text-gray-200 drop-shadow-md mb-4">
-              {status.message || 'Demo is available.'}
-            </p>
+          <div className="sd-platform">
+            <p className="sd-kicker">Public demo</p>
+            <h2>Demo link published</h2>
+            <div className="sd-prose">
+              <p>{status.message || 'Demo is available.'}</p>
+            </div>
             <StatusDetails status={status} />
-            <a
-              href={status.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="open-demo"
-              className="inline-flex items-center mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg"
-            >
-              Open demo
-            </a>
+            <div className="sd-actions">
+              <a
+                href={status.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="open-demo"
+                className="sd-btn sd-btn-primary"
+              >
+                Open demo
+              </a>
+            </div>
           </div>
         )}
 
         {phase === 'internal' && (
-          <div className="mt-6" data-testid="demo-internal">
-            <p className="text-sm font-semibold uppercase tracking-wide text-amber-300 mb-2">
-              Live — internal only
-            </p>
-            <p className="text-gray-200 drop-shadow-md" data-testid="demo-message">
-              {status?.message || 'Demo is live on the internal network. No public link yet.'}
-            </p>
+          <div className="sd-platform" data-testid="demo-internal">
+            <p className="sd-kicker">Live — internal only</p>
+            <h2>No public demo link</h2>
+            <div className="sd-prose">
+              <p data-testid="demo-message">
+                {status?.message || 'The demo is up on the internal network. There is no public URL.'}
+              </p>
+            </div>
+            <p className="sd-note">{PUBLIC_LINK_NOTE}</p>
             <StatusDetails status={status} />
           </div>
         )}
 
         {phase === 'offline' && (
-          <div className="mt-6" data-testid="demo-offline">
-            <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-2">Offline</p>
-            <p className="text-gray-200 drop-shadow-md" data-testid="demo-message">
-              {status?.message || DEFAULT_OFFLINE_MESSAGE}
-            </p>
+          <div className="sd-platform" data-testid="demo-offline">
+            <p className="sd-kicker">Offline</p>
+            <h2>Demo is offline</h2>
+            <div className="sd-prose">
+              <p data-testid="demo-message">{status?.message || DEFAULT_OFFLINE_MESSAGE}</p>
+            </div>
+            <p className="sd-note">{PUBLIC_LINK_NOTE}</p>
             <StatusDetails status={status} />
           </div>
         )}
 
         {unlocked && phase !== 'loading' && (
-          <button
-            type="button"
-            onClick={signOut}
-            className="mt-8 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
-          >
-            Sign out
-          </button>
+          <div className="sd-actions">
+            <button type="button" onClick={signOut} className="sd-btn sd-btn-secondary">
+              Sign out
+            </button>
+          </div>
         )}
-      </div>
+      </Page>
     </div>
   );
 }
