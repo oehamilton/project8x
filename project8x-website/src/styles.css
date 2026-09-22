@@ -570,7 +570,9 @@ textarea:focus-visible {
 }
 
 .sd-af-section {
-  margin-top: var(--sd-space-lg);
+  margin-top: 0;
+  padding: var(--sd-space-lg) 0;
+  border-bottom: 1px solid var(--sd-line);
 }
 
 .sd-af-section h2 {
@@ -636,20 +638,25 @@ textarea:focus-visible {
 }
 
 .sd-service-list li {
-  margin-top: 0.65rem;
-  background: rgba(18, 24, 33, 0.9);
-  border: 1px solid rgba(176, 188, 202, 0.28);
-  border-radius: var(--sd-radius-card);
+  margin-top: 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sd-line);
+  border-radius: 0;
+}
+
+.sd-service-list li:first-child {
+  border-top: 1px solid var(--sd-line);
 }
 
 .sd-service-link {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
   gap: var(--sd-space-md);
-  padding: var(--sd-space-md);
+  padding: 1.15rem 0;
   color: inherit;
   text-decoration: none;
-  border-radius: var(--sd-radius-card);
+  border-radius: 0;
 }
 
 .sd-service-link:hover h3 {
@@ -669,11 +676,12 @@ textarea:focus-visible {
 }
 
 .sd-platform {
-  margin-top: var(--sd-space-md);
-  padding: var(--sd-space-lg);
-  background: rgba(18, 24, 33, 0.9);
-  border: 1px solid rgba(176, 188, 202, 0.28);
-  border-radius: var(--sd-radius-card);
+  margin-top: 0;
+  padding: var(--sd-space-lg) 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sd-line);
+  border-radius: 0;
 }
 
 .sd-platform h2 {
@@ -779,11 +787,12 @@ textarea:focus-visible {
 }
 
 .sd-product {
-  margin-top: var(--sd-space-md);
-  padding: var(--sd-space-lg);
-  background: rgba(18, 24, 33, 0.9);
-  border: 1px solid rgba(176, 188, 202, 0.28);
-  border-radius: var(--sd-radius-card);
+  margin-top: 0;
+  padding: var(--sd-space-lg) 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sd-line);
+  border-radius: 0;
 }
 
 .sd-product h2 {
@@ -923,10 +932,12 @@ textarea:focus-visible {
 
 .sd-page [class*="bg-gray-800"],
 .sd-page [class*="bg-gray-900"] {
-  background-color: var(--sd-surface);
-  border-color: var(--sd-line);
-  border-radius: var(--sd-radius);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   backdrop-filter: none;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .sd-page [class*="hover:scale"]:hover {
