@@ -1,6 +1,6 @@
 export const DEFAULT_OFFLINE_MESSAGE = 'Demo is offline.';
 export const DEFAULT_INTERNAL_MESSAGE =
-  'Demo is live on the internal network. No public link yet.';
+  'The demo is up on the internal network. There is no public URL.';
 
 const STATUS_TIMEOUT_MS = 8000;
 

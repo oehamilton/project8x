@@ -29,6 +29,8 @@ Output is written to `project8x-website/build/`.
 
 Unlisted page for the AgentForge demo link. A muted **Admin** link on the AgentForge page opens it. It is not in the header or footer. `/admin` responds with `noindex, nofollow`.
 
+The usual screens are **offline** and **live on the internal network** (no public URL). **Open demo** is shown only when status has `live: true` and an https `demo_url`. A missing status fetch also shows offline.
+
 This host is a static Vite build (AWS Amplify). There is no server runtime, so the passphrase check is a **client-side SHA-256 compare**. The hash is compiled into the admin bundle. Treat that as obfuscation, not authentication. Do not commit a real passphrase or a real demo hostname.
 
 Set these at **build time** (Amplify Console → Environment variables, or `project8x-website/.env` locally). Changing them requires a new build. Keep the names below. Vite inlines them with `define`; a `VITE_` rename is not required.

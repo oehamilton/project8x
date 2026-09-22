@@ -746,6 +746,18 @@ textarea:focus-visible {
   font-size: 0.875rem;
 }
 
+.sd-admin-input {
+  display: block;
+  width: min(100%, 24rem);
+  margin-top: var(--sd-space-sm);
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--sd-radius);
+  border: 1px solid var(--sd-line);
+  background: var(--sd-surface);
+  color: var(--sd-text);
+  font: inherit;
+}
+
 .sd-contact-primary {
   padding-bottom: var(--sd-space-lg);
   border-bottom: 1px solid var(--sd-line);

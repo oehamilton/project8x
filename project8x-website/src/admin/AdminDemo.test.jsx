@@ -107,9 +107,41 @@ describe('AdminDemo', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     expect(await screen.findByTestId('demo-internal')).toHaveTextContent('Live — internal only');
+    expect(screen.getByTestId('demo-internal')).toHaveTextContent('No public demo link');
     expect(screen.getByTestId('demo-message')).toHaveTextContent(
       'Local fixture: demo is live on the internal network only.'
     );
+    expect(screen.getByTestId('demo-internal')).toHaveTextContent(
+      'No public demo link is published.'
+    );
+    expect(screen.queryByTestId('open-demo')).not.toBeInTheDocument();
+  });
+
+  it('shows a full offline state and withholds Open demo', async () => {
+    getAdminConfig.mockReturnValue({
+      passwordHash: await sha256Hex('local-test-only'),
+      statusUrl: '/fixtures/agentforge-status.offline.json',
+    });
+    fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        schema_version: 1,
+        live: false,
+        demo_url: null,
+        ttl_ends_at: '2026-09-25T01:07:11Z',
+        updated_at: '2026-09-22T15:00:00Z',
+        message: 'Demo offline — next window TBD',
+      }),
+    });
+    render(<AdminDemo />);
+    fireEvent.change(screen.getByLabelText('Passphrase'), {
+      target: { value: 'local-test-only' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    const offline = await screen.findByTestId('demo-offline');
+    expect(offline).toHaveTextContent('Demo is offline');
+    expect(screen.getByTestId('demo-message')).toHaveTextContent('Demo offline — next window TBD');
+    expect(offline).toHaveTextContent('No public demo link is published.');
     expect(screen.queryByTestId('open-demo')).not.toBeInTheDocument();
   });
 
