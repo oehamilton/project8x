@@ -231,7 +231,9 @@ describe("Signal Dark information architecture", () => {
     screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
       expect(link).toHaveAttribute("href", "/ContactUs");
     });
-    expect(screen.queryByText(/kafka/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /event-driven architecture for agentic ai/i })
+    ).toBeInTheDocument();
   });
 
   it("hides the unpublished CTO and does not invent case-study metrics", () => {

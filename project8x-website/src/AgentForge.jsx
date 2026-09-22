@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AgentForgeArchitecture from "./AgentForgeArchitecture.jsx";
 import Page from "./Page.jsx";
 import SignalFigure from "./SignalFigure.jsx";
 
@@ -19,7 +20,7 @@ const sections = [
 
 function AgentForge() {
   return (
-    <Page title="AgentForge">
+    <Page title="AgentForge" width="wide">
       <header className="sd-page-head">
         <div>
           <p className="sd-draft" role="note">
@@ -46,6 +47,7 @@ function AgentForge() {
         </div>
         <SignalFigure variant="agents" />
       </header>
+      <AgentForgeArchitecture />
       {sections.map((section) => (
         <section className="sd-af-section" key={section.title}>
           <h2>{section.title}</h2>

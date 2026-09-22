@@ -339,6 +339,10 @@ textarea:focus-visible {
   width: min(46rem, calc(100% - 2 * var(--sd-space-md)));
 }
 
+.sd-page-wide {
+  width: min(96rem, calc(100% - 2 * var(--sd-space-md)));
+}
+
 .sd-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.9fr);
@@ -717,6 +721,187 @@ textarea:focus-visible {
   margin: 0;
   max-width: var(--sd-measure);
   color: var(--sd-text-muted);
+}
+
+.sd-arch {
+  margin: var(--sd-space-lg) 0 var(--sd-space-xl);
+}
+
+.sd-arch svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--sd-font);
+}
+
+.sd-arch text {
+  font-family: var(--sd-font);
+  fill: var(--sd-text);
+}
+
+.sd-arch-frame {
+  fill: var(--sd-ground);
+  stroke: var(--sd-teal);
+  stroke-width: 1.25;
+}
+
+.sd-arch-panel {
+  fill: var(--sd-surface);
+  stroke: var(--sd-teal);
+  stroke-width: 1.25;
+}
+
+.sd-arch-header {
+  fill: var(--sd-teal);
+}
+
+.sd-arch-header-text {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--sd-text);
+}
+
+.sd-arch-header-sub {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  fill: var(--sd-text);
+}
+
+.sd-arch-title {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  fill: var(--sd-text);
+}
+
+.sd-arch-rule {
+  stroke: var(--sd-teal);
+  stroke-width: 1;
+}
+
+.sd-arch-accent {
+  stroke: var(--sd-cyan-fill);
+  stroke-width: 2;
+}
+
+.sd-arch-chip {
+  fill: var(--sd-ground);
+  stroke: var(--sd-teal);
+  stroke-width: 1;
+}
+
+.sd-arch-chip-text {
+  font-size: 14px;
+  font-weight: 500;
+  fill: var(--sd-text);
+}
+
+.sd-arch-chip-sub {
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--sd-text-muted);
+}
+
+.sd-arch-caption {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  fill: var(--sd-cyan);
+}
+
+.sd-arch-muted {
+  font-size: 13px;
+  font-weight: 500;
+  fill: var(--sd-text-muted);
+}
+
+.sd-arch-body {
+  font-size: 15px;
+  font-weight: 500;
+  fill: var(--sd-text);
+}
+
+.sd-arch-lockup {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  fill: var(--sd-text);
+}
+
+.sd-arch-lockup-sub {
+  font-size: 14px;
+  font-weight: 500;
+  fill: var(--sd-text-muted);
+}
+
+.sd-arch-footer-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  fill: var(--sd-text);
+}
+
+.sd-arch-footer-meta {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  fill: var(--sd-text-muted);
+}
+
+.sd-arch-flow {
+  fill: none;
+  stroke: var(--sd-cyan);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sd-arch-flow-call {
+  fill: none;
+  stroke: var(--sd-cyan-fill);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sd-arch-flow-dashed {
+  stroke-dasharray: 5 4;
+}
+
+.sd-arch-pill {
+  fill: var(--sd-ground);
+}
+
+.sd-arch-flow-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--sd-cyan);
+}
+
+.sd-arch-mark-ring {
+  fill: none;
+  stroke: var(--sd-teal);
+  stroke-width: 1.25;
+}
+
+.sd-arch-mark-ring-inner {
+  stroke: var(--sd-cyan-fill);
+}
+
+.sd-arch-mark line {
+  stroke: var(--sd-teal);
+  stroke-width: 1;
+}
+
+.sd-arch-mark-node {
+  fill: var(--sd-cyan);
+  stroke: none;
+}
+
+.sd-arch-mark-core {
+  fill: var(--sd-cyan-fill);
+  stroke: none;
 }
 
 .sd-capability h3 {
