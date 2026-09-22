@@ -41,6 +41,7 @@ function Header() {
   const servicesActive =
     location.pathname === "/CompanyServices" ||
     location.pathname === "/platforms" ||
+    location.pathname === "/platform-migrations" ||
     location.pathname.startsWith("/service/");
 
   const menuPress = useRef({});

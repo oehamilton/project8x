@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
 import { spaFallbackRoutes } from "../spaFallback.js";
@@ -9,7 +9,7 @@ function renderAt(path) {
 }
 
 describe("Signal Dark information architecture", () => {
-  it("uses Marketing hero copy, one primary hierarchy, and three pillars", () => {
+  it("uses Marketing hero copy, one primary hierarchy, and three pillars", async () => {
     renderAt("/");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(
@@ -33,14 +33,41 @@ describe("Signal Dark information architecture", () => {
     );
     expect(
       screen.getByText(
-        "Project8X designs, integrates, and stabilizes Genesys, Avaya, and Cisco platforms for Fortune 500 operations — with 35+ years in the chair."
+        /genesys, avaya, cisco, amazon connect, and verint — with 35\+ years in the chair/i
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /^consulting & delivery$/i })
+      screen.getByRole("img", { name: /holding steady under load/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /^genesys · avaya · cisco$/i })
+      screen.getByRole("heading", { name: /^contact-center platforms$/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /genesys, avaya, cisco, amazon connect, and verint — architecture and integration grounded in how the floor and the stack actually run/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /35\+ years in contact-center and telecom delivery · fortune 500 programs · genesys · avaya · cisco · amazon connect · verint/i
+      )
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /services/i }));
+    expect(screen.getByRole("link", { name: "Amazon Connect" })).toHaveAttribute(
+      "href",
+      "/platforms#amazon-connect"
+    );
+    expect(screen.getByRole("link", { name: "Verint" })).toHaveAttribute(
+      "href",
+      "/platforms#verint"
+    );
+    expect(screen.getByRole("link", { name: "Platform migrations" })).toHaveAttribute(
+      "href",
+      "/platform-migrations"
+    );
+    expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /^consulting & delivery$/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
@@ -49,10 +76,8 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        "Platform depth grounded in queues, routing, and multi-site ops — not generic IT slides."
-      )
-    ).toBeInTheDocument();
+      screen.queryByRole("heading", { name: /^genesys · avaya · cisco$/i })
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText(
         "An AgenticAI backbone for agent communication and governance — isolation, schemas, and control from pilot to production."
@@ -68,10 +93,10 @@ describe("Signal Dark information architecture", () => {
     expect(screen.queryByText(/kafka/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/event-driven/i)).not.toBeInTheDocument();
     expect(
-      screen.getByText(
+      screen.queryByText(
         "35+ years in contact-center and telecom delivery · Fortune 500 programs · Genesys · Avaya · Cisco"
       )
-    ).toBeInTheDocument();
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Need an architect on the next cutover?" })
     ).toBeInTheDocument();
@@ -81,6 +106,98 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(screen.queryByText(/comms/i)).not.toBeInTheDocument();
+  });
+
+  it("lists Amazon Connect and Verint as contact-center platforms", () => {
+    renderAt("/platforms");
+    expect(
+      screen.getByRole("heading", { name: /^amazon connect$/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^verint$/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /delivery on the contact-center platforms enterprises already run — and the adjacent systems that make them measurable/i,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /we architect and integrate genesys, avaya, cisco, and amazon connect, and we work verint into the same delivery story when workforce engagement and analytics have to move with the platform — not as a bolted-on afterthought/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /the through-line is contact-center delivery: cutover discipline, multi-site ops, and systems that hold under real load/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /cloud contact-center delivery on amazon connect — designed into the estate, not a parallel experiment/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /workforce engagement and analytics kept in the same program as the voice\/digital platform — so measurement moves with the cutover/i
+      )
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /talk to an architect/i }).length).toBeGreaterThan(0);
+    screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
+      expect(link).toHaveAttribute("href", "/ContactUs");
+    });
+  });
+
+  it("describes platform migrations as contact-center cutover work", async () => {
+    renderAt("/");
+    await userEvent.click(screen.getByRole("button", { name: /services/i }));
+    await userEvent.click(screen.getByRole("link", { name: "Platform migrations" }));
+    expect(
+      screen.getByRole("heading", { name: /platform migrations that hold on day one/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /contact-center platform moves across genesys, avaya, cisco, amazon connect, and verint-adjacent estates — multi-site, cutover-disciplined, built to stabilize/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /map queues, routing, integrations, and site reality before the move — so scope matches the floor, not the slide deck/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /sequence the migration for multi-site ops: what moves when, what fails closed, and who owns the night of/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /hypercare after go-live — fix what only shows under load, then hand back a platform that stays runnable/i
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /see platforms/i })).toHaveAttribute(
+      "href",
+      "/platforms"
+    );
+    screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
+      expect(link).toHaveAttribute("href", "/ContactUs");
+    });
+    expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
+    expect(document.querySelectorAll("svg.sd-figure")).toHaveLength(3);
+  });
+
+  it("draws a signal figure on the major pages", () => {
+    const paths = [
+      "/CompanyServices",
+      "/platforms",
+      "/AgentForge",
+      "/work",
+      "/about",
+      "/ContactUs",
+    ];
+    for (const path of paths) {
+      cleanup();
+      renderAt(path);
+      expect(document.querySelector("svg.sd-figure")).toBeTruthy();
+    }
   });
 
   it("opens AgentForge from the secondary CTA", async () => {

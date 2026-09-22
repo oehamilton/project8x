@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
+import SignalFigure from "./SignalFigure.jsx";
 
 const executives = [
   {
@@ -18,13 +19,18 @@ const executives = [
 function ExecutiveLeadership() {
   return (
     <Page title="About">
-      <p className="sd-kicker">About</p>
-      <h1 className="sd-h1">A delivery practice, led from the work.</h1>
-      <hr className="sd-rule" />
-      <p className="sd-lede">
-        Project8X is a contact-center technology practice. Leadership on this
-        page is the record we can publish.
-      </p>
+      <header className="sd-page-head">
+        <div>
+          <p className="sd-kicker">About</p>
+          <h1 className="sd-h1">A delivery practice, led from the work.</h1>
+          <hr className="sd-rule" />
+          <p className="sd-lede">
+            Project8X is a contact-center technology practice. Leadership on this
+            page is the record we can publish.
+          </p>
+        </div>
+        <SignalFigure variant="practice" />
+      </header>
 
       {executives.map((executive) => (
         <article className="sd-person" key={executive.title}>
