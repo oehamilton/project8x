@@ -6,7 +6,7 @@ function CompanyServices() {
   return (
     <Page title="Services">
       <p className="sd-kicker">Services</p>
-      <h1 className="sd-h1">Advise, deliver, and operate.</h1>
+      <h1 className="sd-h1">Platforms, architecture, and programs.</h1>
       <hr className="sd-rule" />
       <p className="sd-lede">
         Contact center technology, from the recommendation through deployment

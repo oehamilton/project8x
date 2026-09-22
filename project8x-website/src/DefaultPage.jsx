@@ -3,25 +3,19 @@ import Page from "./Page.jsx";
 
 const capabilities = [
   {
-    kicker: "Services",
-    title: "Advise, then deliver",
-    text: "Consulting, integration, and the program that gets a contact center into production.",
-    to: "/CompanyServices",
-    link: "View services",
-  },
-  {
-    kicker: "Platforms",
-    title: "Genesys, Avaya, Cisco",
-    text: "The three estates we are asked to integrate, migrate, and keep coherent.",
+    title: "Platforms that fit how you actually run",
+    text: "Genesys Cloud, Avaya, and Cisco — designed, integrated, and hardened for multi-site ops, not slideware.",
     to: "/platforms",
-    link: "View platforms",
   },
   {
-    kicker: "AgentForge",
-    title: "The agent experience",
-    text: "What people on the floor actually use, designed with the platform rather than after it.",
-    to: "/agentforge",
-    link: "See AgentForge",
+    title: "Programs that ship",
+    text: "ACD upgrades, multi-site rollouts, vendor selection, and RFPs led by people who’ve lived the cutover.",
+    to: "/CompanyServices",
+  },
+  {
+    title: "AgentForge — coordinate the agents",
+    text: "An event-driven backbone for autonomous AI agents — tenant isolation, schemas, and a path from pilot to production.",
+    to: "/AgentForge",
   },
 ];
 
@@ -30,44 +24,62 @@ function DefaultPage() {
     <Page>
       <header className="sd-hero">
         <img className="sd-hero-mark" src="/Project8Xwt_tr.png" alt="" />
-        <p className="sd-kicker">Contact center delivery</p>
-        <h1>Enterprise contact centers, delivered.</h1>
+        <h1>Contact-center systems that hold under real load.</h1>
         <hr className="sd-rule" />
         <p className="sd-lede">
-          Contact center technology consulting and implementation for multi-site
-          enterprises on Genesys, Avaya, and Cisco.
+          Project8X designs, integrates, and stabilizes contact-center platforms
+          for Fortune 500 operations — Genesys, Avaya, and Cisco — with 35+ years
+          in the chair.
         </p>
         <div className="sd-actions">
           <Link to="/ContactUs" className="sd-btn sd-btn-primary">
             Talk to an architect
           </Link>
-          <Link to="/agentforge" className="sd-btn sd-btn-secondary">
+          <Link to="/AgentForge" className="sd-btn sd-btn-secondary">
             See AgentForge
           </Link>
         </div>
       </header>
 
-      <section className="sd-trust" aria-label="Experience">
-        <p>
-          Practitioners with 35+ years in communications technology. Organizations
-          named in our public materials include Bank of America, IBM, EDS,
-          Lockheed Martin, and Expedia.
+      <section className="sd-trust" aria-label="Trusted in production">
+        <p className="sd-kicker">Trusted in production</p>
+        <ul>
+          <li>35+ years contact-center &amp; telecom delivery</li>
+          <li>Fortune 500 programs (banking, travel, retail, industrial)</li>
+          <li>Genesys · Avaya · Cisco depth</li>
+          <li>Architecture → cutover → stabilize</li>
+        </ul>
+        <p className="sd-trust-names">
+          Bank of America · Expedia · Lockheed Martin · IBM · Disney · IKEA
         </p>
       </section>
 
       <section className="sd-section" aria-labelledby="capabilities-heading">
-        <h2 id="capabilities-heading">Where to start</h2>
+        <h2 id="capabilities-heading" className="sd-sr">
+          Capabilities
+        </h2>
         <div className="sd-capability-grid">
           {capabilities.map((item) => (
             <article className="sd-capability" key={item.title}>
-              <p className="sd-kicker">{item.kicker}</p>
-              <h3>{item.title}</h3>
+              <h3>
+                <Link to={item.to}>{item.title}</Link>
+              </h3>
               <p>{item.text}</p>
-              <Link to={item.to} className="sd-text-link">
-                {item.link}
-              </Link>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="sd-band" aria-labelledby="cutover-heading">
+        <h2 id="cutover-heading">Need an architect on the next cutover?</h2>
+        <p>
+          Tell us the platform, the constraint, and the date. We’ll answer with a
+          clear plan — not a pitch deck.
+        </p>
+        <div className="sd-actions">
+          <Link to="/ContactUs" className="sd-btn sd-btn-primary">
+            Talk to an architect
+          </Link>
         </div>
       </section>
     </Page>

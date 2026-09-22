@@ -13,16 +13,6 @@ const executives = [
     additionalInfo:
       "Designing transformative solutions for industry leaders such as Expedia, EDS, Lockheed Martin, ABB, Best Buy, Coca-Cola, Disney, Hertz, Bank of America, Exxon, Aetna, Allstate, CSAA, and IKEA, among others. My specialization lies in business process re-engineering with global implementations. I founded Project8X to unite top-tier talent in delivering innovative, AI-driven solutions.",
   },
-  {
-    name: "TBD",
-    title: "CTO and Founder",
-    image: "/road to the stars.png",
-    description:
-      "Leading technology innovation and strategic development for Project8X's cutting-edge solutions.",
-    details: "The story will be revealed soon...",
-    additionalInfo:
-      "Stay tuned for more information about our Chief Technology Officer and their vision for Project8X's technological future.",
-  },
 ];
 
 function ExecutiveLeadership() {
@@ -32,19 +22,15 @@ function ExecutiveLeadership() {
       <h1 className="sd-h1">A delivery practice, led from the work.</h1>
       <hr className="sd-rule" />
       <p className="sd-lede">
-        Project8X is a contact center technology practice. The public record of
-        who leads it is below. The CTO biography is still unpublished.
+        Project8X is a contact-center technology practice. Leadership on this
+        page is the record we can publish.
       </p>
 
       {executives.map((executive) => (
         <article className="sd-person" key={executive.title}>
           <img
             src={executive.image}
-            alt={
-              executive.name === "TBD"
-                ? ""
-                : `${executive.name}, ${executive.title}`
-            }
+            alt={`${executive.name}, ${executive.title}`}
           />
           <div>
             <h2>{executive.name}</h2>

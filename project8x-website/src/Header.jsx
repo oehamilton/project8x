@@ -1,13 +1,12 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { platforms, serviceGroups, softwareProducts } from "./siteContent.js";
+import { serviceGroups } from "./siteContent.js";
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef(null);
   const servicesId = useId();
-  const platformsId = useId();
   const location = useLocation();
 
   useEffect(() => {
@@ -41,9 +40,8 @@ function Header() {
 
   const servicesActive =
     location.pathname === "/CompanyServices" ||
+    location.pathname === "/platforms" ||
     location.pathname.startsWith("/service/");
-  const platformsActive =
-    location.pathname === "/platforms" || location.pathname === "/Products";
 
   const menuPress = useRef({});
 
@@ -114,7 +112,7 @@ function Header() {
               Services
               <span className="sd-caret" aria-hidden="true" />
             </button>
-            <div id={servicesId} className="sd-dropdown-panel" role="group" aria-label="Services">
+            <div id={servicesId} className="sd-dropdown-panel sd-services-panel" role="group" aria-label="Services">
               {serviceGroups.map((group) => (
                 <div key={group.id}>
                   <p className="sd-menu-label">{group.label}</p>
@@ -131,45 +129,12 @@ function Header() {
             </div>
           </div>
 
-          <div
-            className={
-              openMenu === "platforms" ? "sd-dropdown is-open" : "sd-dropdown"
-            }
-            onMouseEnter={() => onDesktopEnter("platforms")}
-            onMouseLeave={(event) => onDesktopLeave("platforms", event.currentTarget)}
-            onFocusCapture={() => setOpenMenu("platforms")}
-            onBlurCapture={(event) => closeIfFocusLeft("platforms", event)}
-          >
-            <button
-              type="button"
-              aria-expanded={openMenu === "platforms" || mobileOpen}
-              aria-controls={platformsId}
-              className={platformsActive ? "is-active" : undefined}
-              onMouseDown={() => onMenuPointerDown("platforms")}
-              onClick={() => onMenuClick("platforms")}
-            >
-              Platforms
-              <span className="sd-caret" aria-hidden="true" />
-            </button>
-            <div id={platformsId} className="sd-dropdown-panel" role="group" aria-label="Platforms">
-              {platforms.map((platform) => (
-                <NavLink key={platform.id} to={platform.to} className="sd-menu-link">
-                  {platform.label}
-                </NavLink>
-              ))}
-              <NavLink to={softwareProducts.to} className="sd-menu-link">
-                {softwareProducts.label}
-              </NavLink>
-              <NavLink to="/platforms" className="sd-menu-all">
-                All platforms
-              </NavLink>
-            </div>
-          </div>
-
           <NavLink
-            to="/agentforge"
-            className={({ isActive }) =>
-              isActive ? "sd-nav-link is-active" : "sd-nav-link"
+            to="/AgentForge"
+            className={() =>
+              location.pathname.toLowerCase() === "/agentforge"
+                ? "sd-nav-link is-active"
+                : "sd-nav-link"
             }
           >
             AgentForge
@@ -200,6 +165,9 @@ function Header() {
             }
           >
             Contact
+          </NavLink>
+          <NavLink to="/ContactUs" className="sd-btn sd-btn-primary sd-nav-cta">
+            Talk to an architect
           </NavLink>
         </div>
       </nav>

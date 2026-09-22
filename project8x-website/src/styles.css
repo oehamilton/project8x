@@ -3,21 +3,19 @@
    legacy Tailwind pages are pulled onto the same palette via .sd-page. */
 
 :root {
-  --sd-ground: #14171c;
-  --sd-ground-deep: #0e1114;
-  --sd-surface: #1c2128;
-  --sd-surface-hover: #242b34;
-  --sd-line: rgba(214, 220, 226, 0.14);
-  --sd-line-strong: rgba(214, 220, 226, 0.32);
+  --sd-ground: #0b1220;
+  --sd-ground-deep: #070d18;
+  --sd-surface: #121a2c;
+  --sd-surface-hover: #182438;
+  --sd-line: rgba(184, 206, 222, 0.16);
+  --sd-line-strong: rgba(184, 206, 222, 0.32);
   --sd-text: #e8e6e1;
-  --sd-text-muted: #b7bec7;
-  --sd-cyan: #5ed4ea;
-  --sd-cyan-fill: #1ec8e0;
-  --sd-cyan-fill-hover: #49d6ea;
-  --sd-cyan-ink: #04181c;
-  --sd-amber: #e2a23a;
-  --sd-amber-hover: #f0b85a;
-  --sd-amber-ink: #1c1406;
+  --sd-text-muted: #b7c3ce;
+  --sd-cyan: #8ecae6;
+  --sd-cyan-fill: #1b8bb8;
+  --sd-cyan-fill-hover: #219dcc;
+  --sd-cyan-ink: #041018;
+  --sd-teal: #156082;
   --sd-font: "IBM Plex Sans", "Segoe UI", sans-serif;
   --sd-display: "IBM Plex Sans", "Segoe UI", sans-serif;
   --sd-space-2xs: 0.25rem;
@@ -112,13 +110,25 @@ textarea:focus-visible {
   top: var(--sd-space-xs);
 }
 
+.sd-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .sd-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: #0b0e13;
+  background: #0b1220;
 }
 
 .sd-header {
@@ -131,7 +141,7 @@ textarea:focus-visible {
   justify-content: space-between;
   gap: var(--sd-space-md);
   padding: 0.35rem var(--sd-space-md);
-  background: rgba(16, 21, 28, 0.94);
+  background: rgba(11, 18, 32, 0.94);
   border: 1px solid rgba(176, 188, 202, 0.28);
   border-radius: var(--sd-radius-card);
   backdrop-filter: blur(10px);
@@ -283,7 +293,7 @@ textarea:focus-visible {
   min-height: 0;
   border: 1px solid rgba(176, 188, 202, 0.22);
   border-radius: var(--sd-radius-card);
-  background: #10151c;
+  background: #0b1220;
 }
 
 .sd-main {
@@ -320,7 +330,7 @@ textarea:focus-visible {
   width: 2.75rem;
   height: 2px;
   margin: var(--sd-space-md) 0;
-  background: var(--sd-amber);
+  background: var(--sd-cyan-fill);
   border: 0;
 }
 
@@ -381,14 +391,18 @@ textarea:focus-visible {
 
 .sd-btn-secondary {
   background: transparent;
-  border-color: var(--sd-amber);
-  color: var(--sd-amber);
+  border-color: var(--sd-cyan-fill);
+  color: var(--sd-cyan);
 }
 
 .sd-btn-secondary:hover {
-  background: rgba(226, 162, 58, 0.12);
-  border-color: var(--sd-amber-hover);
-  color: var(--sd-amber-hover);
+  background: rgba(27, 139, 184, 0.14);
+  border-color: var(--sd-cyan);
+  color: #d7eef8;
+}
+
+.sd-nav-cta {
+  margin-left: 0.35rem;
 }
 
 .sd-text-link {
@@ -410,11 +424,49 @@ textarea:focus-visible {
   background: rgba(18, 24, 32, 0.72);
 }
 
-.sd-trust p {
+.sd-trust p,
+.sd-trust li {
   margin: 0;
-  max-width: 62rem;
   color: var(--sd-text-muted);
   font-size: 0.98rem;
+}
+
+.sd-trust ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 1.5rem;
+  margin: var(--sd-space-sm) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sd-trust li {
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--sd-cyan-fill);
+}
+
+.sd-trust-names {
+  margin-top: var(--sd-space-md);
+  color: var(--sd-text);
+  letter-spacing: 0.01em;
+}
+
+.sd-band {
+  margin-top: var(--sd-space-xl);
+  padding: var(--sd-space-lg);
+  border: 1px solid rgba(176, 196, 210, 0.28);
+  border-radius: var(--sd-radius-card);
+  background: #10192c;
+}
+
+.sd-band h2 {
+  margin-bottom: var(--sd-space-sm);
+}
+
+.sd-band p {
+  max-width: var(--sd-measure);
+  margin: 0;
+  color: var(--sd-text-muted);
 }
 
 .sd-section {
@@ -452,6 +504,15 @@ textarea:focus-visible {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.sd-capability h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.sd-capability h3 a:hover {
+  color: var(--sd-cyan);
 }
 
 .sd-capability p {
@@ -775,8 +836,8 @@ textarea:focus-visible {
 .sd-page button[class*="bg-gray-600"],
 .sd-page a[class*="bg-gray-700"] {
   background-color: transparent;
-  color: var(--sd-amber);
-  border: 1px solid var(--sd-amber);
+  color: var(--sd-cyan);
+  border: 1px solid var(--sd-cyan-fill);
   border-radius: var(--sd-radius);
   box-shadow: none;
   font-weight: 700;
@@ -785,9 +846,9 @@ textarea:focus-visible {
 .sd-page a[class*="bg-gray-600"]:hover,
 .sd-page button[class*="bg-gray-600"]:hover,
 .sd-page a[class*="bg-gray-700"]:hover {
-  background-color: rgba(226, 162, 58, 0.12);
-  border-color: var(--sd-amber-hover);
-  color: var(--sd-amber-hover);
+  background-color: rgba(27, 139, 184, 0.14);
+  border-color: var(--sd-cyan);
+  color: #d7eef8;
 }
 
 .sd-page [class*="bg-blue-600/20"] {
@@ -800,7 +861,7 @@ textarea:focus-visible {
 .sd-page [class*="bg-gradient"] {
   background-image: none;
   background-color: var(--sd-ground-deep);
-  border-top: 2px solid var(--sd-amber);
+  border-top: 2px solid var(--sd-cyan-fill);
   color: var(--sd-text);
 }
 
@@ -846,6 +907,14 @@ textarea:focus-visible {
 @media (min-width: 1080px) {
   .sd-dropdown:hover > .sd-dropdown-panel {
     display: block;
+  }
+
+  .sd-dropdown.is-open > .sd-services-panel,
+  .sd-dropdown:hover > .sd-services-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-width: 36rem;
+    column-gap: 1.25rem;
   }
 }
 
@@ -910,12 +979,17 @@ textarea:focus-visible {
   }
 }
 
-@media (max-width: 800px) {
-  .sd-capability-grid,
-  .sd-contact-grid {
-    grid-template-columns: 1fr;
+@media (max-width: 1079px) {
+  .sd-nav-cta {
+    margin: var(--sd-space-sm) 0 0;
+    width: 100%;
   }
+}
 
+@media (max-width: 800px) {
+  .sd-trust ul,
+  .sd-capability-grid,
+  .sd-contact-grid,
   .sd-service-link,
   .sd-person {
     grid-template-columns: 1fr;

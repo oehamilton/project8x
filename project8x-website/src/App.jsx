@@ -25,6 +25,7 @@ function App() {
             <Route path="/CompanyServices" element={<CompanyServices />} />
             <Route path="/platforms" element={<Platforms />} />
             <Route path="/agentforge" element={<AgentForge />} />
+            <Route path="/AgentForge" element={<AgentForge />} />
             <Route path="/work" element={<Work />} />
             <Route path="/about" element={<ExecutiveLeadership />} />
             <Route path="/ContactUs" element={<ContactUs />} />

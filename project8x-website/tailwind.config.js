@@ -5,16 +5,20 @@ export default {
     extend: {
       colors: {
         charcoal: {
-          DEFAULT: "#14171c",
-          deep: "#0e1114",
-          shell: "#0b0e13",
-          frame: "#10151c",
-          surface: "#1c2128",
+          DEFAULT: "#0B1220",
+          deep: "#070d18",
+          shell: "#0B1220",
+          frame: "#0B1220",
+          surface: "#121a2c",
         },
         cyan: {
-          DEFAULT: "#5ed4ea",
-          fill: "#1ec8e0",
-          ink: "#04181c",
+          DEFAULT: "#8ecae6",
+          fill: "#1B8BB8",
+          ink: "#041018",
+        },
+        teal: {
+          DEFAULT: "#156082",
+          bright: "#1B8BB8",
         },
         amber: {
           DEFAULT: "#e2a23a",

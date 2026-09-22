@@ -8,41 +8,53 @@ function renderAt(path) {
 }
 
 describe("Signal Dark information architecture", () => {
-  it("puts delivery CTAs and three capabilities on the home page", () => {
+  it("uses Marketing hero copy, one primary hierarchy, and three pillars", () => {
     renderAt("/");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(
-      screen.getByRole("heading", { name: /enterprise contact centers, delivered/i })
+      screen.getByRole("heading", {
+        name: /contact-center systems that hold under real load/i,
+      })
     ).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^options$/i })).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /talk to an architect/i })).toHaveAttribute(
+    expect(screen.queryByRole("link", { name: /^home$/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /^platforms$/i })).not.toBeInTheDocument();
+
+    const architectLinks = screen.getAllByRole("link", { name: /talk to an architect/i });
+    expect(architectLinks.length).toBeGreaterThan(1);
+    architectLinks.forEach((link) => expect(link).toHaveAttribute("href", "/ContactUs"));
+
+    expect(screen.getByRole("link", { name: /see agentforge/i })).toHaveAttribute(
       "href",
-      "/ContactUs"
+      "/AgentForge"
     );
-    const agentForgeLinks = screen.getAllByRole("link", { name: /see agentforge/i });
-    expect(agentForgeLinks[0]).toHaveAttribute("href", "/agentforge");
-    expect(agentForgeLinks).toHaveLength(2);
-    expect(screen.getAllByRole("article").length).toBeGreaterThan(0);
-    expect(screen.getByRole("heading", { name: /advise, then deliver/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /genesys, avaya, cisco/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /the agent experience/i })).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: /our service offerings/i })).not.toBeInTheDocument();
-  });
-
-  it("keeps existing routes and opens the new destinations", async () => {
-    renderAt("/");
-
-    await userEvent.click(screen.getAllByRole("link", { name: /see agentforge/i })[0]);
     expect(
-      screen.getByRole("heading", { name: /the agent desktop, treated as delivery/i })
+      screen.getByRole("heading", { name: /platforms that fit how you actually run/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/working draft/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /programs that ship/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /agentforge — coordinate the agents/i })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/trusted in production/i)).toBeInTheDocument();
+    expect(screen.queryByText(/comms/i)).not.toBeInTheDocument();
   });
 
-  it("does not invent case-study metrics on Work", () => {
+  it("opens AgentForge from the secondary CTA", async () => {
+    renderAt("/");
+    await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
+    expect(
+      screen.getByRole("heading", { name: /agentforge — coordinate the agents/i })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/event-driven backbone/i)).toBeInTheDocument();
+  });
+
+  it("hides the unpublished CTO and does not invent case-study metrics", () => {
+    renderAt("/about");
+    expect(screen.getByRole("heading", { name: /othell hamilton/i })).toBeInTheDocument();
+    expect(screen.queryByText(/^TBD$/)).not.toBeInTheDocument();
+
+    window.history.pushState({}, "", "/work");
     renderAt("/work");
-    expect(screen.getByRole("heading", { name: /organizations already on the record/i })).toBeInTheDocument();
     expect(screen.getByText(/does not publish written case studies/i)).toBeInTheDocument();
-    expect(screen.queryByText(/%/)).not.toBeInTheDocument();
   });
 });
