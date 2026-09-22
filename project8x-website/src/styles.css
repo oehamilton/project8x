@@ -446,6 +446,7 @@ textarea:focus-visible {
   margin: 0;
   color: var(--sd-text-muted);
   font-size: 0.98rem;
+  line-height: 1.5;
 }
 
 .sd-trust ul {
@@ -460,12 +461,6 @@ textarea:focus-visible {
 .sd-trust li {
   padding-left: 0.85rem;
   border-left: 2px solid var(--sd-cyan-fill);
-}
-
-.sd-trust-names {
-  margin-top: var(--sd-space-md);
-  color: var(--sd-text);
-  letter-spacing: 0.01em;
 }
 
 .sd-band {

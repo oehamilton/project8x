@@ -5,12 +5,12 @@ function AgentForge() {
   return (
     <Page title="AgentForge">
       <p className="sd-kicker">AgentForge</p>
-      <h1 className="sd-h1">AgentForge — coordinate the agents</h1>
+      <h1 className="sd-h1">AgentForge</h1>
       <hr className="sd-rule" />
       <div className="sd-prose">
         <p>
-          An event-driven backbone for autonomous AI agents — tenant isolation,
-          schemas, and a path from pilot to production.
+          Coordinate autonomous AI agents on an event-driven backbone built for
+          real tenants — not a bolt-on chatbot.
         </p>
       </div>
       <div className="sd-actions">

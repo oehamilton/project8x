@@ -29,23 +29,49 @@ describe("Signal Dark information architecture", () => {
       "/AgentForge"
     );
     expect(
-      screen.getByRole("heading", { name: /platforms that fit how you actually run/i })
+      screen.getByText(
+        /Project8X designs, integrates, and stabilizes Genesys, Avaya, and Cisco platforms for Fortune 500 operations — with 35\+ years in the chair\./i
+      )
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /programs that ship/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /agentforge — coordinate the agents/i })
+      screen.getByRole("heading", { name: /delivery that survives cutover/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/trusted in production/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /genesys · avaya · cisco depth/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /architecture, integration, and program leadership for contact-center programs that have to work on day one — and day one hundred\./i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /platform work grounded in how queues, routing, and multi-site ops actually run — not generic it slides\./i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /an event-driven backbone for coordinating autonomous ai agents — isolation, schemas, and a clear path from pilot to production\./i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /35\+ years in contact-center and telecom delivery · fortune 500 programs · genesys · avaya · cisco/i
+      )
+    ).toBeInTheDocument();
     expect(screen.queryByText(/comms/i)).not.toBeInTheDocument();
   });
 
   it("opens AgentForge from the secondary CTA", async () => {
     renderAt("/");
     await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
+    expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /agentforge — coordinate the agents/i })
+      screen.getByText(
+        /coordinate autonomous ai agents on an event-driven backbone built for real tenants — not a bolt-on chatbot\./i
+      )
     ).toBeInTheDocument();
-    expect(screen.getByText(/event-driven backbone/i)).toBeInTheDocument();
   });
 
   it("hides the unpublished CTO and does not invent case-study metrics", () => {

@@ -3,18 +3,18 @@ import Page from "./Page.jsx";
 
 const capabilities = [
   {
-    title: "Platforms that fit how you actually run",
-    text: "Genesys Cloud, Avaya, and Cisco — designed, integrated, and hardened for multi-site ops, not slideware.",
-    to: "/platforms",
-  },
-  {
-    title: "Programs that ship",
-    text: "ACD upgrades, multi-site rollouts, vendor selection, and RFPs led by people who’ve lived the cutover.",
+    title: "Delivery that survives cutover",
+    text: "Architecture, integration, and program leadership for contact-center programs that have to work on day one — and day one hundred.",
     to: "/CompanyServices",
   },
   {
-    title: "AgentForge — coordinate the agents",
-    text: "An event-driven backbone for autonomous AI agents — tenant isolation, schemas, and a path from pilot to production.",
+    title: "Genesys · Avaya · Cisco depth",
+    text: "Platform work grounded in how queues, routing, and multi-site ops actually run — not generic IT slides.",
+    to: "/platforms",
+  },
+  {
+    title: "AgentForge",
+    text: "An event-driven backbone for coordinating autonomous AI agents — isolation, schemas, and a clear path from pilot to production.",
     to: "/AgentForge",
   },
 ];
@@ -27,9 +27,8 @@ function DefaultPage() {
         <h1>Contact-center systems that hold under real load.</h1>
         <hr className="sd-rule" />
         <p className="sd-lede">
-          Project8X designs, integrates, and stabilizes contact-center platforms
-          for Fortune 500 operations — Genesys, Avaya, and Cisco — with 35+ years
-          in the chair.
+          Project8X designs, integrates, and stabilizes Genesys, Avaya, and Cisco
+          platforms for Fortune 500 operations — with 35+ years in the chair.
         </p>
         <div className="sd-actions">
           <Link to="/ContactUs" className="sd-btn sd-btn-primary">
@@ -41,16 +40,10 @@ function DefaultPage() {
         </div>
       </header>
 
-      <section className="sd-trust" aria-label="Trusted in production">
-        <p className="sd-kicker">Trusted in production</p>
-        <ul>
-          <li>35+ years contact-center &amp; telecom delivery</li>
-          <li>Fortune 500 programs (banking, travel, retail, industrial)</li>
-          <li>Genesys · Avaya · Cisco depth</li>
-          <li>Architecture → cutover → stabilize</li>
-        </ul>
-        <p className="sd-trust-names">
-          Bank of America · Expedia · Lockheed Martin · IBM · Disney · IKEA
+      <section className="sd-trust" aria-label="Trust">
+        <p>
+          35+ years in contact-center and telecom delivery · Fortune 500 programs
+          · Genesys · Avaya · Cisco
         </p>
       </section>
 
