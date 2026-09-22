@@ -141,6 +141,60 @@ function Practice() {
   );
 }
 
+function Estate() {
+  const sites = [
+    [96, 92],
+    [210, 70],
+    [330, 104],
+    [150, 196],
+    [292, 214],
+  ];
+  return (
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
+      <rect x="52" y="44" width="376" height="220" rx="14" strokeDasharray="5 6" />
+      <path d="M96 92 L210 70 L330 104 L292 214 L150 196 Z" strokeOpacity="0.8" />
+      {sites.map(([x, y]) => (
+        <g key={`${x}-${y}`}>
+          <rect x={x - 18} y={y - 14} width="36" height="28" rx="4" fill="var(--sd-ground)" />
+          <rect x={x - 10} y={y - 6} width="20" height="12" rx="2" fill="var(--sd-teal)" fillOpacity="0.65" stroke="none" />
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function Sequence() {
+  return (
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
+      <rect x="48" y="118" width="72" height="72" rx="8" />
+      <rect x="188" y="102" width="88" height="88" rx="8" />
+      <rect x="344" y="78" width="96" height="120" rx="8" fill="var(--sd-teal)" fillOpacity="0.28" />
+      <path d="M120 154 H188" stroke="var(--sd-cyan-fill)" strokeWidth="2.5" />
+      <path d="M276 146 H344" stroke="var(--sd-cyan-fill)" strokeWidth="2.5" />
+      <path d="M84 190 V246 H392" strokeDasharray="5 6" />
+      <circle cx="392" cy="246" r="5" fill="var(--sd-teal)" stroke="none" />
+    </g>
+  );
+}
+
+function Stabilize() {
+  return (
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
+      <path
+        d="M240 64 A 96 96 0 1 1 239 64"
+        stroke="var(--sd-cyan-fill)"
+        strokeWidth="2.5"
+      />
+      <path d="M228 58 L240 46 L252 62" stroke="var(--sd-cyan-fill)" strokeWidth="2.5" />
+      <circle cx="240" cy="64" r="6" fill="var(--sd-ground)" />
+      <circle cx="336" cy="160" r="6" fill="var(--sd-ground)" />
+      <circle cx="240" cy="256" r="6" fill="var(--sd-teal)" stroke="none" />
+      <circle cx="144" cy="160" r="6" fill="var(--sd-ground)" />
+      <path d="M120 286 H360" strokeDasharray="4 6" />
+    </g>
+  );
+}
+
 function Contact() {
   return (
     <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
@@ -166,6 +220,9 @@ const scenes = {
   sites: Sites,
   practice: Practice,
   contact: Contact,
+  estate: Estate,
+  sequence: Sequence,
+  stabilize: Stabilize,
 };
 
 function SignalFigure({ variant = "topology" }) {

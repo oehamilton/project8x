@@ -151,23 +151,37 @@ describe("Signal Dark information architecture", () => {
     await userEvent.click(screen.getByRole("button", { name: /services/i }));
     await userEvent.click(screen.getByRole("link", { name: "Platform migrations" }));
     expect(
-      screen.getByRole("heading", { name: /^platform migrations$/i })
+      screen.getByRole("heading", { name: /platform migrations that hold on day one/i })
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /moving contact-center platforms without losing the floor — cutover discipline across genesys, avaya, cisco, and amazon connect/i
+        /contact-center platform moves across genesys, avaya, cisco, amazon connect, and verint-adjacent estates — multi-site, cutover-disciplined, built to stabilize/i
       )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /architecture, sequencing, and day-one operations when the estate changes platforms — multi-site, routing, and the systems that have to move with voice and digital/i
+        /map queues, routing, integrations, and site reality before the move — so scope matches the floor, not the slide deck/i
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/verint stays in that cutover when workforce engagement and analytics/i)
+      screen.getByText(
+        /sequence the migration for multi-site ops: what moves when, what fails closed, and who owns the night of/i
+      )
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /hypercare after go-live — fix what only shows under load, then hand back a platform that stays runnable/i
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /see platforms/i })).toHaveAttribute(
+      "href",
+      "/platforms"
+    );
+    screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
+      expect(link).toHaveAttribute("href", "/ContactUs");
+    });
     expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
-    expect(document.querySelector("svg.sd-figure")).toBeTruthy();
+    expect(document.querySelectorAll("svg.sd-figure")).toHaveLength(3);
   });
 
   it("draws a signal figure on the major pages", () => {

@@ -2,33 +2,54 @@ import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
 import SignalFigure from "./SignalFigure.jsx";
 
+const steps = [
+  {
+    title: "Assess",
+    body: "Map queues, routing, integrations, and site reality before the move — so scope matches the floor, not the slide deck.",
+    figure: "estate",
+  },
+  {
+    title: "Cutover",
+    body: "Sequence the migration for multi-site ops: what moves when, what fails closed, and who owns the night of.",
+    figure: "sequence",
+  },
+  {
+    title: "Stabilize",
+    body: "Hypercare after go-live — fix what only shows under load, then hand back a platform that stays runnable.",
+    figure: "stabilize",
+  },
+];
+
 function PlatformMigrations() {
   return (
     <Page title="Platform migrations">
-      <header className="sd-page-head">
-        <div>
-          <p className="sd-kicker">Services</p>
-          <h1 className="sd-h1">Platform migrations</h1>
-          <hr className="sd-rule" />
-          <p className="sd-lede">
-            Moving contact-center platforms without losing the floor — cutover discipline across Genesys, Avaya, Cisco, and Amazon Connect.
-          </p>
-          <div className="sd-prose">
-            <p>
-              Architecture, sequencing, and day-one operations when the estate changes platforms — multi-site, routing, and the systems that have to move with voice and digital.
-            </p>
-            <p>
-              Verint stays in that cutover when workforce engagement and analytics have to move with the platform.
-            </p>
-          </div>
-          <div className="sd-actions">
-            <Link to="/ContactUs" className="sd-btn sd-btn-primary">
-              Talk to an architect
-            </Link>
-          </div>
-        </div>
-        <SignalFigure variant="migration" />
-      </header>
+      <p className="sd-kicker">Services</p>
+      <h1 className="sd-h1 sd-h1-migrations">Platform migrations that hold on day one.</h1>
+      <hr className="sd-rule" />
+      <p className="sd-lede">
+        Contact-center platform moves across Genesys, Avaya, Cisco, Amazon Connect, and Verint-adjacent estates — multi-site, cutover-disciplined, built to stabilize.
+      </p>
+
+      <ol className="sd-migration-steps">
+        {steps.map((step) => (
+          <li className="sd-migration-step" key={step.title}>
+            <SignalFigure variant={step.figure} />
+            <div>
+              <h2>{step.title}</h2>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div className="sd-actions">
+        <Link to="/ContactUs" className="sd-btn sd-btn-primary">
+          Talk to an architect
+        </Link>
+        <Link to="/platforms" className="sd-btn sd-btn-secondary">
+          See platforms
+        </Link>
+      </div>
     </Page>
   );
 }

@@ -414,6 +414,41 @@ textarea:focus-visible {
   font-size: clamp(1.85rem, 3.2vw, 2.55rem);
 }
 
+.sd-h1-migrations {
+  max-width: 16em;
+}
+
+.sd-migration-steps {
+  list-style: none;
+  margin: var(--sd-space-xl) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sd-space-md);
+}
+
+.sd-migration-step {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.72fr) minmax(0, 1.15fr);
+  gap: var(--sd-space-lg);
+  align-items: center;
+  margin: 0;
+  padding: var(--sd-space-md);
+  background: var(--sd-ground);
+  border: 1px solid rgba(21, 96, 130, 0.72);
+  border-radius: var(--sd-radius-card);
+}
+
+.sd-migration-step h2 {
+  margin: 0 0 var(--sd-space-xs);
+  font-size: 1.35rem;
+}
+
+.sd-migration-step p {
+  margin: 0;
+  max-width: 40rem;
+  color: var(--sd-text-muted);
+}
+
 .sd-platform-close {
   margin-top: var(--sd-space-lg);
 }
@@ -1230,6 +1265,7 @@ textarea:focus-visible {
 @media (max-width: 800px) {
   .sd-hero,
   .sd-page-head,
+  .sd-migration-step,
   .sd-trust ul,
   .sd-capability-grid,
   .sd-contact-grid,
