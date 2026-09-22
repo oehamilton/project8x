@@ -339,6 +339,19 @@ textarea:focus-visible {
   width: min(46rem, calc(100% - 2 * var(--sd-space-md)));
 }
 
+.sd-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.9fr);
+  gap: var(--sd-space-lg);
+  align-items: center;
+}
+
+.sd-hero-visual {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .sd-hero-mark {
   display: block;
   height: 3.25rem;
@@ -381,6 +394,10 @@ textarea:focus-visible {
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1.04;
+}
+
+.sd-h1-platforms {
+  max-width: 28ch;
 }
 
 .sd-lede {
@@ -489,13 +506,39 @@ textarea:focus-visible {
 }
 
 .sd-trust {
-  margin-top: var(--sd-space-2xl);
-  padding: 1.15rem 0;
-  border: 0;
-  border-top: 1px solid var(--sd-line);
-  border-bottom: 1px solid var(--sd-line);
-  border-radius: 0;
-  background: transparent;
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--sd-space-xl);
+  padding: var(--sd-space-md) var(--sd-space-md);
+  border: 1px solid rgba(21, 96, 130, 0.72);
+  border-radius: var(--sd-radius-card);
+  background: var(--sd-ground);
+}
+
+.sd-trust-trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.sd-trust-copy {
+  position: relative;
+}
+
+.sd-trust-line {
+  max-width: 46rem;
+  color: var(--sd-text);
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.sd-trust-names {
+  margin-top: var(--sd-space-md);
+  color: var(--sd-text);
+  letter-spacing: 0.01em;
 }
 
 .sd-trust p,
@@ -570,7 +613,7 @@ textarea:focus-visible {
 
 .sd-capability {
   display: grid;
-  grid-template-columns: 2.25rem minmax(12rem, 17rem) minmax(0, 34rem);
+  grid-template-columns: 2.75rem minmax(12rem, 17rem) minmax(0, 34rem);
   column-gap: 1.75rem;
   align-items: baseline;
   margin: 0;
@@ -581,12 +624,11 @@ textarea:focus-visible {
   border-radius: 0;
 }
 
-.sd-capability-index {
-  color: var(--sd-teal);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  font-variant-numeric: tabular-nums;
+.sd-mark {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0;
 }
 
 .sd-page h1.sd-h1-wide {
@@ -597,9 +639,6 @@ textarea:focus-visible {
   margin: 0 0 var(--sd-space-sm);
   color: var(--sd-text);
   font-weight: 700;
-}
-
-.sd-draft {
   padding: 0.75rem 1rem;
   border: 1px solid var(--sd-cyan-fill);
   border-radius: var(--sd-radius);
@@ -1171,6 +1210,7 @@ textarea:focus-visible {
 }
 
 @media (max-width: 800px) {
+  .sd-hero,
   .sd-trust ul,
   .sd-capability-grid,
   .sd-contact-grid,

@@ -18,6 +18,16 @@ const platformSections = [
     title: "Cisco",
     body: "Cisco contact center work, including Cisco ICM, covers integration with the wider stack and the cutover planning that goes with it.",
   },
+  {
+    id: "amazon-connect",
+    title: "Amazon Connect",
+    body: "Cloud contact center on AWS — designed, integrated, and stood up for the operations you already run.",
+  },
+  {
+    id: "verint",
+    title: "Verint",
+    body: "Workforce and customer engagement platforms — integrated with the contact-center estate rather than bolted on beside it.",
+  },
 ];
 
 function Platforms() {
@@ -32,12 +42,14 @@ function Platforms() {
   return (
     <Page title="Platforms">
       <p className="sd-kicker">Platforms</p>
-      <h1 className="sd-h1">Genesys, Avaya, and Cisco.</h1>
+      <h1 className="sd-h1 sd-h1-platforms">
+        Genesys · Avaya · Cisco · Amazon&nbsp;Connect · Verint.
+      </h1>
       <hr className="sd-rule" />
       <p className="sd-lede">
         Project8X integrates contact center platforms with the infrastructure
-        already running. Related delivery work has also included AWS Connect,
-        Google Dialogflow, and Verint.
+        already running. Related delivery work has also included Google
+        Dialogflow.
       </p>
 
       {platformSections.map((platform) => (

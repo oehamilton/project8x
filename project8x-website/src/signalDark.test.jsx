@@ -9,7 +9,7 @@ function renderAt(path) {
 }
 
 describe("Signal Dark information architecture", () => {
-  it("uses Marketing hero copy, one primary hierarchy, and three pillars", () => {
+  it("uses Marketing hero copy, one primary hierarchy, and three pillars", async () => {
     renderAt("/");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(
@@ -33,14 +33,37 @@ describe("Signal Dark information architecture", () => {
     );
     expect(
       screen.getByText(
-        "Project8X designs, integrates, and stabilizes Genesys, Avaya, and Cisco platforms for Fortune 500 operations — with 35+ years in the chair."
+        /genesys, avaya, cisco, amazon connect, and verint — with 35\+ years in the chair/i
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /^consulting & delivery$/i })
+      screen.getByRole("img", { name: /holding steady under load/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /^genesys · avaya · cisco$/i })
+      screen.getByRole("heading", { name: /^contact-center platforms$/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /genesys, avaya, cisco, amazon connect, and verint — architecture and integration grounded in how the floor and the stack actually run/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /35\+ years in contact-center and telecom delivery · fortune 500 programs · genesys · avaya · cisco · amazon connect · verint/i
+      )
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /services/i }));
+    expect(screen.getByRole("link", { name: "Amazon Connect" })).toHaveAttribute(
+      "href",
+      "/platforms#amazon-connect"
+    );
+    expect(screen.getByRole("link", { name: "Verint" })).toHaveAttribute(
+      "href",
+      "/platforms#verint"
+    );
+    expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /^consulting & delivery$/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
     expect(
@@ -49,10 +72,8 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        "Platform depth grounded in queues, routing, and multi-site ops — not generic IT slides."
-      )
-    ).toBeInTheDocument();
+      screen.queryByRole("heading", { name: /^genesys · avaya · cisco$/i })
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText(
         "An AgenticAI backbone for agent communication and governance — isolation, schemas, and control from pilot to production."
@@ -68,10 +89,10 @@ describe("Signal Dark information architecture", () => {
     expect(screen.queryByText(/kafka/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/event-driven/i)).not.toBeInTheDocument();
     expect(
-      screen.getByText(
+      screen.queryByText(
         "35+ years in contact-center and telecom delivery · Fortune 500 programs · Genesys · Avaya · Cisco"
       )
-    ).toBeInTheDocument();
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Need an architect on the next cutover?" })
     ).toBeInTheDocument();
@@ -81,6 +102,23 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(screen.queryByText(/comms/i)).not.toBeInTheDocument();
+  });
+
+  it("lists Amazon Connect and Verint as contact-center platforms", () => {
+    renderAt("/platforms");
+    expect(
+      screen.getByRole("heading", { name: /^amazon connect$/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^verint$/i })).toBeInTheDocument();
+    expect(screen.getByText(/cloud contact center on aws/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/workforce and customer engagement platforms/i)
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /talk to an architect/i }).length).toBeGreaterThan(0);
+    screen.getAllByRole("link", { name: /talk to an architect/i }).forEach((link) => {
+      expect(link).toHaveAttribute("href", "/ContactUs");
+    });
   });
 
   it("opens AgentForge from the secondary CTA", async () => {

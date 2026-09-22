@@ -2,11 +2,13 @@ export const serviceGroups = [
   {
     id: "platforms",
     label: "Platforms",
-    summary: "Genesys Cloud, Avaya, and Cisco.",
+    summary: "Genesys Cloud · Avaya · Cisco · Amazon Connect · Verint.",
     items: [
       { title: "Genesys Cloud", description: "Designed, integrated, and hardened for multi-site operations.", to: "/platforms#genesys" },
       { title: "Avaya", description: "Upgrades and multi-site rollouts that keep voice coherent.", to: "/platforms#avaya" },
       { title: "Cisco", description: "Cisco contact center work, including Cisco ICM.", to: "/platforms#cisco" },
+      { title: "Amazon Connect", description: "Cloud contact center on AWS — designed, integrated, and stood up for the operations you already run.", to: "/platforms#amazon-connect" },
+      { title: "Verint", description: "Workforce and customer engagement platforms — integrated with the contact-center estate rather than bolted on beside it.", to: "/platforms#verint" },
     ],
   },
   {
@@ -21,7 +23,7 @@ export const serviceGroups = [
       },
       {
         title: "System Integration and Deployment",
-        description: "Genesys, Avaya, Cisco, and the systems they have to live with.",
+        description: "Genesys, Avaya, Cisco, Amazon Connect, Verint, and the systems they have to live with.",
         to: "/service/system-integration-deployment",
       },
       {
