@@ -346,12 +346,6 @@ textarea:focus-visible {
   align-items: center;
 }
 
-.sd-hero-visual {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .sd-page-head {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(14rem, 0.8fr);
@@ -359,10 +353,16 @@ textarea:focus-visible {
   align-items: center;
 }
 
-.sd-figure {
+.sd-figure,
+.sd-hero-visual {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 16px;
+  background: #0b1220;
+  box-shadow:
+    0 0 0 1px #156082,
+    0 18px 42px rgba(0, 0, 0, 0.35);
 }
 
 .sd-hero-mark {

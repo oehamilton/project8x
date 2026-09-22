@@ -11,11 +11,14 @@ function PlatformMigrations() {
           <h1 className="sd-h1">Platform migrations</h1>
           <hr className="sd-rule" />
           <p className="sd-lede">
-            Moving between contact-center platforms without losing the floor.
+            Moving contact-center platforms without losing the floor — cutover discipline across Genesys, Avaya, Cisco, and Amazon Connect.
           </p>
           <div className="sd-prose">
             <p>
-              Migrations across Genesys, Avaya, Cisco, and Amazon Connect — architecture, parallel run, and cutover discipline so queues, routing, and reporting hold on day one.
+              Architecture, sequencing, and day-one operations when the estate changes platforms — multi-site, routing, and the systems that have to move with voice and digital.
+            </p>
+            <p>
+              Verint stays in that cutover when workforce engagement and analytics have to move with the platform.
             </p>
           </div>
           <div className="sd-actions">

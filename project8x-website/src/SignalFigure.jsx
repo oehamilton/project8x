@@ -13,9 +13,9 @@ function Frame({ glowId, children }) {
         rx="15"
         fill="none"
         stroke="var(--sd-teal)"
-        strokeOpacity="0.85"
+        strokeWidth="2"
       />
-      <g stroke="var(--sd-teal)" strokeOpacity="0.16">
+      <g stroke="var(--sd-teal)" strokeOpacity="0.34">
         {Array.from({ length: 8 }, (_, index) => (
           <line key={`v-${index}`} x1={36 + index * 58} y1="22" x2={36 + index * 58} y2="298" />
         ))}
@@ -37,7 +37,7 @@ function Topology() {
     [416, 86],
   ];
   return (
-    <g stroke="var(--sd-teal)" fill="none">
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
       <path d="M80 78 H416" strokeOpacity="0.45" />
       {nodes.map(([x, y]) => (
         <circle key={`${x}-${y}`} cx={x} cy={y} r="7" fill="var(--sd-ground)" strokeWidth="1.5" />
@@ -57,7 +57,7 @@ function Topology() {
 
 function Migration() {
   return (
-    <g stroke="var(--sd-teal)" fill="none">
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
       <rect x="48" y="78" width="120" height="164" rx="10" />
       <rect x="312" y="78" width="120" height="164" rx="10" />
       <rect x="64" y="168" width="88" height="58" rx="3" fill="var(--sd-teal)" fillOpacity="0.4" stroke="none" />
@@ -82,7 +82,7 @@ function Agents() {
     [312, 236],
   ];
   return (
-    <g stroke="var(--sd-teal)" fill="none">
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
       <circle cx="240" cy="160" r="28" fill="var(--sd-ground)" strokeWidth="1.5" />
       <circle cx="240" cy="160" r="6" fill="var(--sd-teal)" stroke="none" />
       {satellites.map(([x, y]) => (
@@ -105,7 +105,7 @@ function Sites() {
     [270, 236],
   ];
   return (
-    <g stroke="var(--sd-teal)" fill="none">
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
       <path d="M86 86 L210 64 L330 108 L400 196" />
       <path d="M210 64 L150 210 L270 236 L400 196" strokeOpacity="0.7" />
       <path d="M86 86 L150 210" strokeDasharray="4 6" />
@@ -121,7 +121,7 @@ function Sites() {
 
 function Practice() {
   return (
-    <g stroke="var(--sd-teal)" fill="none">
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
       <path d="M48 72 H432" strokeDasharray="4 7" />
       <path
         d="M48 150 C 100 150, 120 96, 176 104 S 250 176, 310 132 S 390 96, 432 120"
@@ -143,7 +143,7 @@ function Practice() {
 
 function Contact() {
   return (
-    <g stroke="var(--sd-teal)" fill="none">
+    <g stroke="var(--sd-teal)" strokeWidth="1.75" fill="none">
       <circle cx="92" cy="160" r="18" fill="var(--sd-ground)" strokeWidth="1.5" />
       <circle cx="92" cy="160" r="4" fill="var(--sd-teal)" stroke="none" />
       <path

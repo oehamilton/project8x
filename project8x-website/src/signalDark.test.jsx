@@ -154,12 +154,17 @@ describe("Signal Dark information architecture", () => {
       screen.getByRole("heading", { name: /^platform migrations$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/moving between contact-center platforms without losing the floor/i)
+      screen.getByText(
+        /moving contact-center platforms without losing the floor — cutover discipline across genesys, avaya, cisco, and amazon connect/i
+      )
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /migrations across genesys, avaya, cisco, and amazon connect — architecture, parallel run, and cutover discipline so queues, routing, and reporting hold on day one/i
+        /architecture, sequencing, and day-one operations when the estate changes platforms — multi-site, routing, and the systems that have to move with voice and digital/i
       )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/verint stays in that cutover when workforce engagement and analytics/i)
     ).toBeInTheDocument();
     expect(screen.queryByText(/aws connect/i)).not.toBeInTheDocument();
     expect(document.querySelector("svg.sd-figure")).toBeTruthy();

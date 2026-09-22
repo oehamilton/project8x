@@ -11,7 +11,7 @@ export const serviceGroups = [
       { title: "Verint", description: "Workforce and customer engagement platforms — integrated with the contact-center estate rather than bolted on beside it.", to: "/platforms#verint" },
       {
         title: "Platform migrations",
-        description: "Moving between contact-center platforms without losing the floor.",
+        description: "Moving contact-center platforms without losing the floor — cutover discipline across Genesys, Avaya, Cisco, and Amazon Connect.",
         to: "/platform-migrations",
       },
     ],
