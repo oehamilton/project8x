@@ -57,8 +57,9 @@ describe("Signal Dark information architecture", () => {
       )
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText(/agenticai backbone for agent communication and governance\./i).length
-    ).toBeGreaterThan(0);
+      screen.queryByText(/^agenticai backbone for agent communication and governance\.$/i)
+    ).not.toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(3);
     expect(screen.queryByText(/agent desktop/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/agent experience/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/workspace/i)).not.toBeInTheDocument();

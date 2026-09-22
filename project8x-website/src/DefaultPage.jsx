@@ -38,9 +38,6 @@ function DefaultPage() {
             See AgentForge
           </Link>
         </div>
-        <p className="sd-teaser">
-          AgenticAI backbone for agent communication and governance.
-        </p>
       </header>
 
       <section className="sd-trust" aria-label="Trust">

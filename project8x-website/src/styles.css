@@ -544,17 +544,6 @@ textarea:focus-visible {
   max-width: 18em;
 }
 
-.sd-teaser {
-  max-width: var(--sd-measure);
-  margin: var(--sd-space-md) 0 0;
-  color: var(--sd-text-muted);
-  font-size: 0.95rem;
-}
-
-.sd-nav-teaser {
-  display: none;
-}
-
 .sd-draft {
   margin: 0 0 var(--sd-space-sm);
   color: var(--sd-text);
@@ -1102,24 +1091,6 @@ textarea:focus-visible {
   .sd-nav-link.is-active {
     box-shadow: none;
     color: var(--sd-text);
-  }
-
-  .sd-nav-link {
-    flex-wrap: wrap;
-    align-items: flex-start;
-    padding-top: 0.65rem;
-    padding-bottom: 0.65rem;
-  }
-
-  .sd-nav-teaser {
-    display: block;
-    flex-basis: 100%;
-    margin-top: 0.2rem;
-    color: var(--sd-text-muted);
-    font-size: 0.8rem;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.35;
   }
 
   .sd-menu-link,
