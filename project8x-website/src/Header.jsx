@@ -1,99 +1,178 @@
-import React from "react";
-import { FaRocket, FaBars } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useEffect, useId, useRef, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { serviceGroups } from "./siteContent.js";
 
-function Header({ toggleSidebar, isSidebarOpen }) {
+function Header() {
+  const [openMenu, setOpenMenu] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navRef = useRef(null);
+  const servicesId = useId();
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpenMenu(null);
+    setMobileOpen(false);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    const onKey = (event) => {
+      if (event.key === "Escape") {
+        setOpenMenu(null);
+        setMobileOpen(false);
+      }
+    };
+    const onPointer = (event) => {
+      if (!navRef.current?.contains(event.target)) {
+        setOpenMenu(null);
+        setMobileOpen(false);
+        if (navRef.current?.contains(document.activeElement)) {
+          document.activeElement.blur();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onPointer);
+    };
+  }, []);
+
+  const servicesActive =
+    location.pathname === "/CompanyServices" ||
+    location.pathname === "/platforms" ||
+    location.pathname.startsWith("/service/");
+
+  const menuPress = useRef({});
+
+  const onMenuPointerDown = (name) => {
+    menuPress.current[name] = openMenu === name;
+  };
+
+  const onMenuClick = (name) => {
+    setOpenMenu(menuPress.current[name] ? null : name);
+  };
+
+  const onDesktopEnter = (name) => {
+    if (window.matchMedia("(min-width: 1080px)").matches) {
+      setOpenMenu(name);
+    }
+  };
+
+  const onDesktopLeave = (name, dropdown) => {
+    if (!window.matchMedia("(min-width: 1080px)").matches) return;
+    if (dropdown?.contains(document.activeElement)) return;
+    setOpenMenu((current) => (current === name ? null : current));
+  };
+
+  const closeIfFocusLeft = (name, event) => {
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    setOpenMenu((current) => (current === name ? null : current));
+  };
+
   return (
-    <header className="bg-gray-950/80 backdrop-blur-sm text-white flex items-center justify-between px-2 sm:px-4 py-2 border border-gray-300 rounded-lg shadow-md relative z-40">
-      <div className="flex items-center">
-        <img
-          src="/Project8Xwt_tr.png"
-          alt="Project8X Logo"
-          className="w-91 h-8 sm:w-63 sm:h-7 mr-1 sm:mr-2"
-        />
-
-        <span className="text-sm sm:text-lg font-bold text-gray-100 drop-shadow-lg"></span>
+    <header className="sd-header" ref={navRef}>
+      <a className="sd-skip" href="#main">
+        Skip to content
+      </a>
+      <NavLink to="/" className="sd-brand" aria-label="Project8X home">
+        <img src="/Project8Xwt_tr.png" alt="" />
+      </NavLink>
+      <nav className="sd-nav" aria-label="Primary">
         <button
-          onClick={toggleSidebar}
-          className="ml-2 text-gray-200 hover:text-gray-50 focus:outline-none"
-          aria-label="Toggle Navigation"
+          type="button"
+          className="sd-menu-toggle"
+          aria-expanded={mobileOpen}
+          aria-controls="site-menu"
+          onClick={() => setMobileOpen((open) => !open)}
         >
-          <FaBars className="text-xl" />
+          {mobileOpen ? "Close" : "Menu"}
         </button>
-        {/* Dropdown Menu (Bubble Overlay) */}
-        {isSidebarOpen && (
-          <div className="absolute left-0 top-full mt-2 w-64 bg-gray-800/90 backdrop-blur-sm text-white rounded-lg shadow-lg animate-slide-down z-50">
-            <ul className="p-2">
-              <li>
-                <Link
-                  to="/CompanyServices"
-                  className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
-                  onClick={toggleSidebar}
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/Products"
-                  className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
-                  onClick={toggleSidebar}
-                >
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/ExecutiveLeadership"
-                  className="block px-4 py-2 hover:bg-gray-700 rounded transition-colors"
-                  onClick={toggleSidebar}
-                >
-                  Executive Leadership
-                </Link>
-              </li>
-            </ul>
+        <div
+          id="site-menu"
+          className={mobileOpen ? "sd-nav-panel is-open" : "sd-nav-panel"}
+        >
+          <div
+            className={
+              openMenu === "services" ? "sd-dropdown is-open" : "sd-dropdown"
+            }
+            onMouseEnter={() => onDesktopEnter("services")}
+            onMouseLeave={(event) => onDesktopLeave("services", event.currentTarget)}
+            onFocusCapture={() => setOpenMenu("services")}
+            onBlurCapture={(event) => closeIfFocusLeft("services", event)}
+          >
+            <button
+              type="button"
+              aria-expanded={openMenu === "services" || mobileOpen}
+              aria-controls={servicesId}
+              className={servicesActive ? "is-active" : undefined}
+              onMouseDown={() => onMenuPointerDown("services")}
+              onClick={() => onMenuClick("services")}
+            >
+              Services
+              <span className="sd-caret" aria-hidden="true" />
+            </button>
+            <div id={servicesId} className="sd-dropdown-panel sd-services-panel" role="group" aria-label="Services">
+              {serviceGroups.map((group) => (
+                <div key={group.id}>
+                  <p className="sd-menu-label">{group.label}</p>
+                  {group.items.map((item) => (
+                    <NavLink key={item.to} to={item.to} className="sd-menu-link">
+                      {item.title}
+                    </NavLink>
+                  ))}
+                </div>
+              ))}
+              <NavLink to="/CompanyServices" className="sd-menu-all">
+                All services
+              </NavLink>
+            </div>
           </div>
-        )}
-      </div>
-      <nav className="flex space-x-2 sm:space-x-4">
-        <Link
-          to="/"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base drop-shadow-md"
-        >
-          Home
-        </Link>
-        <Link
-          to="/ContactUs"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base drop-shadow-md"
-        >
-          Contact Us
-        </Link>
-        <a
-          href="#"
-          className="hover:text-gray-200 transition-colors text-sm sm:text-base drop-shadow-md"
-        >
-          Options
-        </a>
+
+          <NavLink
+            to="/AgentForge"
+            className={() =>
+              location.pathname.toLowerCase() === "/agentforge"
+                ? "sd-nav-link is-active"
+                : "sd-nav-link"
+            }
+          >
+            AgentForge
+          </NavLink>
+          <NavLink
+            to="/work"
+            className={({ isActive }) =>
+              isActive ? "sd-nav-link is-active" : "sd-nav-link"
+            }
+          >
+            Work
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={() =>
+              location.pathname === "/about" ||
+              location.pathname === "/ExecutiveLeadership"
+                ? "sd-nav-link is-active"
+                : "sd-nav-link"
+            }
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/ContactUs"
+            className={({ isActive }) =>
+              isActive ? "sd-nav-link is-active" : "sd-nav-link"
+            }
+          >
+            Contact
+          </NavLink>
+          <NavLink to="/ContactUs" className="sd-btn sd-btn-primary sd-nav-cta">
+            Talk to an architect
+          </NavLink>
+        </div>
       </nav>
     </header>
   );
 }
-
-// Animation for dropdown
-const styles = `
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .animate-slide-down {
-    animation: slideDown 0.3s ease-out;
-  }
-`;
 
 export default Header;

@@ -8,7 +8,7 @@ describe('public navigation', () => {
   it('does not link to /admin', () => {
     render(
       <MemoryRouter>
-        <Header toggleSidebar={() => {}} isSidebarOpen />
+        <Header />
       </MemoryRouter>
     );
     const links = screen.getAllByRole('link');

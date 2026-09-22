@@ -1,13 +1,17 @@
-import React, { Suspense, useState, lazy } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 import DefaultPage from "./DefaultPage.jsx";
 import Products from "./Products.jsx";
 import ContactUs from "./ContactUs.jsx";
 import CompanyServices from "./CompanyServices.jsx";
 import ExecutiveLeadership from "./ExecutiveLeadership.jsx";
 import ServiceDetail from "./ServiceDetail.jsx";
-import "./App.css"; // Import the CSS file
+import Platforms from "./Platforms.jsx";
+import AgentForge from "./AgentForge.jsx";
+import Work from "./Work.jsx";
+import "./App.css";
 
 const AdminDemo = lazy(() => import("./admin/AdminDemo.jsx"));
 
@@ -20,41 +24,30 @@ function AdminRoute() {
 }
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
     <Router>
-      <div className="h-screen bg-gray-900 p-2 sm:p-4 flex flex-col gap-2 sm:gap-4 overflow-hidden relative" 
-           style={{
-             backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2025&q=80")',
-             backgroundSize: 'cover',
-             backgroundPosition: 'center',
-             backgroundRepeat: 'no-repeat',
-             backgroundAttachment: 'fixed'
-           }}>
-        {/* Top Pane: Header with Navigation Toggle bg-gray-900 p-6 text-gray-200 shadow-inner*/}
-        <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
-
-        {/* Main Content: Full-width Main Pane */}
-        <main className="flex-1 bg-gray-900/50 backdrop-blur-sm border rounded-lg shadow-md overflow-y-auto custom-scrollbar relative z-10">
+      <div className="sd-shell">
+        <Header />
+        <div className="sd-frame">
+        <main id="main" className="sd-main">
           <Routes>
             <Route path="/" element={<DefaultPage />} />
             <Route path="/Products" element={<Products />} />
             <Route path="/CompanyServices" element={<CompanyServices />} />
+            <Route path="/platforms" element={<Platforms />} />
+            <Route path="/agentforge" element={<AgentForge />} />
+            <Route path="/AgentForge" element={<AgentForge />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/about" element={<ExecutiveLeadership />} />
             <Route path="/ContactUs" element={<ContactUs />} />
-            <Route
-              path="/ExecutiveLeadership"
-              element={<ExecutiveLeadership />}
-            />
+            <Route path="/ExecutiveLeadership" element={<ExecutiveLeadership />} />
             <Route path="/service/:serviceId" element={<ServiceDetail />} />
             <Route path="/admin" element={<AdminRoute />} />
             <Route path="/admin/" element={<AdminRoute />} />
           </Routes>
         </main>
+        <Footer />
+        </div>
       </div>
     </Router>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaHeadset, FaCogs, FaChartLine, FaRocket, FaPhone, FaFileAlt, FaComments, FaDatabase, FaCode } from "react-icons/fa";
 
@@ -791,9 +791,15 @@ function ServiceDetail() {
   const navigate = useNavigate();
   const service = serviceDetails[serviceId];
 
+  useEffect(() => {
+    document.title = service
+      ? `${service.title} · Project8X`
+      : "Service · Project8X";
+  }, [service]);
+
   if (!service) {
     return (
-      <div className="bg-transparent p-6 text-gray-200">
+      <div className="sd-page">
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-4 text-gray-200 drop-shadow-lg">Service Not Found</h2>
           <p className="text-gray-300 drop-shadow-md mb-6">The requested service could not be found.</p>
@@ -809,7 +815,7 @@ function ServiceDetail() {
   }
 
   return (
-    <div className="bg-transparent p-6 text-gray-200 shadow-inner">
+    <div className="sd-page">
       {/* Header with Back Button */}
       <div className="mb-8">
         <button
