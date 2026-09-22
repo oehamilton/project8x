@@ -1,65 +1,21 @@
-.App {
-  text-align: center;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  color: #333;
-}
-
-form {
-  margin: 20px 0;
-}
-
-input[type="file"] {
-  margin-right: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #090a0a;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #013369;
-}
-
-h2 {
-  color: #555;
-}
-
-p {
-  font-size: 1.1em;
-  margin: 5px 0;
-}
-
-/* Custom scrollbar styling for the main element */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 12px; /* Width of the vertical scrollbar */
+  width: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #000000; /* Black scrollbar track */
+  background: #0e1114;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #ff0000; /* Red thumb */
-  border-radius: 6px; /* Rounded edges for the thumb */
-  min-height: 20px; /* Minimum height for usability */
-  max-height: 30px; /* Limit thumb height to 10% of the scrollbar track */
+  background: #3a424c;
+  border-radius: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #cc0000; /* Slightly darker red on hover */
+  background: #5ed4ea;
 }
 
-/* Firefox scrollbar support */
 .custom-scrollbar {
-  scrollbar-color: #ff0000 #000000; /* Red thumb, black track */
-  scrollbar-width: thin; /* Thin scrollbar for consistency */
+  scrollbar-color: #3a424c #0e1114;
+  scrollbar-width: thin;
 }
