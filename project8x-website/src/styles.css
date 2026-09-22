@@ -65,6 +65,15 @@ textarea:focus-visible {
   outline-offset: 3px;
 }
 
+.sd-btn:focus-visible,
+.sd-menu-toggle:focus-visible,
+.sd-nav-link:focus-visible,
+.sd-dropdown > button:focus-visible {
+  outline: 2px solid var(--sd-cyan);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1px var(--sd-ground);
+}
+
 .sd-skip {
   position: absolute;
   left: var(--sd-space-sm);
@@ -202,8 +211,7 @@ textarea:focus-visible {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
 }
 
-.sd-dropdown.is-open > .sd-dropdown-panel,
-.sd-dropdown:focus-within > .sd-dropdown-panel {
+.sd-dropdown.is-open > .sd-dropdown-panel {
   display: block;
 }
 

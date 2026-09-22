@@ -26,6 +26,9 @@ function Header() {
       if (!navRef.current?.contains(event.target)) {
         setOpenMenu(null);
         setMobileOpen(false);
+        if (navRef.current?.contains(document.activeElement)) {
+          document.activeElement.blur();
+        }
       }
     };
     document.addEventListener("keydown", onKey);
@@ -41,8 +44,14 @@ function Header() {
     location.pathname.startsWith("/service/");
   const platformsActive = location.pathname === "/platforms";
 
-  const toggle = (name) => {
-    setOpenMenu((current) => (current === name ? null : name));
+  const menuPress = useRef({});
+
+  const onMenuPointerDown = (name) => {
+    menuPress.current[name] = openMenu === name;
+  };
+
+  const onMenuClick = (name) => {
+    setOpenMenu(menuPress.current[name] ? null : name);
   };
 
   const onDesktopEnter = (name) => {
@@ -51,10 +60,15 @@ function Header() {
     }
   };
 
-  const onDesktopLeave = (name) => {
-    if (window.matchMedia("(min-width: 1080px)").matches) {
-      setOpenMenu((current) => (current === name ? null : current));
-    }
+  const onDesktopLeave = (name, dropdown) => {
+    if (!window.matchMedia("(min-width: 1080px)").matches) return;
+    if (dropdown?.contains(document.activeElement)) return;
+    setOpenMenu((current) => (current === name ? null : current));
+  };
+
+  const closeIfFocusLeft = (name, event) => {
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    setOpenMenu((current) => (current === name ? null : current));
   };
 
   return (
@@ -84,14 +98,17 @@ function Header() {
               openMenu === "services" ? "sd-dropdown is-open" : "sd-dropdown"
             }
             onMouseEnter={() => onDesktopEnter("services")}
-            onMouseLeave={() => onDesktopLeave("services")}
+            onMouseLeave={(event) => onDesktopLeave("services", event.currentTarget)}
+            onFocusCapture={() => setOpenMenu("services")}
+            onBlurCapture={(event) => closeIfFocusLeft("services", event)}
           >
             <button
               type="button"
               aria-expanded={openMenu === "services" || mobileOpen}
               aria-controls={servicesId}
               className={servicesActive ? "is-active" : undefined}
-              onClick={() => toggle("services")}
+              onMouseDown={() => onMenuPointerDown("services")}
+              onClick={() => onMenuClick("services")}
             >
               Services
               <span className="sd-caret" aria-hidden="true" />
@@ -118,14 +135,17 @@ function Header() {
               openMenu === "platforms" ? "sd-dropdown is-open" : "sd-dropdown"
             }
             onMouseEnter={() => onDesktopEnter("platforms")}
-            onMouseLeave={() => onDesktopLeave("platforms")}
+            onMouseLeave={(event) => onDesktopLeave("platforms", event.currentTarget)}
+            onFocusCapture={() => setOpenMenu("platforms")}
+            onBlurCapture={(event) => closeIfFocusLeft("platforms", event)}
           >
             <button
               type="button"
               aria-expanded={openMenu === "platforms" || mobileOpen}
               aria-controls={platformsId}
               className={platformsActive ? "is-active" : undefined}
-              onClick={() => toggle("platforms")}
+              onMouseDown={() => onMenuPointerDown("platforms")}
+              onClick={() => onMenuClick("platforms")}
             >
               Platforms
               <span className="sd-caret" aria-hidden="true" />
