@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
@@ -11,6 +12,16 @@ import Platforms from "./Platforms.jsx";
 import AgentForge from "./AgentForge.jsx";
 import Work from "./Work.jsx";
 import "./App.css";
+
+const AdminDemo = lazy(() => import("./admin/AdminDemo.jsx"));
+
+function AdminRoute() {
+  return (
+    <Suspense fallback={<div className="p-6 text-gray-200">Loading…</div>}>
+      <AdminDemo />
+    </Suspense>
+  );
+}
 
 function App() {
   return (
@@ -31,6 +42,8 @@ function App() {
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/ExecutiveLeadership" element={<ExecutiveLeadership />} />
             <Route path="/service/:serviceId" element={<ServiceDetail />} />
+            <Route path="/admin" element={<AdminRoute />} />
+            <Route path="/admin/" element={<AdminRoute />} />
           </Routes>
         </main>
         <Footer />

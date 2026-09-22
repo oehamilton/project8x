@@ -1,0 +1,15 @@
+# Unlisted /admin gate. Same file is kept at the repo root and beside amplify.yml
+# because this repo does not pin which directory Amplify uses as the app root.
+customHeaders:
+  - pattern: '/admin'
+    headers:
+      - key: 'X-Robots-Tag'
+        value: 'noindex, nofollow'
+  - pattern: '/admin/'
+    headers:
+      - key: 'X-Robots-Tag'
+        value: 'noindex, nofollow'
+  - pattern: '/admin.html'
+    headers:
+      - key: 'X-Robots-Tag'
+        value: 'noindex, nofollow'
