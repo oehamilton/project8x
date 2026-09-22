@@ -43,7 +43,8 @@ For additional security, you can add custom headers in the Amplify Console:
 
 ## SPA Configuration
 The application is already configured as a Single Page Application:
-- `_redirects` file redirects all routes to `index.html`
+- `_redirects` rewrites `/admin` and `/admin/` to `admin.html` (200), then other routes to `index.html`
+- Amplify serves `/admin` from `admin.html` and `/admin/` from `admin/index.html`. The production build copies `admin.html` to `admin/index.html` so the trailing slash returns 200
 - React Router handles client-side routing
 - All routes (`/`, `/Products`, `/CompanyServices`, `/ContactUs`, `/ExecutiveLeadership`) will work correctly
 

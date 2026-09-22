@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { readAdminBuildEnv } from './src/admin/buildEnv.js'
+import { copyAdminIndexHtml } from './src/admin/copyAdminIndex.js'
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -26,7 +27,16 @@ function adminBuildEnv(mode) {
 export default defineConfig(({ mode }) => {
   const admin = adminBuildEnv(mode)
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      {
+        name: 'amplify-admin-trailing-slash',
+        apply: 'build',
+        writeBundle(options) {
+          if (options.dir) copyAdminIndexHtml(options.dir)
+        },
+      },
+    ],
     define: {
       __ADMIN_PASSWORD_HASH__: JSON.stringify(admin.passwordHash),
       __AGENTFORGE_DEMO_STATUS_URL__: JSON.stringify(admin.statusUrl),
