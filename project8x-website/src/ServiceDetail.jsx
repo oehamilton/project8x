@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft, FaHeadset, FaCogs, FaChartLine, FaRocket, FaPhone, FaFileAlt, FaComments, FaDatabase, FaCode } from "react-icons/fa";
 
 // Service data with detailed content
@@ -7,7 +7,6 @@ const serviceDetails = {
   "contact-center-technology-consulting": {
     icon: <FaHeadset className="text-4xl text-blue-400" />,
     title: "Contact Center Technology Consulting",
-    image: "/cct.png",
     content: {
       overview: "Drawing on decades of experience with multi-site environments for large-scale enterprises, we help streamline workflows, enhance customer satisfaction, and reduce costs through tailored contact center solutions. Our expertise includes advanced technologies and best practices to optimize operations and deliver exceptional customer experiences.",
       
@@ -83,7 +82,6 @@ const serviceDetails = {
   "system-integration-deployment": {
     icon: <FaCogs className="text-4xl text-green-400" />,
     title: "System Integration and Deployment",
-    image: "/sid.png",
     content: {
       overview: "Our System Integration and Deployment services deliver seamless, scalable, and secure contact center solutions tailored to enterprise needs. We specialize in integrating advanced contact center platforms with existing infrastructure, ensuring robust performance across voice, email, chat, and omnichannel interactions. Our expertise spans full-stack deployments, custom API development, and complex migrations, enabling businesses to optimize workflows and enhance customer experiences.",
       
@@ -158,7 +156,6 @@ const serviceDetails = {
   "real-time-analytics-dashboard": {
     icon: <FaChartLine className="text-4xl text-yellow-400" />,
     title: "Real-Time Analytics and Dashboard Development",
-    image: "/rta.png",
     content: {
       overview: "Our Real-Time Analytics and Dashboard Development services empower contact centers with actionable insights through custom-built, intuitive, and scalable analytics solutions. By leveraging advanced tools and technologies, we provide real-time visibility into operational performance, customer interactions, and agent efficiency, enabling data-driven decision-making and enhanced customer experiences.",
       
@@ -241,7 +238,6 @@ const serviceDetails = {
   "devops-automation-implementation": {
     icon: <FaRocket className="text-4xl text-purple-400" />,
     title: "DevOps and Automation Implementation",
-    image: "/do.png",
     content: {
       overview: "Our DevOps and Automation Implementation services transform contact center operations by leveraging modern DevOps practices, advanced automation tools, and scalable infrastructure. We empower organizations to achieve faster deployments, enhanced system reliability, and improved scalability through streamlined processes and innovative technologies. Our expertise, honed through extensive experience with enterprise-grade environments, ensures seamless automation of workflows and infrastructure optimization.",
       
@@ -332,7 +328,6 @@ const serviceDetails = {
   "telephony-project-management": {
     icon: <FaPhone className="text-4xl text-red-400" />,
     title: "Telephony Project Management",
-    image: "/tpm.png",
     content: {
       overview: "Our Telephony Project Management services deliver end-to-end management of complex telephony projects, ensuring seamless upgrades, installations, and multi-site rollouts for contact centers. Led by certified project managers, we provide expert coordination, meticulous planning, and execution to achieve on-time, budget-compliant deliveries with minimal disruptions. Our solutions optimize telephony infrastructure to support voice, omnichannel communications, and advanced contact center functionalities.",
       
@@ -423,7 +418,6 @@ const serviceDetails = {
   "rfp-development-vendor-selection": {
     icon: <FaFileAlt className="text-4xl text-indigo-400" />,
     title: "RFP Development and Vendor Selection",
-    image: "/rfp.png",
     content: {
       overview: "Our RFP Development and Vendor Selection services provide comprehensive support to architect and implement contact center solutions that align with your business objectives. Leveraging extensive experience in enterprise environments, we create detailed Request for Proposals (RFPs), conduct proof-of-concept (PoC) development, and guide vendor evaluations to ensure cost-effective, high-impact investments. Our process ensures seamless consolidation and enhancement of contact center operations, delivering scalable and innovative solutions.",
       
@@ -510,7 +504,6 @@ const serviceDetails = {
   "multi-channel-communication-solutions": {
     icon: <FaComments className="text-4xl text-orange-400" />,
     title: "Multi-Channel Communication Solutions",
-    image: "/mccs.png",
     content: {
       overview: "Our Multi-Channel Communication Solutions deliver unified, seamless customer experiences across diverse communication channels, including voice, email, web chat, SMS, social media, and collaboration tools. By integrating advanced platforms and leveraging intelligent routing, we enhance agent productivity, improve customer engagement, and ensure scalability across multi-site contact centers. Our expertise ensures cohesive, omnichannel interactions that drive operational efficiency and customer satisfaction.",
       
@@ -597,7 +590,6 @@ const serviceDetails = {
   "database-optimization-custom-development": {
     icon: <FaDatabase className="text-4xl text-teal-400" />,
     title: "Database Optimization and Custom Development",
-    image: "/ddo.png",
     content: {
       overview: "Our Database Optimization and Custom Development services deliver high-performance, secure, and scalable database solutions tailored to contact center needs. We specialize in optimizing database performance, developing custom scripts, and designing secure environments to support mission-critical operations. With expertise in predictive dialer tuning, advanced reporting, and development/test lab setups, we ensure low-latency, reliable systems that enhance operational efficiency and meet demanding business requirements.",
       
@@ -692,7 +684,6 @@ const serviceDetails = {
   "website-development-services": {
     icon: <FaCode className="text-4xl text-cyan-400" />,
     title: "Website Development Services",
-    image: "/do.png",
     content: {
       overview: "Our Website Development Services deliver modern, responsive, and user-centric websites tailored to enhance customer engagement and support contact center operations. We specialize in creating scalable, secure, and high-performance web solutions that integrate seamlessly with contact center platforms, CRM systems, and omnichannel communication tools. Our expertise ensures visually appealing, functional websites that drive business success and elevate customer experiences.",
       
@@ -788,7 +779,6 @@ const serviceDetails = {
 
 function ServiceDetail() {
   const { serviceId } = useParams();
-  const navigate = useNavigate();
   const service = serviceDetails[serviceId];
 
   useEffect(() => {
@@ -803,12 +793,12 @@ function ServiceDetail() {
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-4 text-gray-200 drop-shadow-lg">Service Not Found</h2>
           <p className="text-gray-300 drop-shadow-md mb-6">The requested service could not be found.</p>
-          <button
-            onClick={() => navigate("/CompanyServices")}
+          <Link
+            to="/CompanyServices"
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
           >
             Back to Services
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -818,268 +808,18 @@ function ServiceDetail() {
     <div className="sd-page">
       {/* Header with Back Button */}
       <div className="mb-8">
-        <button
-          onClick={() => navigate("/CompanyServices")}
+        <Link
+          to="/CompanyServices"
           className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200 mb-4"
         >
           <FaArrowLeft className="text-lg" />
           <span>Back to Services</span>
-        </button>
+        </Link>
         
-        <div className="flex items-center gap-4 mb-6">
-          <div className="flex-shrink-0">
-            {service.icon}
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold text-gray-200 drop-shadow-lg">
-              {service.title}
-            </h1>
-          </div>
-        </div>
+        <h1 className="sd-h1">
+          {service.title}
+        </h1>
       </div>
-
-      {/* Service Image */}
-      <div className="mb-8 text-center">
-        <img
-          src={service.image}
-          alt={service.title}
-          className="max-w-md mx-auto h-auto object-contain rounded-lg shadow-lg"
-        />
-      </div>
-
-      {/* Additional Images for Contact Center Technology Consulting */}
-      {serviceId === "contact-center-technology-consulting" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">IVR & ACD</div>
-                <div className="text-blue-200 text-sm mt-2">Smart Routing Solutions</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">AI & Bots</div>
-                <div className="text-green-200 text-sm mt-2">Intelligent Automation</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Cloud Solutions</div>
-                <div className="text-purple-200 text-sm mt-2">Scalable Infrastructure</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for System Integration and Deployment */}
-      {serviceId === "system-integration-deployment" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">API Development</div>
-                <div className="text-green-200 text-sm mt-2">REST, JavaScript, Python</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Platform Integration</div>
-                <div className="text-blue-200 text-sm mt-2">Enterprise Systems</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">System Migration</div>
-                <div className="text-purple-200 text-sm mt-2">Legacy to Modern</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for Real-Time Analytics and Dashboard Development */}
-      {serviceId === "real-time-analytics-dashboard" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Power BI</div>
-                <div className="text-yellow-200 text-sm mt-2">Interactive Dashboards</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Python Analytics</div>
-                <div className="text-blue-200 text-sm mt-2">Data Processing</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Real-Time Data</div>
-                <div className="text-green-200 text-sm mt-2">Live Insights</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for DevOps and Automation Implementation */}
-      {serviceId === "devops-automation-implementation" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">CI/CD</div>
-                <div className="text-purple-200 text-sm mt-2">Automated Pipelines</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Docker & K8s</div>
-                <div className="text-blue-200 text-sm mt-2">Containerization</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">AI Automation</div>
-                <div className="text-green-200 text-sm mt-2">Smart Operations</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for Telephony Project Management */}
-      {serviceId === "telephony-project-management" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-red-500 to-red-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">ACD Systems</div>
-                <div className="text-red-200 text-sm mt-2">Call Distribution</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Multi-Site</div>
-                <div className="text-blue-200 text-sm mt-2">Enterprise Rollouts</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Vendor Mgmt</div>
-                <div className="text-green-200 text-sm mt-2">Coordination</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for RFP Development and Vendor Selection */}
-      {serviceId === "rfp-development-vendor-selection" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">RFP Creation</div>
-                <div className="text-indigo-200 text-sm mt-2">Detailed Requirements</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">PoC Development</div>
-                <div className="text-blue-200 text-sm mt-2">Proof of Concept</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Vendor Selection</div>
-                <div className="text-green-200 text-sm mt-2">Evaluation Process</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for Multi-Channel Communication Solutions */}
-      {serviceId === "multi-channel-communication-solutions" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-orange-500 to-orange-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Omnichannel</div>
-                <div className="text-orange-200 text-sm mt-2">Unified Experience</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Smart Routing</div>
-                <div className="text-blue-200 text-sm mt-2">AI-Powered</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Multi-Site</div>
-                <div className="text-green-200 text-sm mt-2">Scalable Deploy</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for Database Optimization and Custom Development */}
-      {serviceId === "database-optimization-custom-development" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-teal-500 to-teal-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">DB Optimization</div>
-                <div className="text-teal-200 text-sm mt-2">High Performance</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Custom Dev</div>
-                <div className="text-blue-200 text-sm mt-2">C#, Java, Python</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Predictive Dialer</div>
-                <div className="text-green-200 text-sm mt-2">Tuning & Analytics</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional Images for Website Development Services */}
-      {serviceId === "website-development-services" && (
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Custom Dev</div>
-                <div className="text-cyan-200 text-sm mt-2">React, Vue, Angular</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">E-Commerce</div>
-                <div className="text-blue-200 text-sm mt-2">Secure & Scalable</div>
-              </div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-4 text-center">
-              <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-4">
-                <div className="text-white text-2xl font-bold">Omnichannel</div>
-                <div className="text-green-200 text-sm mt-2">WebRTC & Chat</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Overview Section */}
       <div className="mb-12">
@@ -1165,410 +905,6 @@ function ServiceDetail() {
         </div>
       )}
 
-      {/* Technology Stack Visualization for Contact Center */}
-      {serviceId === "contact-center-technology-consulting" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Technology Stack Overview
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold">IVR</span>
-                </div>
-                <div className="text-gray-300 text-sm">Voice Response</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold">ACD</span>
-                </div>
-                <div className="text-gray-300 text-sm">Call Distribution</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold">CTI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Telephony Integration</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold">AI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Intelligence</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technologies Section for System Integration and Deployment */}
-      {service.content.technologies && service.content.technologies.length > 0 && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Technologies and Tools
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {service.content.technologies.map((tech, index) => (
-              <div
-                key={index}
-                className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-6 hover:bg-gray-800/60 transition-all duration-300"
-              >
-                <h3 className="text-lg font-bold text-purple-400 drop-shadow-lg mb-3">
-                  {tech.title}
-                </h3>
-                <p className="text-gray-300 drop-shadow-md text-sm">
-                  {tech.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for Real-Time Analytics */}
-      {serviceId === "real-time-analytics-dashboard" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Analytics Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Power BI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Dashboards</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Python</span>
-                </div>
-                <div className="text-gray-300 text-sm">Analytics</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">T-SQL</span>
-                </div>
-                <div className="text-gray-300 text-sm">Database</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">D3.js</span>
-                </div>
-                <div className="text-gray-300 text-sm">Visualization</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AWS</span>
-                </div>
-                <div className="text-gray-300 text-sm">Cloud</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AI/ML</span>
-                </div>
-                <div className="text-gray-300 text-sm">Intelligence</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for DevOps and Automation */}
-      {serviceId === "devops-automation-implementation" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            DevOps Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Jenkins</span>
-                </div>
-                <div className="text-gray-300 text-sm">CI/CD</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Docker</span>
-                </div>
-                <div className="text-gray-300 text-sm">Containers</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">K8s</span>
-                </div>
-                <div className="text-gray-300 text-sm">Orchestration</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Terraform</span>
-                </div>
-                <div className="text-gray-300 text-sm">IaC</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Prometheus</span>
-                </div>
-                <div className="text-gray-300 text-sm">Monitoring</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AWS</span>
-                </div>
-                <div className="text-gray-300 text-sm">Cloud</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for Telephony Project Management */}
-      {serviceId === "telephony-project-management" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Telephony Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">ACD</span>
-                </div>
-                <div className="text-gray-300 text-sm">Call Distribution</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">SIP</span>
-                </div>
-                <div className="text-gray-300 text-sm">VoIP Protocols</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">WebRTC</span>
-                </div>
-                <div className="text-gray-300 text-sm">Real-time Comm</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Intelligence</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Jira</span>
-                </div>
-                <div className="text-gray-300 text-sm">Project Mgmt</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Cloud</span>
-                </div>
-                <div className="text-gray-300 text-sm">Infrastructure</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for RFP Development and Vendor Selection */}
-      {serviceId === "rfp-development-vendor-selection" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            RFP & Vendor Selection Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-indigo-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">RFP</span>
-                </div>
-                <div className="text-gray-300 text-sm">Requirements</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">PoC</span>
-                </div>
-                <div className="text-gray-300 text-sm">Proof of Concept</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">API</span>
-                </div>
-                <div className="text-gray-300 text-sm">Integration</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Intelligence</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Analytics</span>
-                </div>
-                <div className="text-gray-300 text-sm">Monitoring</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Cloud</span>
-                </div>
-                <div className="text-gray-300 text-sm">Platforms</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for Multi-Channel Communication Solutions */}
-      {serviceId === "multi-channel-communication-solutions" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Multi-Channel Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Voice</span>
-                </div>
-                <div className="text-gray-300 text-sm">Telephony</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Chat</span>
-                </div>
-                <div className="text-gray-300 text-sm">Web Chat</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">SMS</span>
-                </div>
-                <div className="text-gray-300 text-sm">Text Messaging</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Social</span>
-                </div>
-                <div className="text-gray-300 text-sm">Social Media</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Intelligence</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Cloud</span>
-                </div>
-                <div className="text-gray-300 text-sm">Platforms</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for Database Optimization and Custom Development */}
-      {serviceId === "database-optimization-custom-development" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Database & Development Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-teal-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">SQL</span>
-                </div>
-                <div className="text-gray-300 text-sm">Database</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">C#</span>
-                </div>
-                <div className="text-gray-300 text-sm">Development</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Java</span>
-                </div>
-                <div className="text-gray-300 text-sm">Backend</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-yellow-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Python</span>
-                </div>
-                <div className="text-gray-300 text-sm">Automation</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">VMware</span>
-                </div>
-                <div className="text-gray-300 text-sm">Virtualization</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Cloud</span>
-                </div>
-                <div className="text-gray-300 text-sm">Platforms</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Technology Stack Visualization for Website Development Services */}
-      {serviceId === "website-development-services" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-200 drop-shadow-lg mb-6">
-            Website Development Technology Stack
-          </h2>
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-cyan-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">React</span>
-                </div>
-                <div className="text-gray-300 text-sm">Frontend</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-blue-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">Node.js</span>
-                </div>
-                <div className="text-gray-300 text-sm">Backend</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-green-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">WordPress</span>
-                </div>
-                <div className="text-gray-300 text-sm">CMS</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-purple-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AWS</span>
-                </div>
-                <div className="text-gray-300 text-sm">Cloud</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-orange-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">WebRTC</span>
-                </div>
-                <div className="text-gray-300 text-sm">Real-time</div>
-              </div>
-              <div className="text-center">
-                <div className="bg-red-600 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AI</span>
-                </div>
-                <div className="text-gray-300 text-sm">Intelligence</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Conclusion Section */}
       {service.content.conclusion && (
         <div className="mb-12">
@@ -1586,26 +922,25 @@ function ServiceDetail() {
       {/* Call to Action */}
       <div className="text-center">
         <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-600/50 rounded-lg p-8 max-w-3xl mx-auto">
-          <h3 className="text-xl font-bold text-gray-200 drop-shadow-lg mb-4">
-            Ready to Get Started?
-          </h3>
-          <p className="text-gray-300 drop-shadow-md mb-6">
-            Contact us today to discuss your specific needs and discover how Project8X can help 
-            transform your contact center operations.
+          <h2 className="text-xl font-bold text-gray-200 mb-4">
+            Need an architect on this scope?
+          </h2>
+          <p className="text-gray-300 mb-6">
+            Tell us the platform, the constraint, and the date.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => navigate("/ContactUs")}
+            <Link
+              to="/ContactUs"
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
             >
-              Contact Us
-            </button>
-            <button
-              onClick={() => navigate("/CompanyServices")}
+              Talk to an architect
+            </Link>
+            <Link
+              to="/CompanyServices"
               className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
             >
               View All Services
-            </button>
+            </Link>
           </div>
         </div>
       </div>

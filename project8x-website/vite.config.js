@@ -1,9 +1,11 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { readAdminBuildEnv } from './src/admin/buildEnv.js'
 import { copyAdminIndexHtml } from './src/admin/copyAdminIndex.js'
+import { spaFallbackRoutes } from './spaFallback.js'
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -23,6 +25,30 @@ function adminBuildEnv(mode) {
   return readAdminBuildEnv(captured, fileEnv)
 }
 
+function spaTrailingSlashFallback() {
+  return {
+    name: 'spa-trailing-slash-fallback',
+    apply: 'build',
+    closeBundle() {
+      const outDir = resolve(rootDir, 'build')
+      const indexPath = resolve(outDir, 'index.html')
+      if (!existsSync(indexPath)) return
+      const indexHtml = readFileSync(indexPath)
+      for (const route of spaFallbackRoutes) {
+        const dir = resolve(outDir, route)
+        mkdirSync(dir, { recursive: true })
+        writeFileSync(resolve(dir, 'index.html'), indexHtml)
+      }
+      const adminPath = resolve(outDir, 'admin.html')
+      if (existsSync(adminPath)) {
+        const adminDir = resolve(outDir, 'admin')
+        mkdirSync(adminDir, { recursive: true })
+        copyFileSync(adminPath, resolve(adminDir, 'index.html'))
+      }
+    },
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const admin = adminBuildEnv(mode)
@@ -36,6 +62,7 @@ export default defineConfig(({ mode }) => {
           if (options.dir) copyAdminIndexHtml(options.dir)
         },
       },
+      spaTrailingSlashFallback(),
     ],
     define: {
       __ADMIN_PASSWORD_HASH__: JSON.stringify(admin.passwordHash),

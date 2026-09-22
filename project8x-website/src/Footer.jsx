@@ -11,6 +11,8 @@ function Footer() {
           <Link to="/work">Work</Link>
           <Link to="/about">About</Link>
           <Link to="/ContactUs">Contact</Link>
+          <a href="/Privacy Policy SMS.pdf">Privacy</a>
+          <a href="/Terms and Conditions SMS.pdf">Terms</a>
         </nav>
       </div>
     </footer>
