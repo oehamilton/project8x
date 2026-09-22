@@ -13,13 +13,13 @@
       "sizes": "192x192"
     },
     {
-      "src": "8_icon.png",
+      "src": "8_icon_trans.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#14171c",
-  "background_color": "#14171c"
+  "theme_color": "#0B1220",
+  "background_color": "#0B1220"
 }

@@ -5,8 +5,8 @@ import Page from "./Page.jsx";
 const platformSections = [
   {
     id: "genesys",
-    title: "Genesys",
-    body: "Integration and deployment of Genesys into the estate already in place: routing, channels, and the systems agents and supervisors depend on. Scope is set per program. We do not publish a certification claim here.",
+    title: "Genesys Cloud",
+    body: "Integration and deployment of Genesys Cloud into the estate already in place: routing, channels, and the systems agents and supervisors depend on. Scope is set per program. We do not publish a certification claim here.",
   },
   {
     id: "avaya",

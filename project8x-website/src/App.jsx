@@ -17,6 +17,7 @@ function App() {
     <Router>
       <div className="sd-shell">
         <Header />
+        <div className="sd-frame">
         <main id="main" className="sd-main">
           <Routes>
             <Route path="/" element={<DefaultPage />} />
@@ -24,6 +25,7 @@ function App() {
             <Route path="/CompanyServices" element={<CompanyServices />} />
             <Route path="/platforms" element={<Platforms />} />
             <Route path="/agentforge" element={<AgentForge />} />
+            <Route path="/AgentForge" element={<AgentForge />} />
             <Route path="/work" element={<Work />} />
             <Route path="/about" element={<ExecutiveLeadership />} />
             <Route path="/ContactUs" element={<ContactUs />} />
@@ -32,6 +34,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        </div>
       </div>
     </Router>
   );
