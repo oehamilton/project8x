@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { getAdminConfig } from './config.js';
 import {
+  normalizePassphrase,
   readAdminSession,
   verifyPassphrase,
   writeAdminSession,
@@ -61,7 +62,7 @@ function AdminDemo() {
   async function onSubmit(event) {
     event.preventDefault();
     setError('');
-    if (!passphrase) {
+    if (!normalizePassphrase(passphrase)) {
       setError('Enter the passphrase.');
       return;
     }
@@ -80,7 +81,7 @@ function AdminDemo() {
       setPassphrase('');
       setUnlocked(true);
     } catch {
-      setError('Access denied.');
+      setError('Could not verify the passphrase in this browser.');
     } finally {
       setSubmitting(false);
     }
@@ -110,9 +111,12 @@ function AdminDemo() {
             </label>
             <input
               id="admin-passphrase"
-              name="passphrase"
+              name="p8x-admin-passphrase"
               type="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
               value={passphrase}
               onChange={(event) => setPassphrase(event.target.value)}
               disabled={submitting}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getAdminConfig } from './config.js';
+import { getAdminConfig, readBuildString } from './config.js';
 import { DEFAULT_DEMO_STATUS_URL } from './defaults.js';
 
 describe('admin config', () => {
@@ -11,5 +11,18 @@ describe('admin config', () => {
       passwordHash: '',
       statusUrl: DEFAULT_DEMO_STATUS_URL,
     });
+  });
+
+  it('reads a dev-server global when the identifier was not inlined', () => {
+    expect(readBuildString('  abc  ', '__ADMIN_PASSWORD_HASH__')).toBe('abc');
+    expect(readBuildString('', '__ADMIN_PASSWORD_HASH__')).toBe('');
+    globalThis.__AGENTFORGE_DEMO_STATUS_URL__ = ' https://example.com/status.json ';
+    try {
+      expect(readBuildString(undefined, '__AGENTFORGE_DEMO_STATUS_URL__')).toBe(
+        'https://example.com/status.json'
+      );
+    } finally {
+      delete globalThis.__AGENTFORGE_DEMO_STATUS_URL__;
+    }
   });
 });

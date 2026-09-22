@@ -18,6 +18,11 @@ function AgentForge() {
           Talk to an architect
         </Link>
       </div>
+      <p className="sd-quiet-admin">
+        <Link to="/admin" rel="nofollow">
+          Admin
+        </Link>
+      </p>
     </Page>
   );
 }

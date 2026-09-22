@@ -361,6 +361,23 @@ textarea:focus-visible {
   margin-top: var(--sd-space-lg);
 }
 
+.sd-quiet-admin {
+  margin: var(--sd-space-xl) 0 0;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.sd-quiet-admin a {
+  color: rgba(183, 195, 206, 0.48);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.sd-quiet-admin a:hover,
+.sd-quiet-admin a:focus-visible {
+  color: var(--sd-teal);
+}
+
 .sd-btn {
   display: inline-flex;
   align-items: center;
