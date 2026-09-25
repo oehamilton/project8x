@@ -1,0 +1,60 @@
+[
+  {
+    "slot": "avaya",
+    "headline": "[Placeholder] Avaya programs are still decided on the night of cutover",
+    "take": "[Placeholder] Multi-site Avaya estates keep failing in the same places: routing that looked fine in the lab, and voice paths that only show their seams under load. This brief is a stand-in for a sourced story Marketing will swap in. It is not a published claim about a customer or a product release.",
+    "sourceUrl": "https://example.com/news/avaya",
+    "date": "2026-09-02"
+  },
+  {
+    "slot": "cisco-collaboration",
+    "headline": "[Placeholder] Cisco collaboration and the contact center still need one cutover plan",
+    "take": "[Placeholder] Cisco contact-center work rarely stays inside the contact center. ICM, calling, and the collaboration stack move on different calendars unless someone sequences them. Replace this card when a credible Cisco or collaboration story is worth keeping for the month.",
+    "sourceUrl": "https://example.com/news/cisco-collaboration",
+    "date": "2026-08-18"
+  },
+  {
+    "slot": "genesys-ccaas",
+    "headline": "[Placeholder] Genesys Cloud programs still turn on what the estate already runs",
+    "take": "[Placeholder] A CCaaS move is not a greenfield diagram. Routing, channels, and the systems supervisors already use have to come with the platform. This placeholder holds the Genesys slot until a sourced brief replaces it.",
+    "sourceUrl": "https://example.com/news/genesys-ccaas",
+    "date": "2026-09-11"
+  },
+  {
+    "slot": "amazon-connect-verint",
+    "headline": "[Placeholder] Amazon Connect and Verint belong in the same delivery story",
+    "take": "[Placeholder] Cloud contact center on Amazon Connect only stays measurable when workforce engagement moves with it. Verint, or the workforce layer in front of the program, should not arrive as a follow-on project. Swap this card for a sourced story when one is strong enough to keep.",
+    "sourceUrl": "https://example.com/news/amazon-connect-verint",
+    "date": "2026-07-29"
+  },
+  {
+    "slot": "ai-cx-agentic",
+    "headline": "[Placeholder] Agentic contact-center pilots still need a path to production",
+    "take": "[Placeholder] AI in the contact center is easy to demo and hard to govern. Isolation, schemas, and a named owner for what an agent is allowed to do are the difference between a pilot and a floor that can run it. This slot waits for a credible agentic-CX story, not a product announcement.",
+    "sourceUrl": "https://example.com/news/ai-cx-agentic",
+    "date": "2026-09-20"
+  },
+  {
+    "slot": "government-regulation",
+    "headline": "[Placeholder] Regulation changes the contact-center design, not just the policy binder",
+    "take": "[Placeholder] Recording, retention, and accessibility rules show up in routing and in what an agent is allowed to see. A government or regulatory story belongs here when it changes how a program is built. Until then, this card is only a placeholder.",
+    "sourceUrl": "https://example.com/news/government-regulation",
+    "date": "2026-08-04"
+  },
+  {
+    "slot": "genesys-ccaas",
+    "headline": "[Placeholder] Earlier Genesys brief, superseded for the scaffold",
+    "take": "[Placeholder] Superseded example. A monthly refresh moves a story here only after a newer credible brief takes the same slot. This entry exists so the Archive section is visible in review.",
+    "sourceUrl": "https://example.com/news/genesys-ccaas-archive",
+    "date": "2026-04-16",
+    "archived": true
+  },
+  {
+    "slot": "avaya",
+    "headline": "[Placeholder] Earlier Avaya brief, kept so the archive has a shape",
+    "take": "[Placeholder] Superseded example for the Avaya slot. Leave the current Avaya card in place until a sourced replacement exists, then set archived on the story it replaces.",
+    "sourceUrl": "https://example.com/news/avaya-archive",
+    "date": "2026-02-10",
+    "archived": true
+  }
+]

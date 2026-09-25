@@ -149,6 +149,14 @@ function Header() {
             Work
           </NavLink>
           <NavLink
+            to="/news"
+            className={({ isActive }) =>
+              isActive ? "sd-nav-link is-active" : "sd-nav-link"
+            }
+          >
+            News
+          </NavLink>
+          <NavLink
             to="/about"
             className={() =>
               location.pathname === "/about" ||
