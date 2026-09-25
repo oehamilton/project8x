@@ -212,8 +212,9 @@ function DefaultPage() {
       </section>
 
       <p className="sd-note">
-        <Link to="/news" className="sd-text-link">News</Link>
-        {" — [Placeholder] briefs beside the practice, not in place of it."}
+        <Link to="/news" className="sd-text-link">
+          Industry notes from the platforms we deliver on.
+        </Link>
       </p>
 
       <section className="sd-band" aria-labelledby="cutover-heading">

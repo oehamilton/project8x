@@ -1,19 +1,12 @@
-import stories from "./stories.json";
-
-// Monthly refresh: replace or archive a slot only when a new credible story
-// exists. If nothing new is worth running, leave the prior current story in
-// place — do not set archived on it. An empty slot keeps that prior story
-// because currentStories() returns the latest non-archived item per slot.
-// archiveStories() lists only items with archived: true, newest date first.
-// Edit stories.json; this module is the read path.
+import stories from "./stories.js";
 
 export const NEWS_SLOTS = [
   { key: "avaya", label: "Avaya" },
-  { key: "cisco-collaboration", label: "Cisco / collaboration" },
-  { key: "genesys-ccaas", label: "Genesys / CCaaS" },
-  { key: "amazon-connect-verint", label: "Amazon Connect / Verint" },
-  { key: "ai-cx-agentic", label: "AI in CX / agentic contact center" },
-  { key: "government-regulation", label: "Government / regulation" },
+  { key: "cisco", label: "Cisco" },
+  { key: "genesys", label: "Genesys" },
+  { key: "amazon_connect_or_verint", label: "Amazon Connect" },
+  { key: "ai_cx", label: "AI in CX" },
+  { key: "government_regulation", label: "Regulation" },
 ];
 
 const slotOrder = new Map(NEWS_SLOTS.map((slot, index) => [slot.key, index]));
@@ -33,25 +26,21 @@ export function formatStoryDate(isoDate) {
   }).format(new Date(Date.UTC(year, month - 1, day)));
 }
 
-function isArchived(story) {
-  return story?.archived === true;
-}
-
 export function currentStories(source = stories) {
-  const latest = new Map();
+  const chosen = new Map();
   for (const story of source) {
-    if (isArchived(story) || !slotOrder.has(story.slot)) continue;
-    const existing = latest.get(story.slot);
+    if (story.status !== "current" || !slotOrder.has(story.slot)) continue;
+    const existing = chosen.get(story.slot);
     if (!existing || String(story.date) >= String(existing.date)) {
-      latest.set(story.slot, story);
+      chosen.set(story.slot, story);
     }
   }
-  return NEWS_SLOTS.map((slot) => latest.get(slot.key)).filter(Boolean);
+  return NEWS_SLOTS.map((slot) => chosen.get(slot.key)).filter(Boolean);
 }
 
 export function archiveStories(source = stories) {
   return source
-    .filter(isArchived)
+    .filter((story) => story.status === "archived")
     .slice()
     .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 }

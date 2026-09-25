@@ -5,7 +5,6 @@ import {
   archiveStories,
   currentStories,
   formatStoryDate,
-  slotLabel,
 } from "./news/newsContent.js";
 
 function StorySource({ story }) {
@@ -16,7 +15,7 @@ function StorySource({ story }) {
       href={story.sourceUrl}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
-      Source
+      {story.sourceName}
       <span className="sd-sr">: {story.headline}</span>
     </a>
   );
@@ -25,7 +24,7 @@ function StorySource({ story }) {
 function StoryBody({ story }) {
   return (
     <>
-      <p className="sd-kicker">{slotLabel(story.slot)}</p>
+      <p className="sd-kicker">{story.slotLabel}</p>
       <h3>{story.headline}</h3>
       <p className="sd-meta">
         <time dateTime={story.date}>{formatStoryDate(story.date)}</time>
@@ -44,16 +43,13 @@ function News() {
     <Page title="News">
       <header className="sd-page-head">
         <div>
-          <p className="sd-draft" role="note">
-            [Placeholder] Marketing copy — these briefs are stand-ins, not published reporting.
-          </p>
           <p className="sd-kicker">News</p>
           <h1 className="sd-h1 sd-h1-wide">
-            Notes on the platforms — and the rules around them.
+            Industry notes for contact-center operators.
           </h1>
           <hr className="sd-rule" />
           <p className="sd-lede">
-            [Placeholder] Six current briefs, one slot each: Avaya, Cisco, Genesys, Amazon Connect and Verint, AI in the contact center, and government or regulation. When a sourced story is strong enough to keep, it replaces that slot and the prior brief moves to the archive. If nothing new is credible, the current card stays.
+            We track the platforms Project8X delivers on — and the AI and regulatory shifts that change how those estates run. One current story per beat when the source is solid; if a beat is quiet, we leave the prior piece up. No filler.
           </p>
           <div className="sd-actions">
             <Link to="/ContactUs" className="sd-btn sd-btn-primary">
@@ -71,7 +67,7 @@ function News() {
         <h2 id="news-current-heading">Current stories</h2>
         <div className="sd-news-grid">
           {current.map((story) => (
-            <article className="sd-news-card" key={`${story.slot}-${story.date}`}>
+            <article className="sd-news-card" key={story.id}>
               <StoryBody story={story} />
             </article>
           ))}
@@ -80,15 +76,12 @@ function News() {
 
       <section className="sd-section" aria-labelledby="news-archive-heading">
         <h2 id="news-archive-heading">Archive</h2>
-        <p className="sd-lede">
-          [Placeholder] Superseded briefs. A slot moves here only after a newer story takes its place.
-        </p>
         {archived.length === 0 ? (
-          <p className="sd-note">No archived briefs yet.</p>
+          <p className="sd-note">No archived notes yet.</p>
         ) : (
           <ul className="sd-news-archive">
             {archived.map((story) => (
-              <li key={`${story.slot}-${story.date}-${story.headline}`}>
+              <li key={story.id}>
                 <article>
                   <StoryBody story={story} />
                 </article>
