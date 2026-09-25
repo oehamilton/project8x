@@ -114,11 +114,11 @@ const sample = [
 
 const batchIds = [
   "avaya-aura-10-3-2026-08",
-  "cisco-webex-ai-agent-gpt-5-4-2026-09",
-  "genesys-agentic-orchestration-2026-09",
-  "amazon-connect-agentic-cx-designer-2026-09",
-  "ai-cx-best-buy-handoff-2026-09",
-  "gov-us-rejects-un-ai-governance-2026-09",
+  "cisco-webex-ai-agent-gpt54-2026-09",
+  "genesys-agentic-orchestration-xperience-2026-09",
+  "amazon-connect-agentic-cx-designer-ga-2026-09",
+  "ai-cx-best-buy-handoff-plumbing-2026-09",
+  "regulation-us-rejects-un-ai-governance-2026-09",
 ];
 
 describe("News content helpers", () => {
@@ -163,11 +163,23 @@ describe("News content helpers", () => {
       "AI in CX",
       "Regulation",
     ]);
+    expect(current.map((story) => story.sourceName)).toEqual([
+      "Avaya",
+      "Cisco Webex Help",
+      "Genesys",
+      "AWS",
+      "PYMNTS",
+      "U.S. Mission to the UN",
+    ]);
+    expect(current[2].take).toContain("Navigator targets Nov 2026–Jan 2027 GA");
+    expect(current[3].take).toContain("can we script the IVR?");
+    expect(current[5].take).toContain("Parallel UN tracks keep moving.");
+    expect(current[5].take).not.toMatch(/EU AI Act/);
     current.forEach((story) => {
       expect(story.status).toBe("current");
-      expect(story.publishedAt).toBe("2026-09-25T19:00:00Z");
+      expect(story.publishedAt).toBe("2026-09-25T19:30:00Z");
       expect(story.sourceUrl).toMatch(/^https:\/\//);
-      expect(story).not.toHaveProperty("replacesId");
+      expect(story.replacesId).toBeNull();
     });
     expect(archiveStories()).toEqual([]);
   });
@@ -202,7 +214,7 @@ describe("News page", () => {
     expect(within(cards[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Avaya Aura 10.3 sets a supported path to modernize without a forced rip-and-replace"
     );
-    expect(within(cards[1]).getByRole("link", { name: /cisco webex/i })).toHaveAttribute(
+    expect(within(cards[1]).getByRole("link", { name: /cisco webex help/i })).toHaveAttribute(
       "href",
       "https://help.webex.com/en-us/article/nv7abhz/What%27s-new-for-administrators-in-Webex-Contact-Center"
     );
