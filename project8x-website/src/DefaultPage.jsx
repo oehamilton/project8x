@@ -211,6 +211,12 @@ function DefaultPage() {
         </div>
       </section>
 
+      <p className="sd-note">
+        <Link to="/news" className="sd-text-link">
+          Industry notes from the platforms we deliver on.
+        </Link>
+      </p>
+
       <section className="sd-band" aria-labelledby="cutover-heading">
         <h2 id="cutover-heading">Need an architect on the next cutover?</h2>
         <p>

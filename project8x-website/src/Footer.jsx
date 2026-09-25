@@ -9,6 +9,7 @@ function Footer() {
           <Link to="/CompanyServices">Services</Link>
           <Link to="/AgentForge">AgentForge</Link>
           <Link to="/work">Work</Link>
+          <Link to="/news">News</Link>
           <Link to="/about">About</Link>
           <Link to="/ContactUs">Contact</Link>
           <a href="/Privacy Policy SMS.pdf">Privacy</a>

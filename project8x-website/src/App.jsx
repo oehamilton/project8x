@@ -12,6 +12,7 @@ import Platforms from "./Platforms.jsx";
 import PlatformMigrations from "./PlatformMigrations.jsx";
 import AgentForge from "./AgentForge.jsx";
 import Work from "./Work.jsx";
+import News from "./News.jsx";
 import "./App.css";
 
 const AdminDemo = lazy(() => import("./admin/AdminDemo.jsx"));
@@ -40,6 +41,7 @@ function App() {
             <Route path="/agentforge" element={<AgentForge />} />
             <Route path="/AgentForge" element={<AgentForge />} />
             <Route path="/work" element={<Work />} />
+            <Route path="/news" element={<News />} />
             <Route path="/about" element={<ExecutiveLeadership />} />
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/ExecutiveLeadership" element={<ExecutiveLeadership />} />
