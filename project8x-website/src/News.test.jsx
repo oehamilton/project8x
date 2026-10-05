@@ -117,8 +117,8 @@ const batchIds = [
   "cisco-webex-ai-agent-gpt54-2026-09",
   "genesys-agentic-orchestration-xperience-2026-09",
   "amazon-connect-agentic-cx-designer-ga-2026-09",
-  "ai-cx-best-buy-handoff-plumbing-2026-09",
-  "regulation-us-rejects-un-ai-governance-2026-09",
+  "ai-cx-balto-kodi-ga-2026-09",
+  "regulation-eo-14434-super-intelligence-2026-09",
 ];
 
 describe("News content helpers", () => {
@@ -152,7 +152,7 @@ describe("News content helpers", () => {
     ]);
   });
 
-  it("publishes the approved first batch as six current stories and an empty archive", () => {
+  it("publishes one current story per slot after the approved replacements", () => {
     const current = currentStories();
     expect(current.map((story) => story.id)).toEqual(batchIds);
     expect(current.map((story) => story.slotLabel)).toEqual([
@@ -168,20 +168,43 @@ describe("News content helpers", () => {
       "Cisco Webex Help",
       "Genesys",
       "AWS",
-      "PYMNTS",
-      "U.S. Mission to the UN",
+      "PR Newswire / Balto",
+      "White House",
     ]);
     expect(current[2].take).toContain("Navigator targets Nov 2026–Jan 2027 GA");
     expect(current[3].take).toContain("can we script the IVR?");
-    expect(current[5].take).toContain("Parallel UN tracks keep moving.");
+    expect(current[4].replacesId).toBe("ai-cx-best-buy-handoff-plumbing-2026-09");
+    expect(current[4].publishedAt).toBe("2026-10-05T14:40:00Z");
+    expect(current[4].date).toBe("2026-09-28");
+    expect(current[5].replacesId).toBe("regulation-us-rejects-un-ai-governance-2026-09");
+    expect(current[5].publishedAt).toBe("2026-10-05T14:40:00Z");
+    expect(current[5].date).toBe("2026-09-29");
+    expect(current[5].take).toContain("It does not create a new AI regulator.");
     expect(current[5].take).not.toMatch(/EU AI Act/);
-    current.forEach((story) => {
+    current.slice(0, 4).forEach((story) => {
       expect(story.status).toBe("current");
       expect(story.publishedAt).toBe("2026-09-25T19:30:00Z");
       expect(story.sourceUrl).toMatch(/^https:\/\//);
       expect(story.replacesId).toBeNull();
     });
-    expect(archiveStories()).toEqual([]);
+    current.slice(4).forEach((story) => {
+      expect(story.status).toBe("current");
+      expect(story.sourceUrl).toMatch(/^https:\/\//);
+    });
+
+    const archived = archiveStories();
+    expect(archived.map((story) => story.id)).toEqual([
+      "ai-cx-best-buy-handoff-plumbing-2026-09",
+      "regulation-us-rejects-un-ai-governance-2026-09",
+    ]);
+    archived.forEach((story) => {
+      expect(story.status).toBe("archived");
+      expect(story.publishedAt).toBe("2026-09-25T19:30:00Z");
+      expect(story.replacesId).toBeNull();
+    });
+    expect(archived[0].sourceName).toBe("PYMNTS");
+    expect(archived[1].sourceName).toBe("U.S. Mission to the UN");
+    expect(archived[1].take).toContain("Parallel UN tracks keep moving.");
   });
 });
 
@@ -220,11 +243,32 @@ describe("News page", () => {
     );
     expect(within(cards[3]).getByText("Amazon Connect")).toBeInTheDocument();
     expect(within(cards[4]).getByText("AI in CX")).toBeInTheDocument();
+    expect(within(cards[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Balto’s Kodi moves contact-center AI from insight to approved action"
+    );
+    expect(within(cards[4]).getByRole("link", { name: /pr newswire \/ balto/i })).toHaveAttribute(
+      "href",
+      "https://www.prnewswire.com/news-releases/balto-launches-kodi-contact-center-leaders-have-a-new-way-to-ask-anything-find-the-answer-and-put-it-to-work-302888649.html"
+    );
     expect(within(cards[5]).getByText("Regulation")).toBeInTheDocument();
+    expect(within(cards[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "White House EO 14434 puts “Super Intelligence” / SI into federal vocabulary"
+    );
+    expect(within(cards[5]).getByRole("link", { name: /white house/i })).toHaveAttribute(
+      "href",
+      "https://www.whitehouse.gov/presidential-actions/2026/09/inaugurating-the-era-of-super-intelligence/"
+    );
 
     const archive = screen.getByRole("region", { name: /^archive$/i });
-    expect(within(archive).queryByRole("article")).not.toBeInTheDocument();
-    expect(within(archive).getByText("No archived notes yet.")).toBeInTheDocument();
+    const archived = within(archive).getAllByRole("article");
+    expect(archived).toHaveLength(2);
+    expect(within(archived[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Best Buy’s AI care push is really about handoff plumbing — not the model brand"
+    );
+    expect(within(archived[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "U.S. rejects centralized UN AI governance as the Security Council debates the rules"
+    );
+    expect(within(archive).queryByText("No archived notes yet.")).not.toBeInTheDocument();
     expect(within(primary).getByRole("link", { name: "News" })).toHaveClass("is-active");
   });
 
