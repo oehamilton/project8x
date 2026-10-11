@@ -106,7 +106,7 @@ function AdminDemo() {
   return (
     <div data-testid="admin-demo" data-state={phase}>
       <Page title="Admin" description="Project8X demo access." width="narrow">
-        <p className="sd-kicker">AgentForge</p>
+        <p className="sd-kicker">Jurivane</p>
         <h1 className="sd-h1">Demo access</h1>
         <hr className="sd-rule" />
 

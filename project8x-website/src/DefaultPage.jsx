@@ -16,9 +16,9 @@ const capabilities = [
     mark: "platforms",
   },
   {
-    title: "AgentForge",
+    title: "Jurivane",
     text: "An AgenticAI backbone for agent communication and governance — isolation, schemas, and control from pilot to production.",
-    to: "/AgentForge",
+    to: "/jurivane",
     mark: "agents",
   },
 ];
@@ -145,7 +145,7 @@ function HeroSchematic() {
 
 function DefaultPage() {
   return (
-    <Page description="Project8X designs, integrates, and stabilizes Genesys, Avaya, Cisco, Amazon Connect, and Verint contact-center platforms for Fortune 500 operations, and builds AgentForge for governed AI agents.">
+    <Page description="Project8X designs, integrates, and stabilizes Genesys, Avaya, Cisco, Amazon Connect, and Verint contact-center platforms for Fortune 500 operations, and builds Jurivane for governed AI agents.">
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
@@ -165,8 +165,8 @@ function DefaultPage() {
             <Link to="/ContactUs" className="sd-btn sd-btn-primary">
               Start a conversation
             </Link>
-            <Link to="/AgentForge" className="sd-btn sd-btn-secondary">
-              See AgentForge
+            <Link to="/jurivane" className="sd-btn sd-btn-secondary">
+              See Jurivane
             </Link>
           </div>
         </div>

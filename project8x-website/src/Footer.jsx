@@ -10,7 +10,7 @@ function Footer() {
         </div>
         <nav aria-label="Footer">
           <Link to="/CompanyServices">Services</Link>
-          <Link to="/AgentForge">AgentForge</Link>
+          <Link to="/jurivane">Jurivane</Link>
           <Link to="/work">Work</Link>
           <Link to="/news">News</Link>
           <Link to="/about">About</Link>
