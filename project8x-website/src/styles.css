@@ -221,6 +221,57 @@ textarea:focus-visible {
   box-shadow: inset 0 -2px 0 var(--sd-cyan);
 }
 
+/* 💫 accent on the News tab. Decorative only (aria-hidden); absolutely
+   positioned inside the link's own padding so it never shifts layout. */
+.sd-nav-accent {
+  position: relative;
+  display: inline-block;
+}
+
+.sd-nav-accent-star {
+  position: absolute;
+  top: -0.48em;
+  right: -0.58em;
+  width: 0.9em;
+  height: 0.9em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.sd-nav-accent-trail {
+  fill: none;
+  stroke: #f2c46d;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+
+.sd-nav-accent-core {
+  fill: #f6cf7e;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sd-nav-accent-star {
+    transform-origin: 40% 60%;
+    animation: sd-nav-twinkle 1.1s ease-out 0.4s 1 both;
+  }
+}
+
+@keyframes sd-nav-twinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-40deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15) rotate(6deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
 .sd-caret {
   width: 0.4rem;
   height: 0.4rem;
