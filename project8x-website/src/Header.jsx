@@ -154,7 +154,24 @@ function Header() {
               isActive ? "sd-nav-link is-active" : "sd-nav-link"
             }
           >
-            News
+            <span className="sd-nav-accent">
+              News
+              <svg
+                className="sd-nav-accent-star"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  className="sd-nav-accent-trail"
+                  d="M5.5 6.5C10 2 19.5 1.8 21.6 7.4c1.6 4.4-2.2 8.6-7.6 9.4"
+                />
+                <path
+                  className="sd-nav-accent-core"
+                  d="M8.6 9.4l1.45 2.95 3.25.47-2.35 2.3.55 3.24-2.9-1.53-2.9 1.53.55-3.24-2.35-2.3 3.25-.47z"
+                />
+              </svg>
+            </span>
           </NavLink>
           <NavLink
             to="/about"
