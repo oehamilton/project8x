@@ -13,6 +13,10 @@ const sections = [
     text: "Tenant isolation, schemas, and control so agent behavior stays auditable and contained as the estate grows.",
   },
   {
+    title: "Governed provisioning",
+    text: "Agents and tenants are onboarded through a defined questionnaire and approval flow that sets their permissions, topics, schemas, and tenant isolation before they can act — so each agent starts on the Kafka-compatible event backbone with a known scope and message contracts registered in the schema registry.",
+  },
+  {
     title: "Pilot to production",
     text: "Discipline to move from experiment to production without losing isolation or operational control.",
   },
@@ -32,6 +36,10 @@ function AgentForge() {
           </h1>
           <hr className="sd-rule" />
           <p className="sd-lede">
+            <strong>
+              Command and Control for Agentic Operations: provision, govern, observe,
+              and stop AI agents.
+            </strong>{" "}
             AgentForge is Project8X’s name for the fabric that lets autonomous agents
             communicate and stay governed — isolation, schemas, and control with a
             clear path from pilot to production.
