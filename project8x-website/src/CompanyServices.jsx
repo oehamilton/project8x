@@ -5,7 +5,7 @@ import { serviceGroups } from "./siteContent.js";
 
 function CompanyServices() {
   return (
-    <Page title="Services">
+    <Page title="Services" description="Project8X services: contact-center platforms, architecture and integration, operations and analytics, and program leadership.">
       <header className="sd-page-head">
         <div>
           <p className="sd-kicker">Services</p>

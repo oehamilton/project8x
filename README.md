@@ -27,7 +27,7 @@ Output is written to `project8x-website/build/`.
 
 ### Admin demo gate (`/admin`)
 
-Unlisted page for the AgentForge demo link. A muted **Admin** link on the AgentForge page opens it. It is not in the header or footer. `/admin` responds with `noindex, nofollow`.
+Unlisted page for the Jurivane (formerly AgentForge) demo link. A muted **Admin** link on the Jurivane page (`/jurivane`) opens it. It is not in the header or footer. `/admin` responds with `noindex, nofollow`.
 
 The usual screens are **offline** and **live on the internal network** (no public URL). **Open demo** is shown only when status has `live: true` and an https `demo_url`. A missing status fetch also shows offline.
 
@@ -46,7 +46,7 @@ Generate the hash with no trailing newline. `echo passphrase | sha256sum` includ
 node -e "const c=require('crypto');process.stdout.write(c.createHash('sha256').update(process.argv[1]).digest('hex'))" 'your-passphrase'
 ```
 
-Local fixtures (no AgentForge): see `project8x-website/.env.example` and `project8x-website/public/fixtures/`.
+Local fixtures (no Jurivane backend needed): see `project8x-website/.env.example` and `project8x-website/public/fixtures/`.
 
 ## Recent updates
 

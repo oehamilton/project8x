@@ -2,6 +2,12 @@
 # /admin (no slash) is the unlisted demo document. /admin/ is admin/index.html.
 /admin          /admin.html   200
 
+# Old product URL -> new product URL (Jurivane, formerly AgentForge).
+/agentforge     /jurivane     301
+/agentforge/    /jurivane     301
+/AgentForge     /jurivane     301
+/AgentForge/    /jurivane     301
+
 # Extensionless routes, including a trailing slash. Assets keep their own URLs.
 </^[^.]+$|\.(?!(css|gif|ico|jpg|jpeg|js|png|txt|svg|woff|woff2|ttf|map|json|webp|pdf|html|xml|webmanifest)$)([^.]+$)/>    /index.html   200
 

@@ -6,9 +6,9 @@ function renderAt(path) {
   return render(<App />);
 }
 
-describe("AgentForge architecture diagram", () => {
+describe("Jurivane architecture diagram", () => {
   it("shows the Signal Dark event-driven diagram and keeps the page copy", () => {
-    renderAt("/AgentForge");
+    renderAt("/jurivane");
 
     const diagram = screen.getByRole("img", {
       name: /event-driven architecture for agentic ai/i,
@@ -63,7 +63,9 @@ describe("AgentForge architecture diagram", () => {
       "Splunk | Tracing | Policies | Authorization | Cyara Feedback | Human Validation"
     );
 
-    expect(screen.getByRole("note")).toHaveTextContent(/working draft/i);
+    expect(screen.queryByRole("note")).not.toBeInTheDocument();
+    expect(screen.queryByText(/working draft/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Current capabilities" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
     expect(screen.getByRole("heading", { name: /^communication$/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^governance$/i })).toBeInTheDocument();

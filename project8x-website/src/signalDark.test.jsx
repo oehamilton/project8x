@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
 import { spaFallbackRoutes } from "../spaFallback.js";
@@ -18,7 +18,7 @@ describe("Signal Dark information architecture", () => {
         name: "Contact-center systems that hold under real load.",
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1 }).textContent).not.toMatch(/agentforge/i);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).not.toMatch(/jurivane|agentforge/i);
     expect(screen.queryByRole("link", { name: /^options$/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^home$/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^platforms$/i })).not.toBeInTheDocument();
@@ -27,9 +27,9 @@ describe("Signal Dark information architecture", () => {
     expect(architectLinks.length).toBeGreaterThan(1);
     architectLinks.forEach((link) => expect(link).toHaveAttribute("href", "/ContactUs"));
 
-    expect(screen.getByRole("link", { name: /see agentforge/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /see jurivane/i })).toHaveAttribute(
       "href",
-      "/AgentForge"
+      "/jurivane"
     );
     expect(
       screen.getByText(
@@ -69,7 +69,7 @@ describe("Signal Dark information architecture", () => {
     expect(
       screen.getByRole("heading", { name: /^consulting & delivery$/i })
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^jurivane$/i })).toBeInTheDocument();
     expect(
       screen.getByText(
         "Contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working."
@@ -188,7 +188,7 @@ describe("Signal Dark information architecture", () => {
     const paths = [
       "/CompanyServices",
       "/platforms",
-      "/AgentForge",
+      "/jurivane",
       "/work",
       "/about",
       "/ContactUs",
@@ -200,21 +200,20 @@ describe("Signal Dark information architecture", () => {
     }
   });
 
-  it("opens AgentForge from the secondary CTA", async () => {
+  it("opens Jurivane from the secondary CTA", async () => {
     renderAt("/");
-    await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
+    await userEvent.click(screen.getByRole("link", { name: /see jurivane/i }));
     expect(
       screen.getByRole("heading", {
         level: 1,
         name: /agenticai backbone for agent communication and governance\./i,
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("note")).toHaveTextContent(
-      /working draft — scope and proof points are still being sharpened\./i
-    );
+    expect(screen.queryByText(/working draft/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/available for\s+design-partner pilots/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /agentforge is project8x’s name for the fabric that lets autonomous agents communicate and stay governed — isolation, schemas, and control with a clear path from pilot to production\./i
+        /jurivane is project8x’s name for the fabric that lets autonomous agents communicate and stay governed — isolation, schemas, and control with a clear path from pilot to production\./i
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^communication$/i })).toBeInTheDocument();
@@ -246,17 +245,21 @@ describe("Signal Dark information architecture", () => {
     expect(screen.getByText(/does not publish written case studies/i)).toBeInTheDocument();
   });
 
-  it("puts Marketing’s tagline and the legal PDFs in the footer", () => {
+  it("puts Marketing’s tagline, the privacy notice, and the SMS PDFs in the footer", () => {
     renderAt("/");
     expect(screen.getByText(/contact-center technology consulting · project8x/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /^privacy$/i })).toHaveAttribute(
+    expect(screen.getByText("Texas-based · Fully remote")).toBeInTheDocument();
+    const footer = screen.getByRole("navigation", { name: "Footer" });
+    expect(within(footer).getByRole("link", { name: /^privacy$/i })).toHaveAttribute("href", "/privacy");
+    expect(within(footer).getByRole("link", { name: /^sms privacy \(pdf\)$/i })).toHaveAttribute(
       "href",
       "/Privacy Policy SMS.pdf"
     );
-    expect(screen.getByRole("link", { name: /^terms$/i })).toHaveAttribute(
+    expect(within(footer).getByRole("link", { name: /^sms terms \(pdf\)$/i })).toHaveAttribute(
       "href",
       "/Terms and Conditions SMS.pdf"
     );
+    expect(document.querySelector(".sd-footer").textContent).not.toMatch(/austin/i);
   });
 
   it("uses links on a service detail page and does not show a watermarked hero", () => {

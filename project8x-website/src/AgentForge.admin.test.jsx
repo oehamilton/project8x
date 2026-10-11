@@ -8,7 +8,7 @@ function renderAt(path) {
   return render(<App />);
 }
 
-describe('AgentForge admin entry', () => {
+describe('Jurivane admin entry', () => {
   it('does not link to admin from the marketing home', () => {
     renderAt('/');
     expect(screen.queryByRole('link', { name: 'Admin' })).not.toBeInTheDocument();
@@ -16,8 +16,8 @@ describe('AgentForge admin entry', () => {
     expect(header.textContent).not.toMatch(/admin/i);
   });
 
-  it('links Admin to the passphrase gate from AgentForge only', async () => {
-    renderAt('/AgentForge');
+  it('links Admin to the passphrase gate from Jurivane only', async () => {
+    renderAt('/jurivane');
     const adminLinks = screen.getAllByRole('link', { name: 'Admin' });
     expect(adminLinks).toHaveLength(1);
     expect(adminLinks[0]).toHaveAttribute('href', '/admin');

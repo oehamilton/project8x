@@ -4,7 +4,7 @@ import SignalFigure from "./SignalFigure.jsx";
 
 function Work() {
   return (
-    <Page title="Work">
+    <Page title="Work" description="Organizations Project8X architects have delivered contact-center and telecom programs for, on the record.">
       <header className="sd-page-head">
         <div>
           <p className="sd-kicker">Work</p>

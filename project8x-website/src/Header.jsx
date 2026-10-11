@@ -77,7 +77,7 @@ function Header() {
         Skip to content
       </a>
       <NavLink to="/" className="sd-brand" aria-label="Project8X home">
-        <img src="/Project8Xwt_tr.png" alt="" />
+        <img src="/Project8Xwt_tr.png" alt="" aria-hidden="true" />
       </NavLink>
       <nav className="sd-nav" aria-label="Primary">
         <button
@@ -131,14 +131,14 @@ function Header() {
           </div>
 
           <NavLink
-            to="/AgentForge"
+            to="/jurivane"
             className={() =>
-              location.pathname.toLowerCase() === "/agentforge"
+              location.pathname.toLowerCase() === "/jurivane"
                 ? "sd-nav-link is-active"
                 : "sd-nav-link"
             }
           >
-            AgentForge
+            Jurivane
           </NavLink>
           <NavLink
             to="/work"
