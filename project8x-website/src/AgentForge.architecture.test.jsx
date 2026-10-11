@@ -6,9 +6,9 @@ function renderAt(path) {
   return render(<App />);
 }
 
-describe("AgentForge architecture diagram", () => {
+describe("Jurivane architecture diagram", () => {
   it("shows the Signal Dark event-driven diagram and keeps the page copy", () => {
-    renderAt("/AgentForge");
+    renderAt("/jurivane");
 
     const diagram = screen.getByRole("img", {
       name: /event-driven architecture for agentic ai/i,
