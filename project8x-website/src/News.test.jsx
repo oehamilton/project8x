@@ -7,7 +7,7 @@ import {
   currentStories,
 } from "./news/newsContent.js";
 import { briefingStories, governanceBriefing } from "./news/briefings.js";
-import { RETIRED_SPELLING, findBannedNames } from "./testUtils/bannedNames.js";
+import { OLD_NAME, PRODUCT_NAME } from "./testUtils/productName.js";
 
 function renderAt(path) {
   window.history.pushState({}, "", path);
@@ -305,11 +305,11 @@ describe("Agent governance briefing", () => {
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
       expect(story.take.length).toBeGreaterThan(0);
-      expect(story.whyItMatters).toMatch(/AgentForge/);
+      expect(story.whyItMatters).toContain(PRODUCT_NAME);
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
-    expect(JSON.stringify(governanceBriefing)).not.toMatch(RETIRED_SPELLING);
-    expect(findBannedNames(JSON.stringify(governanceBriefing))).toEqual([]);
+    expect(JSON.stringify(governanceBriefing)).not.toMatch(OLD_NAME);
+    expect(governanceBriefing.intro).toContain("That is what Jurivane is built for");
     expect(governanceBriefing.intro).toContain(
       "Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents"
     );

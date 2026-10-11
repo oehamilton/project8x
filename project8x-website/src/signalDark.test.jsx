@@ -18,7 +18,7 @@ describe("Signal Dark information architecture", () => {
         name: "Contact-center systems that hold under real load.",
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1 }).textContent).not.toMatch(/agentforge/i);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).not.toMatch(/jurivane|agentforge/i);
     expect(screen.queryByRole("link", { name: /^options$/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^home$/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /^platforms$/i })).not.toBeInTheDocument();
@@ -27,9 +27,9 @@ describe("Signal Dark information architecture", () => {
     expect(architectLinks.length).toBeGreaterThan(1);
     architectLinks.forEach((link) => expect(link).toHaveAttribute("href", "/ContactUs"));
 
-    expect(screen.getByRole("link", { name: /see agentforge/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /see jurivane/i })).toHaveAttribute(
       "href",
-      "/AgentForge"
+      "/jurivane"
     );
     expect(
       screen.getByText(
@@ -69,7 +69,7 @@ describe("Signal Dark information architecture", () => {
     expect(
       screen.getByRole("heading", { name: /^consulting & delivery$/i })
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /^agentforge$/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /^jurivane$/i })).toBeInTheDocument();
     expect(
       screen.getByText(
         "Contact-center architecture, integration, and program leadership for programs that have to work on day one — and keep working."
@@ -188,7 +188,7 @@ describe("Signal Dark information architecture", () => {
     const paths = [
       "/CompanyServices",
       "/platforms",
-      "/AgentForge",
+      "/jurivane",
       "/work",
       "/about",
       "/ContactUs",
@@ -200,9 +200,9 @@ describe("Signal Dark information architecture", () => {
     }
   });
 
-  it("opens AgentForge from the secondary CTA", async () => {
+  it("opens Jurivane from the secondary CTA", async () => {
     renderAt("/");
-    await userEvent.click(screen.getByRole("link", { name: /see agentforge/i }));
+    await userEvent.click(screen.getByRole("link", { name: /see jurivane/i }));
     expect(
       screen.getByRole("heading", {
         level: 1,
@@ -213,7 +213,7 @@ describe("Signal Dark information architecture", () => {
     expect(screen.getByText(/available for\s+design-partner pilots/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /agentforge is project8x’s name for the fabric that lets autonomous agents communicate and stay governed — isolation, schemas, and control with a clear path from pilot to production\./i
+        /jurivane is project8x’s name for the fabric that lets autonomous agents communicate and stay governed — isolation, schemas, and control with a clear path from pilot to production\./i
       )
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^communication$/i })).toBeInTheDocument();

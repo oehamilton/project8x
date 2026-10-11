@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import App from "./App.jsx";
 import ContactUs from "./ContactUs.jsx";
 import ContactForm, { buildMailto } from "./contact/ContactForm.jsx";
-import { findBannedNames } from "./testUtils/bannedNames.js";
+import { oldNameMentions } from "./testUtils/productName.js";
 
 function renderAt(path) {
   window.history.pushState({}, "", path);
@@ -29,7 +29,7 @@ const submit = () =>
 const ROUTES = [
   "/",
   "/ContactUs",
-  "/AgentForge",
+  "/jurivane",
   "/news",
   "/privacy",
   "/CompanyServices",
@@ -221,7 +221,7 @@ describe("SEO and accessibility", () => {
     expect(document.querySelector('script[type="application/ld+json"]')).toBeNull();
   });
 
-  it("gives images alt text, hides decorative ones, keeps heading order, and never names the pending mark", () => {
+  it("gives images alt text, hides decorative ones, keeps heading order, and never shows the old product name", () => {
     for (const path of ROUTES) {
       cleanup();
       renderAt(path);
@@ -239,8 +239,14 @@ describe("SEO and accessibility", () => {
       levels.forEach((level, index) => {
         if (index > 0) expect(level - levels[index - 1], `${path} heading ${index}`).toBeLessThanOrEqual(1);
       });
-      expect(findBannedNames(document.body.textContent), path).toEqual([]);
-      expect(document.body.textContent).not.toMatch(/AgentForge8X/i);
+      expect(oldNameMentions(), path).toEqual([]);
     }
+  });
+
+  it("labels the admin demo page with Jurivane, not the old name", async () => {
+    renderAt("/admin");
+    expect(await screen.findByRole("heading", { level: 1, name: /demo access/i })).toBeInTheDocument();
+    expect(document.querySelector("main .sd-kicker")).toHaveTextContent(/^Jurivane$/);
+    expect(oldNameMentions()).toEqual([]);
   });
 });
