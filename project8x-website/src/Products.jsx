@@ -70,7 +70,7 @@ function Products() {
   ];
 
   return (
-    <Page title="Products">
+    <Page title="Products" description="Software Project8X ships, including COMMS, EZ-SMS.NET, and AZIMUTH, plus custom product development for contact-center and messaging operations.">
       <p className="sd-kicker">Products</p>
       <h1 className="sd-h1">Software we ship.</h1>
       <hr className="sd-rule" />

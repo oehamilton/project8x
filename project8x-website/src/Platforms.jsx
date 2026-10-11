@@ -41,7 +41,7 @@ function Platforms() {
   }, [location.hash]);
 
   return (
-    <Page title="Platforms">
+    <Page title="Platforms" description="Contact-center platform architecture and integration for Genesys Cloud, Avaya, Cisco, Amazon Connect, and Verint, from Project8X.">
       <header className="sd-page-head">
         <div>
           <p className="sd-kicker">Platforms</p>

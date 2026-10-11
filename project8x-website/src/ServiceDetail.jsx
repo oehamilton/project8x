@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { truncateDescription, useDocumentMeta } from "./seo.js";
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft, FaHeadset, FaCogs, FaChartLine, FaRocket, FaPhone, FaFileAlt, FaComments, FaDatabase, FaCode } from "react-icons/fa";
 
@@ -781,17 +782,18 @@ function ServiceDetail() {
   const { serviceId } = useParams();
   const service = serviceDetails[serviceId];
 
-  useEffect(() => {
-    document.title = service
-      ? `${service.title} · Project8X`
-      : "Service · Project8X";
-  }, [service]);
+  useDocumentMeta(
+    service ? service.title : "Service not found",
+    service
+      ? truncateDescription(`${service.title} from Project8X: ${service.content.overview}`)
+      : "The requested Project8X service could not be found."
+  );
 
   if (!service) {
     return (
       <div className="sd-page">
         <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4 text-gray-200 drop-shadow-lg">Service Not Found</h2>
+          <h1 className="text-3xl font-bold mb-4 text-gray-200 drop-shadow-lg">Service Not Found</h1>
           <p className="text-gray-300 drop-shadow-md mb-6">The requested service could not be found.</p>
           <Link
             to="/CompanyServices"
