@@ -9,7 +9,7 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "In three days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend, Microsoft’s CEO called for controls that sit outside the model, and independent evaluators moved to the center of AI oversight. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is the operating discipline AgentForge is built around: governed agent communication, tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+    "In three days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend, Microsoft’s CEO called for controls that sit outside the model, and independent evaluators moved to the center of AI oversight. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what AgentForge is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
   publishedAt: "2026-10-11T15:45:00Z",
   stories: [
     {

@@ -307,7 +307,11 @@ describe("Agent governance briefing", () => {
       expect(story.whyItMatters).toMatch(/AgentForge/);
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
-    expect(JSON.stringify(governanceBriefing)).not.toMatch(/Jurivane|AgentForge8X/);
+    expect(JSON.stringify(governanceBriefing)).not.toMatch(/Jurivane|AgentForge8X/i);
+    expect(governanceBriefing.intro).toContain(
+      "Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents"
+    );
+    expect(governanceBriefing.intro).not.toMatch(/Command and Control of/);
   });
 
   it("renders the briefing above current stories without changing the six beat cards", () => {
