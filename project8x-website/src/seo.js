@@ -4,7 +4,7 @@ export const SITE_URL = "https://www.project8x.com";
 export const SITE_NAME = "Project8X";
 export const DEFAULT_TITLE = "Project8X | Contact-center architecture & delivery";
 export const DEFAULT_DESCRIPTION =
-  "Enterprise contact-center consulting — Genesys · Avaya · Cisco · Amazon Connect · Verint — plus AgentForge for multi-agent systems.";
+  "Enterprise contact-center consulting — Genesys · Avaya · Cisco · Amazon Connect · Verint — plus Jurivane for governing multi-agent AI systems.";
 
 export function pageTitle(title) {
   return title ? `${title} | ${SITE_NAME}` : DEFAULT_TITLE;
