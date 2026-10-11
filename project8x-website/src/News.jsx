@@ -48,7 +48,7 @@ function News() {
   const briefingItems = briefingStories(briefing);
 
   return (
-    <Page title="News">
+    <Page title="News" description="Industry notes for contact-center operators: platform changes from Genesys, Avaya, Cisco, and Amazon Connect, AI in CX, regulation, and agent governance.">
       <header className="sd-page-head">
         <div>
           <p className="sd-kicker">News</p>

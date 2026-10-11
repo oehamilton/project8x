@@ -18,7 +18,7 @@ const executives = [
 
 function ExecutiveLeadership() {
   return (
-    <Page title="About">
+    <Page title="About" description="Meet the Project8X leadership team: a contact-center delivery practice with 35+ years of Fortune 500 telecom and platform experience.">
       <header className="sd-page-head">
         <div>
           <p className="sd-kicker">About</p>

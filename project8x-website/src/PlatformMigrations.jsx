@@ -22,7 +22,7 @@ const steps = [
 
 function PlatformMigrations() {
   return (
-    <Page title="Platform migrations">
+    <Page title="Platform migrations" description="Contact-center platform migrations planned to hold on day one: Avaya, Cisco, and legacy estates to Genesys Cloud, Amazon Connect, and modern stacks, led by Project8X architects.">
       <p className="sd-kicker">Services</p>
       <h1 className="sd-h1 sd-h1-migrations">Platform migrations that hold on day one.</h1>
       <hr className="sd-rule" />
