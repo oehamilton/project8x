@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
 import SignalFigure from "./SignalFigure.jsx";
+import ContactForm from "./contact/ContactForm.jsx";
+import { bookingUrl } from "./contact/config.js";
 
 const groups = [
   {
@@ -32,47 +34,71 @@ const groups = [
   },
 ];
 
-function ContactUs() {
+function ContactUs({ booking = bookingUrl(), formProps = {} }) {
   return (
-    <Page title="Contact">
+    <Page
+      title="Contact"
+      description="Talk to a Project8X contact-center architect. Request a platform assessment for Genesys Cloud, Amazon Connect, Avaya, Cisco, or Verint, or find the right Project8X email address."
+    >
       <header className="sd-page-head">
         <div>
           <p className="sd-kicker">Contact</p>
           <h1 className="sd-h1">Talk to an architect.</h1>
           <hr className="sd-rule" />
-          <div className="sd-contact-primary">
-        <p className="sd-lede">
-          New contact center work starts with sales. For anything else, use the
-          address that matches the question.
-        </p>
-        <div className="sd-actions">
-          <a className="sd-btn sd-btn-primary" href="mailto:sales@project8x.com">
-            Talk to an architect
-          </a>
-          <a className="sd-btn sd-btn-secondary" href="mailto:contact@project8x.com">
-            contact@project8x.com
-          </a>
-          </div>
-        </div>
+          <p className="sd-lede">
+            Tell us the platform, the constraint, and the date. An architect reads
+            every request and replies by email.
+          </p>
+          {booking ? (
+            <div className="sd-actions">
+              <a
+                className="sd-btn sd-btn-secondary"
+                href={booking}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Book an architect call
+              </a>
+            </div>
+          ) : null}
         </div>
         <SignalFigure variant="contact" />
       </header>
 
-      <div className="sd-contact-grid">
-        {groups.map((group) => (
-          <section key={group.title}>
-            <h2>{group.title}</h2>
-            <ul>
-              {group.items.map((item) => (
-                <li key={item.email}>
-                  <span>{item.label}</span>
-                  <a href={`mailto:${item.email}`}>{item.email}</a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
+      <section
+        id="contact-form"
+        className="sd-section sd-contact-primary"
+        aria-labelledby="contact-form-heading"
+      >
+        <h2 id="contact-form-heading">Request a platform assessment</h2>
+        <ContactForm {...formProps} />
+      </section>
+
+      <section className="sd-section" aria-labelledby="contact-directory-heading">
+        <h2 id="contact-directory-heading">Prefer email?</h2>
+        <p className="sd-lede sd-contact-lede">
+          New contact-center work starts with{" "}
+          <a className="sd-text-link" href="mailto:sales@project8x.com">
+            sales@project8x.com
+          </a>
+          . For anything else, use the address that matches the question.
+        </p>
+        <div className="sd-contact-grid">
+          {groups.map((group) => (
+            <section key={group.title} aria-label={group.title}>
+              <h3>{group.title}</h3>
+              <ul>
+                {group.items.map((item) => (
+                  <li key={item.email}>
+                    <span>{item.label}</span>
+                    <a href={`mailto:${item.email}`}>{item.email}</a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </section>
 
       <p className="sd-note">
         Looking for COMMS, EZ-SMS.NET, or AZIMUTH? Those stay on the{" "}

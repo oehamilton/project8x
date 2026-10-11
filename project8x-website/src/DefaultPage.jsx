@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
+import { organizationJsonLd } from "./seo.js";
 
 const capabilities = [
   {
@@ -144,10 +145,15 @@ function HeroSchematic() {
 
 function DefaultPage() {
   return (
-    <Page>
+    <Page description="Project8X designs, integrates, and stabilizes Genesys, Avaya, Cisco, Amazon Connect, and Verint contact-center platforms for Fortune 500 operations, and builds AgentForge for governed AI agents.">
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <header className="sd-hero">
         <div className="sd-hero-copy">
-          <img className="sd-hero-mark" src="/Project8Xwt_tr.png" alt="" />
+          <img className="sd-hero-mark" src="/Project8Xwt_tr.png" alt="" aria-hidden="true" />
           <h1>Contact-center systems that hold under real load.</h1>
           <hr className="sd-rule" />
           <p className="sd-lede">
@@ -157,7 +163,7 @@ function DefaultPage() {
           </p>
           <div className="sd-actions">
             <Link to="/ContactUs" className="sd-btn sd-btn-primary">
-              Talk to an architect
+              Start a conversation
             </Link>
             <Link to="/AgentForge" className="sd-btn sd-btn-secondary">
               See AgentForge
