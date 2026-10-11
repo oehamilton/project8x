@@ -10,6 +10,7 @@ export const spaFallbackRoutes = [
   "AgentForge",
   "work",
   "news",
+  "privacy",
   "about",
   "service/contact-center-technology-consulting",
   "service/system-integration-deployment",
