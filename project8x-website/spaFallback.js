@@ -6,6 +6,7 @@ export const spaFallbackRoutes = [
   "Products",
   "ExecutiveLeadership",
   "platforms",
+  "jurivane",
   "agentforge",
   "AgentForge",
   "work",
