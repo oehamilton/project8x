@@ -1,6 +1,7 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App.jsx";
+import { RETIRED_SPELLING, findBannedNames } from "./testUtils/bannedNames.js";
 
 function renderAt(path) {
   window.history.pushState({}, "", path);
@@ -30,8 +31,9 @@ describe("AgentForge page copy", () => {
     ).toHaveTextContent(/permissions, topics, schemas, and tenant isolation before they can act/);
   });
 
-  it("never uses the uncleared product name", () => {
+  it("never uses an uncleared or retired product name", () => {
     renderAt("/AgentForge");
-    expect(document.body.textContent).not.toMatch(/Jurivane/i);
+    expect(findBannedNames(document.body.textContent)).toEqual([]);
+    expect(document.body.textContent).not.toMatch(RETIRED_SPELLING);
   });
 });

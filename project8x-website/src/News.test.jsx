@@ -7,6 +7,7 @@ import {
   currentStories,
 } from "./news/newsContent.js";
 import { briefingStories, governanceBriefing } from "./news/briefings.js";
+import { RETIRED_SPELLING, findBannedNames } from "./testUtils/bannedNames.js";
 
 function renderAt(path) {
   window.history.pushState({}, "", path);
@@ -307,7 +308,8 @@ describe("Agent governance briefing", () => {
       expect(story.whyItMatters).toMatch(/AgentForge/);
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
-    expect(JSON.stringify(governanceBriefing)).not.toMatch(/Jurivane|AgentForge8X/i);
+    expect(JSON.stringify(governanceBriefing)).not.toMatch(RETIRED_SPELLING);
+    expect(findBannedNames(JSON.stringify(governanceBriefing))).toEqual([]);
     expect(governanceBriefing.intro).toContain(
       "Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents"
     );
