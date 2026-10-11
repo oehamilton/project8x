@@ -1,11 +1,7 @@
-import { useEffect } from "react";
+import { useDocumentMeta } from "./seo.js";
 
-export default function Page({ title, children, width = "default" }) {
-  useEffect(() => {
-    document.title = title
-      ? `${title} | Project8X`
-      : "Project8X | Contact-center architecture & delivery";
-  }, [title]);
+export default function Page({ title, description, children, width = "default" }) {
+  useDocumentMeta(title, description);
 
   const className =
     width === "narrow" ? "sd-page sd-page-narrow" : width === "wide" ? "sd-page sd-page-wide" : "sd-page";
