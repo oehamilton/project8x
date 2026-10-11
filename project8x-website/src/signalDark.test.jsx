@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
 import { spaFallbackRoutes } from "../spaFallback.js";
@@ -209,9 +209,8 @@ describe("Signal Dark information architecture", () => {
         name: /agenticai backbone for agent communication and governance\./i,
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("note")).toHaveTextContent(
-      /working draft — scope and proof points are still being sharpened\./i
-    );
+    expect(screen.queryByText(/working draft/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/available for\s+design-partner pilots/i)).toBeInTheDocument();
     expect(
       screen.getByText(
         /agentforge is project8x’s name for the fabric that lets autonomous agents communicate and stay governed — isolation, schemas, and control with a clear path from pilot to production\./i
@@ -246,17 +245,21 @@ describe("Signal Dark information architecture", () => {
     expect(screen.getByText(/does not publish written case studies/i)).toBeInTheDocument();
   });
 
-  it("puts Marketing’s tagline and the legal PDFs in the footer", () => {
+  it("puts Marketing’s tagline, the privacy notice, and the SMS PDFs in the footer", () => {
     renderAt("/");
     expect(screen.getByText(/contact-center technology consulting · project8x/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /^privacy$/i })).toHaveAttribute(
+    expect(screen.getByText("Texas-based · Fully remote")).toBeInTheDocument();
+    const footer = screen.getByRole("navigation", { name: "Footer" });
+    expect(within(footer).getByRole("link", { name: /^privacy$/i })).toHaveAttribute("href", "/privacy");
+    expect(within(footer).getByRole("link", { name: /^sms privacy \(pdf\)$/i })).toHaveAttribute(
       "href",
       "/Privacy Policy SMS.pdf"
     );
-    expect(screen.getByRole("link", { name: /^terms$/i })).toHaveAttribute(
+    expect(within(footer).getByRole("link", { name: /^sms terms \(pdf\)$/i })).toHaveAttribute(
       "href",
       "/Terms and Conditions SMS.pdf"
     );
+    expect(document.querySelector(".sd-footer").textContent).not.toMatch(/austin/i);
   });
 
   it("uses links on a service detail page and does not show a watermarked hero", () => {
