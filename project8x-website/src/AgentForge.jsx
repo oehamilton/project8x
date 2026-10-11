@@ -56,13 +56,13 @@ const sections = [
 function AgentForge() {
   return (
     <Page
-      title="AgentForge"
-      description="AgentForge by Project8X: Command and Control for Agentic Operations. A Kafka-compatible backbone to provision, govern, observe, and stop AI agents. Available for design-partner pilots."
+      title="Jurivane"
+      description="Jurivane by Project8X: Command and Control for Agentic Operations. A Kafka-compatible backbone to provision, govern, observe, and stop AI agents. Available for design-partner pilots."
       width="wide"
     >
       <header className="sd-page-head">
         <div>
-          <p className="sd-kicker">AgentForge</p>
+          <p className="sd-kicker">Jurivane by Project8X</p>
           <h1 className="sd-h1 sd-h1-wide">
             AgenticAI backbone for agent communication and governance.
           </h1>
@@ -72,7 +72,7 @@ function AgentForge() {
               Command and Control for Agentic Operations: provision, govern, observe,
               and stop AI agents.
             </strong>{" "}
-            AgentForge is Project8X’s name for the fabric that lets autonomous agents
+            Jurivane is Project8X’s name for the fabric that lets autonomous agents
             communicate and stay governed — isolation, schemas, and control with a
             clear path from pilot to production.
           </p>
@@ -87,10 +87,21 @@ function AgentForge() {
         </div>
         <SignalFigure variant="agents" />
       </header>
+      <aside className="sd-name-notes" aria-label="About the name">
+        <p className="sd-transition-note" data-transition-note="">
+          Formerly AgentForge. Same platform, new name.
+        </p>
+        <p className="sd-etymology" data-etymology="">
+          <span className="sd-etymology-label">The name (etymology): </span>
+          Jurivane (joo-ri-VANE): from the Latin <em>juris</em> — law, right,
+          authority — and <em>vane</em>, as in a weathervane, the instrument that
+          shows direction. Governed direction for autonomous agents.
+        </p>
+      </aside>
       <section className="sd-af-section" aria-labelledby="af-capabilities-heading">
         <h2 id="af-capabilities-heading">Current capabilities</h2>
         <p>
-          AgentForge is at the foundation (MVP) stage and available for
+          Jurivane is at the foundation (MVP) stage and available for
           design-partner pilots. What it does today:
         </p>
         <ul className="sd-capability-list">
@@ -105,7 +116,7 @@ function AgentForge() {
       <section className="sd-af-section" aria-labelledby="af-estate-heading">
         <h2 id="af-estate-heading">How it fits your contact-center estate</h2>
         <p>
-          AgentForge does not replace Genesys Cloud, Amazon Connect, your CRM, or
+          Jurivane does not replace Genesys Cloud, Amazon Connect, your CRM, or
           your integration layer. It sits beside them as the governed channel AI
           agents use to communicate and act.
         </p>
@@ -113,7 +124,7 @@ function AgentForge() {
           Events come in from those systems and go back out to them through APIs
           and connectors you control, so agent work travels a path that is
           provisioned, schema-checked, isolated by tenant, and recorded.
-          Connectors are built for each estate during a pilot; AgentForge does
+          Connectors are built for each estate during a pilot; Jurivane does
           not claim certified or prebuilt platform integrations.
         </p>
       </section>

@@ -754,6 +754,30 @@ textarea:focus-visible {
   font-size: 1rem;
 }
 
+.sd-name-notes {
+  margin: var(--sd-space-md) 0 0;
+  max-width: var(--sd-measure);
+}
+
+.sd-etymology {
+  margin: var(--sd-space-2xs) 0 0;
+  color: var(--sd-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.sd-etymology-label {
+  color: var(--sd-text);
+  font-weight: 600;
+}
+
+.sd-transition-note {
+  margin: 0;
+  color: var(--sd-text-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
 .sd-af-section {
   margin-top: 0;
   padding: var(--sd-space-lg) 0;

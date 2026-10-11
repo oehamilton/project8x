@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Routes, Route } from "react-router-dom";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import DefaultPage from "./DefaultPage.jsx";
@@ -39,8 +39,9 @@ function App() {
             <Route path="/CompanyServices" element={<CompanyServices />} />
             <Route path="/platforms" element={<Platforms />} />
             <Route path="/platform-migrations" element={<PlatformMigrations />} />
-            <Route path="/agentforge" element={<AgentForge />} />
-            <Route path="/AgentForge" element={<AgentForge />} />
+            <Route path="/jurivane" element={<AgentForge />} />
+            {/* Old product URL (case-insensitive match covers /AgentForge too). */}
+            <Route path="/agentforge" element={<Navigate to="/jurivane" replace />} />
             <Route path="/work" element={<Work />} />
             <Route path="/news" element={<News />} />
             <Route path="/privacy" element={<Privacy />} />

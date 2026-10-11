@@ -131,14 +131,14 @@ function Header() {
           </div>
 
           <NavLink
-            to="/AgentForge"
+            to="/jurivane"
             className={() =>
-              location.pathname.toLowerCase() === "/agentforge"
+              location.pathname.toLowerCase() === "/jurivane"
                 ? "sd-nav-link is-active"
                 : "sd-nav-link"
             }
           >
-            AgentForge
+            Jurivane
           </NavLink>
           <NavLink
             to="/work"
