@@ -6,6 +6,7 @@ import {
   archiveStories,
   currentStories,
 } from "./news/newsContent.js";
+import { briefingStories, governanceBriefing } from "./news/briefings.js";
 
 function renderAt(path) {
   window.history.pushState({}, "", path);
@@ -283,5 +284,45 @@ describe("News page", () => {
     expect(
       screen.getByRole("link", { name: "Industry notes from the platforms we deliver on." })
     ).toHaveAttribute("href", "/news");
+  });
+});
+
+describe("Agent governance briefing", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("lists sourced briefing stories oldest first with a tie-in for each", () => {
+    const items = briefingStories();
+    expect(governanceBriefing.heading).toBe("Why agent governance matters now");
+    expect(items.map((story) => story.date)).toEqual(["2026-10-09", "2026-10-10", "2026-10-11"]);
+    expect(items.map((story) => story.sourceName)).toEqual([
+      "Anthropic",
+      "Satya Nadella on X",
+      "CNBC",
+    ]);
+    items.forEach((story) => {
+      expect(story.sourceUrl).toMatch(/^https:\/\//);
+      expect(story.take.length).toBeGreaterThan(0);
+      expect(story.whyItMatters).toMatch(/AgentForge/);
+      expect(story.whyItMatters).not.toMatch(/prevent/i);
+    });
+    expect(JSON.stringify(governanceBriefing)).not.toMatch(/Jurivane|AgentForge8X/);
+  });
+
+  it("renders the briefing above current stories without changing the six beat cards", () => {
+    renderAt("/news");
+    const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
+    const cards = within(briefing).getAllByRole("article");
+    expect(cards).toHaveLength(3);
+    expect(within(cards[0]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+      "href",
+      "https://www.anthropic.com/research/investigating-unintended-model-actions"
+    );
+    expect(within(cards[0]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+
+    const current = screen.getByRole("region", { name: /current stories/i });
+    expect(within(current).getAllByRole("article")).toHaveLength(6);
+    expect(within(current).queryByText("Why it matters for agent operations:")).not.toBeInTheDocument();
   });
 });

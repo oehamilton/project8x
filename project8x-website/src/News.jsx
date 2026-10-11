@@ -6,6 +6,7 @@ import {
   currentStories,
   formatStoryDate,
 } from "./news/newsContent.js";
+import { briefingStories, governanceBriefing } from "./news/briefings.js";
 
 function StorySource({ story }) {
   const external = /^https?:\/\//i.test(story.sourceUrl);
@@ -30,6 +31,11 @@ function StoryBody({ story }) {
         <time dateTime={story.date}>{formatStoryDate(story.date)}</time>
       </p>
       <p>{story.take}</p>
+      {story.whyItMatters ? (
+        <p>
+          <strong>Why it matters for agent operations:</strong> {story.whyItMatters}
+        </p>
+      ) : null}
       <StorySource story={story} />
     </>
   );
@@ -38,6 +44,8 @@ function StoryBody({ story }) {
 function News() {
   const current = currentStories();
   const archived = archiveStories();
+  const briefing = governanceBriefing;
+  const briefingItems = briefingStories(briefing);
 
   return (
     <Page title="News">
@@ -62,6 +70,21 @@ function News() {
         </div>
         <SignalFigure variant="topology" />
       </header>
+
+      {briefingItems.length > 0 ? (
+        <section className="sd-section" aria-labelledby="news-briefing-heading">
+          <p className="sd-kicker">{briefing.kicker}</p>
+          <h2 id="news-briefing-heading">{briefing.heading}</h2>
+          <p className="sd-lede">{briefing.intro}</p>
+          <div className="sd-news-grid">
+            {briefingItems.map((story) => (
+              <article className="sd-news-card" key={story.id}>
+                <StoryBody story={story} />
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="sd-section" aria-labelledby="news-current-heading">
         <h2 id="news-current-heading">Current stories</h2>
