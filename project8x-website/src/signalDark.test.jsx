@@ -248,7 +248,7 @@ describe("Signal Dark information architecture", () => {
   it("puts Marketing’s tagline, the privacy notice, and the SMS PDFs in the footer", () => {
     renderAt("/");
     expect(screen.getByText(/contact-center technology consulting · project8x/i)).toBeInTheDocument();
-    expect(screen.getByText("Texas-based · Fully remote")).toBeInTheDocument();
+    expect(screen.getByText("Texas-based")).toBeInTheDocument();
     const footer = screen.getByRole("navigation", { name: "Footer" });
     expect(within(footer).getByRole("link", { name: /^privacy$/i })).toHaveAttribute("href", "/privacy");
     expect(within(footer).getByRole("link", { name: /^sms privacy \(pdf\)$/i })).toHaveAttribute(
