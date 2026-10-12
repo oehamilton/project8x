@@ -296,11 +296,21 @@ describe("Agent governance briefing", () => {
   it("lists sourced briefing stories oldest first with a tie-in for each", () => {
     const items = briefingStories();
     expect(governanceBriefing.heading).toBe("Why agent governance matters now");
-    expect(items.map((story) => story.date)).toEqual(["2026-10-09", "2026-10-10", "2026-10-11"]);
+    expect(items.map((story) => story.date)).toEqual([
+      "2026-10-09",
+      "2026-10-10",
+      "2026-10-11",
+      "2026-10-12",
+      "2026-10-12",
+      "2026-10-12",
+    ]);
     expect(items.map((story) => story.sourceName)).toEqual([
       "Anthropic",
       "Satya Nadella on X",
       "CNBC",
+      "GOV.UK",
+      "European Commission",
+      "ABC News (Australia)",
     ]);
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
@@ -320,7 +330,7 @@ describe("Agent governance briefing", () => {
     renderAt("/news");
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     const cards = within(briefing).getAllByRole("article");
-    expect(cards).toHaveLength(3);
+    expect(cards).toHaveLength(6);
     expect(within(cards[0]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
       "href",
       "https://www.anthropic.com/research/investigating-unintended-model-actions"

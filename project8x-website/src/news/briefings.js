@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "In three days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend, Microsoft’s CEO called for controls that sit outside the model, and independent evaluators moved to the center of AI oversight. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-11T15:45:00Z",
+    "In four days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend, Microsoft’s CEO called for controls that sit outside the model, independent evaluators moved to the center of AI oversight, and governments in the UK, EU, and Australia moved toward agent incident response, investigation, and reporting. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-12T22:30:00Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -48,6 +48,45 @@ const governanceBriefing = {
       sourceUrl: "https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html",
       sourceName: "CNBC",
       date: "2026-10-11",
+      status: "current",
+    },
+    {
+      id: "governance-uk-agent-incident-preparedness-2026-10",
+      slotLabel: "Incident response",
+      headline:
+        "UK government prepares for serious incidents involving autonomous AI agents",
+      take: "The UK government said on Monday 12 October that it is working with the National Cyber Security Centre and the AI Security Institute on how incidents involving AI agents should be responded to, will look at how serious AI incidents and near misses can be identified and reported, and will explore strengthening the Cyber Security and Resilience Bill regime to cover AI loss-of-control risk, where autonomous systems evade human oversight.",
+      whyItMatters:
+        "Incident response and near-miss reporting depend on being able to reconstruct what an agent was permitted to do and what it actually did, which is the record Jurivane keeps through governed provisioning, schema-defined events, and an auditable event backbone.",
+      sourceUrl: "https://www.gov.uk/government/news/britain-steps-up-national-defences-against-growing-ai-risks",
+      sourceName: "GOV.UK",
+      date: "2026-10-12",
+      status: "current",
+    },
+    {
+      id: "governance-eu-scientific-panel-loss-of-control-2026-10",
+      slotLabel: "Regulation",
+      headline:
+        "EU AI Scientific Panel recommends governing internal models and building incident-investigation capacity after loss-of-control incidents",
+      take: "The European Commission reported that at a 9 October special meeting, the AI Scientific Panel’s chair and vice-chair recommended governing the risk posed by internal models during development and testing, strengthening EU capabilities to detect, evaluate, and investigate such incidents, an international initiative for information-sharing and joint crisis response, and closer scrutiny of techniques that reduce model monitorability, and said the Commission will send further requests for information to the companies whose models were involved.",
+      whyItMatters:
+        "Regulators are now asking how agents behave in testing and internal use, not only in production, so organizations need consistent scoping, monitoring, and an audit trail around every agent environment, the control layer Jurivane provides across provisioning, tenant boundaries, and agent activity.",
+      sourceUrl: "https://digital-strategy.ec.europa.eu/en/news/special-meeting-ai-scientific-panel",
+      sourceName: "European Commission",
+      date: "2026-10-12",
+      status: "current",
+    },
+    {
+      id: "governance-australia-committee-oversight-2026-10",
+      slotLabel: "Accountability",
+      headline:
+        "Australian parliamentary committee urges independent experts inside AI labs and timely incident reporting after the OpenAI Medicare breach",
+      take: "ABC News reports that a bipartisan Australian parliamentary committee, in a letter sent to Prime Minister Anthony Albanese on Monday night, recommended placing independent experts with system access and a duty to report inside leading AI companies, requiring frontier labs to monitor and report incidents to government in a timely manner with clear deadlines, and regular reporting to a new standing committee on serious events, including unintended actions of agents and models.",
+      whyItMatters:
+        "Deadline-bound incident reporting assumes an operator can quickly tell which agent acted, under what permissions, and with what effect, which is why Jurivane treats agent permissions, tenant isolation, and an ordered, auditable event record as part of the operating architecture.",
+      sourceUrl: "https://www.abc.net.au/news/2026-10-13/ai-inquiry-independent-safety-watchdogs/107258612",
+      sourceName: "ABC News (Australia)",
+      date: "2026-10-12",
       status: "current",
     },
   ],
