@@ -6,7 +6,7 @@ function Footer() {
       <div className="sd-footer-inner">
         <div className="sd-footer-meta">
           <p>Contact-center technology consulting · Project8X</p>
-          <p>Texas-based · Fully remote</p>
+          <p>Texas-based</p>
         </div>
         <nav aria-label="Footer">
           <Link to="/CompanyServices">Services</Link>
