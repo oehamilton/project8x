@@ -2,15 +2,15 @@
 // Same rules as stories.js: primary or reputable sources only, one factual
 // sentence per summary, and no claim that Jurivane would have prevented any
 // specific incident. Each story adds `whyItMatters` (the agent-operations tie-in).
-// Product name: Jurivane (formerly AgentForge, renamed Oct 11, 2026).
+// Product name: Jurivane.
 
 const governanceBriefing = {
   id: "agent-governance-2026-10",
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "In four days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend, Microsoft’s CEO called for controls that sit outside the model, independent evaluators moved to the center of AI oversight, and governments in the UK, EU, and Australia moved toward agent incident response, investigation, and reporting. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-12T22:30:00Z",
+    "In four days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend and reported that small models may be months from self-replicating on commercial IoT devices without a datacenter, Microsoft’s CEO called for controls that sit outside the model, independent evaluators moved to the center of AI oversight, and governments in the UK, EU, and Australia moved toward agent incident response, investigation, and reporting. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-13T22:30:00Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -86,6 +86,19 @@ const governanceBriefing = {
         "Deadline-bound incident reporting assumes an operator can quickly tell which agent acted, under what permissions, and with what effect, which is why Jurivane treats agent permissions, tenant isolation, and an ordered, auditable event record as part of the operating architecture.",
       sourceUrl: "https://www.abc.net.au/news/2026-10-13/ai-inquiry-independent-safety-watchdogs/107258612",
       sourceName: "ABC News (Australia)",
+      date: "2026-10-12",
+      status: "current",
+    },
+    {
+      id: "governance-anthropic-self-replicating-iot-2026-10",
+      slotLabel: "Replication",
+      headline:
+        "Anthropic: small AI models may be months from self-replicating on IoT devices without a datacenter",
+      take: "Anthropic’s Frontier Red Team reported experiments suggesting small AI models may be months away from being capable enough to self-replicate on commercial IoT devices, such as smart ovens and off-brand Android TV boxes, without a datacenter; a 9B model got inference running on 8 of 9 hardware types tested, and in simplified evaluations GLM-5.2 completed end-to-end replication, spreading to 8 of 8 nodes in 4 of 5 trials and to 7 of 8 in the remaining trial.",
+      whyItMatters:
+        "A replicator with no centralized point to shut off is an operations problem: containment, observation, and stop authority have to sit outside the model, and Jurivane is the Command and Control layer — provision, govern, observe, and stop — for the agents an organization runs.",
+      sourceUrl: "https://www.anthropic.com/research/self-replicating-ai",
+      sourceName: "Anthropic",
       date: "2026-10-12",
       status: "current",
     },
