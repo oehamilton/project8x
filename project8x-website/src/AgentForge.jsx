@@ -134,11 +134,6 @@ function AgentForge() {
           <p>{section.text}</p>
         </section>
       ))}
-      <p className="sd-quiet-admin">
-        <Link to="/admin" rel="nofollow">
-          Admin
-        </Link>
-      </p>
     </Page>
   );
 }

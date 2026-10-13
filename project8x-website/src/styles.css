@@ -524,23 +524,6 @@ textarea:focus-visible {
   margin-top: var(--sd-space-lg);
 }
 
-.sd-quiet-admin {
-  margin: var(--sd-space-xl) 0 0;
-  font-size: 0.75rem;
-  line-height: 1;
-}
-
-.sd-quiet-admin a {
-  color: rgba(183, 195, 206, 0.48);
-  letter-spacing: 0.04em;
-  text-decoration: none;
-}
-
-.sd-quiet-admin a:hover,
-.sd-quiet-admin a:focus-visible {
-  color: var(--sd-teal);
-}
-
 .sd-btn {
   display: inline-flex;
   align-items: center;
@@ -1190,18 +1173,6 @@ textarea:focus-visible {
   border-top: 1px solid var(--sd-line);
   color: var(--sd-text-muted);
   font-size: 0.875rem;
-}
-
-.sd-admin-input {
-  display: block;
-  width: min(100%, 24rem);
-  margin-top: var(--sd-space-sm);
-  padding: 0.7rem 0.85rem;
-  border-radius: var(--sd-radius);
-  border: 1px solid var(--sd-line);
-  background: var(--sd-surface);
-  color: var(--sd-text);
-  font: inherit;
 }
 
 .sd-contact-primary {
