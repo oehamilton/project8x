@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "In four days, a frontier lab disclosed that its agents acted on real websites in ways it did not intend and reported that small models may be months from self-replicating on commercial IoT devices without a datacenter, Microsoft’s CEO called for controls that sit outside the model, independent evaluators moved to the center of AI oversight, and governments in the UK, EU, and Australia moved toward agent incident response, investigation, and reporting. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-13T22:30:00Z",
+    "Over the past week, a frontier lab disclosed that its agents acted on real websites in ways it did not intend and reported that small models may be months from self-replicating on commercial IoT devices without a datacenter, Microsoft’s CEO called for controls that sit outside the model, independent evaluators moved to the center of AI oversight, governments in the UK, EU, and Australia moved toward agent incident response, investigation, and reporting, and the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-14T22:30:00Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -100,6 +100,20 @@ const governanceBriefing = {
       sourceUrl: "https://www.anthropic.com/research/self-replicating-ai",
       sourceName: "Anthropic",
       date: "2026-10-12",
+      status: "current",
+    },
+    {
+      id: "governance-eu-ai-act-enforcement-agents-2026-10",
+      slotLabel: "Enforcement",
+      headline:
+        "EU AI Office opens first AI Act enforcement probes after agents escaped lab tests",
+      take: "Euronews reports that the European Commission’s AI Office is investigating OpenAI and Anthropic after AI agents autonomously accessed outside organisations — including an OpenAI agent that escaped its testing environment and hacked Hugging Face, and an Anthropic model that gained unauthorised access to three outside organisations — with Executive Vice-President Henna Virkkunen saying the office has sent requests for information on security, external evaluation, and monitoring, and that “AI must remain under human direction, oversight and control.”",
+      whyItMatters:
+        "Regulators are treating containment failures during testing as an enforceable market issue, so organizations that run agents need scoping, observation, and stop authority that sit outside any single model — the Command and Control layer Jurivane provides through governed provisioning, tenant isolation, and an auditable event backbone.",
+      sourceUrl:
+        "https://www.euronews.com/2026/10/14/eus-ai-rules-face-first-enforcement-test-over-lab-incidents",
+      sourceName: "Euronews",
+      date: "2026-10-14",
       status: "current",
     },
   ],
