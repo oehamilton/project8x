@@ -304,6 +304,7 @@ describe("Agent governance briefing", () => {
       "2026-10-12",
       "2026-10-12",
       "2026-10-12",
+      "2026-10-14",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
       "Anthropic",
@@ -313,6 +314,7 @@ describe("Agent governance briefing", () => {
       "European Commission",
       "ABC News (Australia)",
       "Anthropic",
+      "Euronews",
     ]);
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
@@ -332,7 +334,7 @@ describe("Agent governance briefing", () => {
     renderAt("/news");
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     const cards = within(briefing).getAllByRole("article");
-    expect(cards).toHaveLength(7);
+    expect(cards).toHaveLength(8);
     expect(within(cards[0]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
       "href",
       "https://www.anthropic.com/research/investigating-unintended-model-actions"
