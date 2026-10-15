@@ -66,7 +66,7 @@ describe("Jurivane architecture diagram", () => {
     expect(screen.queryByRole("note")).not.toBeInTheDocument();
     expect(screen.queryByText(/working draft/i)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Current capabilities" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute("href", "/admin");
+    expect(screen.queryByRole("link", { name: "Admin" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^communication$/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^governance$/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /^pilot to production$/i })).toBeInTheDocument();

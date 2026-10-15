@@ -1,6 +1,9 @@
 # Amplify reads this from the publish root. Existing files are served first.
-# /admin (no slash) is the unlisted demo document. /admin/ is admin/index.html.
-/admin          /admin.html   200
+# The /admin area is retired. These rules run before the SPA fallback.
+/admin.html     /             301
+/admin          /             301
+/admin/         /             301
+/admin/*        /             301
 
 # Old product URL -> new product URL (Jurivane, formerly AgentForge).
 /agentforge     /jurivane     301
