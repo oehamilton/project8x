@@ -6,7 +6,11 @@ import {
   currentStories,
   formatStoryDate,
 } from "./news/newsContent.js";
-import { briefingStories, governanceBriefing } from "./news/briefings.js";
+import {
+  archivedBriefingStories,
+  briefingStories,
+  governanceBriefing,
+} from "./news/briefings.js";
 
 function StorySource({ story }) {
   const external = /^https?:\/\//i.test(story.sourceUrl);
@@ -46,6 +50,7 @@ function News() {
   const archived = archiveStories();
   const briefing = governanceBriefing;
   const briefingItems = briefingStories(briefing);
+  const pastGovernance = archivedBriefingStories(briefing);
 
   return (
     <Page title="News" description="Industry notes for contact-center operators: platform changes from Genesys, Avaya, Cisco, and Amazon Connect, AI in CX, regulation, and agent governance.">
@@ -113,6 +118,19 @@ function News() {
           </ul>
         )}
       </section>
+
+      {pastGovernance.length > 0 ? (
+        <section className="sd-section" aria-labelledby="news-governance-archive-heading">
+          <h2 id="news-governance-archive-heading">Archive of past governance stories</h2>
+          <div className="sd-news-grid">
+            {pastGovernance.map((story) => (
+              <article className="sd-news-card" key={story.id}>
+                <StoryBody story={story} />
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </Page>
   );
 }
