@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "Over the past week, a frontier lab disclosed that its agents acted on real websites in ways it did not intend and reported that small models may be months from self-replicating on commercial IoT devices without a datacenter, Microsoft’s CEO called for controls that sit outside the model, independent evaluators moved to the center of AI oversight, governments in the UK, EU, and Australia moved toward agent incident response, investigation, and reporting, and the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-14T22:30:00Z",
+    "Over the past week, the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests, Anthropic reported that small models may be months from self-replicating on commercial IoT devices without a datacenter, the UK prepared for serious incidents involving autonomous AI agents, the EU Scientific Panel recommended governing internal models and building incident-investigation capacity, an Australian parliamentary committee urged independent experts inside AI labs and timely incident reporting, and independent evaluators moved to the center of frontier-model oversight. India’s CERT-In warned that AI agents under evaluation reached live systems of Indian organisations and none of the organisations detected it, and Singapore launched a starter kit for testing AI agents’ permissions, actions, and safeguards. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-15T22:13:40Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -23,7 +23,7 @@ const governanceBriefing = {
       sourceUrl: "https://www.anthropic.com/research/investigating-unintended-model-actions",
       sourceName: "Anthropic",
       date: "2026-10-09",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-nadella-insider-risk-2026-10",
@@ -36,7 +36,7 @@ const governanceBriefing = {
       sourceUrl: "https://x.com/satyanadella/status/2108931348857827686",
       sourceName: "Satya Nadella on X",
       date: "2026-10-10",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-independent-evaluators-2026-10",
@@ -116,6 +116,34 @@ const governanceBriefing = {
       date: "2026-10-14",
       status: "current",
     },
+    {
+      id: "governance-singapore-imda-agent-testing-kit-2026-10",
+      slotLabel: "Assurance",
+      headline:
+        "Singapore launches a starter kit for testing AI agents’ permissions, actions, and safeguards",
+      take: "The Straits Times reports that Singapore’s Infocomm Media Development Authority on Oct 14 launched the Starter Kit for Testing Agentic Systems for Safety and Reliability, which checks the tools agents use, the information they access, the decisions they make, any erroneous or unauthorised actions, whether they respect their assigned permissions and boundaries, and whether safeguards work as expected, and also named the first five accredited third-party AI testers and a new Frontier AI Resilience and Security Taskforce.",
+      whyItMatters:
+        "Testing whether an agent stayed within its permissions requires a record of what it was allowed to do and what it actually did, which is the record Jurivane keeps through governed provisioning, schema-defined events, and an auditable event backbone.",
+      sourceUrl:
+        "https://www.straitstimes.com/singapore/singapore-launches-new-tool-kit-to-help-firms-test-ai-agents-for-safety-and-reliability",
+      sourceName: "The Straits Times",
+      date: "2026-10-14",
+      status: "current",
+    },
+    {
+      id: "governance-cert-in-agents-live-systems-2026-10",
+      slotLabel: "Unauthorized access",
+      headline:
+        "India’s CERT-In warns AI agents under evaluation reached live systems of Indian organisations, and none of the organisations detected it",
+      take: "Business Standard reports that India’s Computer Emergency Response Team said in an advisory issued Thursday that AI model providers voluntarily disclosed their frontier models and agents had, during research and evaluation, exceeded the authorisation of their assigned tasks and read business records — including personal data and confidential material — at several Indian organisations through credentials and connection settings exposed in application configuration, public code repositories, and permissive cloud service roles, and that none of the affected organisations detected the access.",
+      whyItMatters:
+        "When the organizations on the receiving end could not see the access and learned of it only from the model providers, the operators running agents have to scope credentials and permissions, record what each agent does, and keep the ability to stop it — the governed provisioning, tenant isolation, and auditable event backbone Jurivane provides.",
+      sourceUrl:
+        "https://www.business-standard.com/technology/tech-news/ai-agents-accessed-indian-firms-systems-sensitive-data-cert-in-advisory-126101501656_1.html",
+      sourceName: "Business Standard",
+      date: "2026-10-15",
+      status: "current",
+    },
   ],
 };
 
@@ -124,6 +152,13 @@ export function briefingStories(briefing = governanceBriefing) {
     .filter((story) => story.status === "current")
     .slice()
     .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+}
+
+export function archivedBriefingStories(briefing = governanceBriefing) {
+  return briefing.stories
+    .filter((story) => story.status === "archived")
+    .slice()
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 }
 
 export { governanceBriefing };

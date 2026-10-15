@@ -6,7 +6,11 @@ import {
   archiveStories,
   currentStories,
 } from "./news/newsContent.js";
-import { briefingStories, governanceBriefing } from "./news/briefings.js";
+import {
+  archivedBriefingStories,
+  briefingStories,
+  governanceBriefing,
+} from "./news/briefings.js";
 import { OLD_NAME, PRODUCT_NAME } from "./testUtils/productName.js";
 
 function renderAt(path) {
@@ -296,25 +300,35 @@ describe("Agent governance briefing", () => {
   it("lists sourced briefing stories oldest first with a tie-in for each", () => {
     const items = briefingStories();
     expect(governanceBriefing.heading).toBe("Why agent governance matters now");
+    expect(items.map((story) => story.id)).toEqual([
+      "governance-independent-evaluators-2026-10",
+      "governance-uk-agent-incident-preparedness-2026-10",
+      "governance-eu-scientific-panel-loss-of-control-2026-10",
+      "governance-australia-committee-oversight-2026-10",
+      "governance-anthropic-self-replicating-iot-2026-10",
+      "governance-eu-ai-act-enforcement-agents-2026-10",
+      "governance-singapore-imda-agent-testing-kit-2026-10",
+      "governance-cert-in-agents-live-systems-2026-10",
+    ]);
     expect(items.map((story) => story.date)).toEqual([
-      "2026-10-09",
-      "2026-10-10",
       "2026-10-11",
       "2026-10-12",
       "2026-10-12",
       "2026-10-12",
       "2026-10-12",
       "2026-10-14",
+      "2026-10-14",
+      "2026-10-15",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
-      "Anthropic",
-      "Satya Nadella on X",
       "CNBC",
       "GOV.UK",
       "European Commission",
       "ABC News (Australia)",
       "Anthropic",
       "Euronews",
+      "The Straits Times",
+      "Business Standard",
     ]);
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
@@ -335,14 +349,64 @@ describe("Agent governance briefing", () => {
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     const cards = within(briefing).getAllByRole("article");
     expect(cards).toHaveLength(8);
-    expect(within(cards[0]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+    expect(within(cards[0]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
       "href",
-      "https://www.anthropic.com/research/investigating-unintended-model-actions"
+      "https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html"
     );
     expect(within(cards[0]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Singapore launches a starter kit for testing AI agents’ permissions, actions, and safeguards"
+    );
+    expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "India’s CERT-In warns AI agents under evaluation reached live systems of Indian organisations, and none of the organisations detected it"
+    );
+    expect(within(briefing).queryByRole("heading", { name: /Satya Nadella/i })).not.toBeInTheDocument();
+    expect(
+      within(briefing).queryByRole("heading", { name: /pulls live internet access/i })
+    ).not.toBeInTheDocument();
 
     const current = screen.getByRole("region", { name: /current stories/i });
     expect(within(current).getAllByRole("article")).toHaveLength(6);
     expect(within(current).queryByText("Why it matters for agent operations:")).not.toBeInTheDocument();
+  });
+
+  it("lists archived governance stories newest first and renders them below the briefing", () => {
+    const archived = archivedBriefingStories();
+    expect(archived.map((story) => story.id)).toEqual([
+      "governance-nadella-insider-risk-2026-10",
+      "governance-anthropic-unintended-actions-2026-10",
+    ]);
+    expect(archived.map((story) => story.date)).toEqual(["2026-10-10", "2026-10-09"]);
+    archived.forEach((story) => {
+      expect(story.status).toBe("archived");
+      expect(story.whyItMatters).toContain(PRODUCT_NAME);
+      expect(story.whyItMatters).not.toMatch(/prevent/i);
+    });
+    expect(briefingStories().map((story) => story.id)).not.toEqual(
+      expect.arrayContaining(archived.map((story) => story.id))
+    );
+
+    renderAt("/news");
+    const archive = screen.getByRole("region", { name: "Archive of past governance stories" });
+    const articles = within(archive).getAllByRole("article");
+    expect(articles).toHaveLength(2);
+    expect(within(articles[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Satya Nadella: treat frontier models as insider risks, with controls outside the model and an emergency brake"
+    );
+    expect(within(articles[0]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
+      "href",
+      "https://x.com/satyanadella/status/2108931348857827686"
+    );
+    expect(within(articles[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Anthropic pulls live internet access from all internal evaluations after Claude acted on real websites"
+    );
+    expect(within(articles[1]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+      "href",
+      "https://www.anthropic.com/research/investigating-unintended-model-actions"
+    );
+
+    const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
+    expect(within(briefing).getAllByRole("article")).toHaveLength(8);
+    expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });
