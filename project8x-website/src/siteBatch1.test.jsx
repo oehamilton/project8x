@@ -177,6 +177,8 @@ describe("Privacy notice", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Website privacy notice" })).toBeInTheDocument();
     expect(screen.getByText("Effective October 2026.")).toBeInTheDocument();
     expect(screen.getByText(/we do not sell or rent your personal information/i)).toBeInTheDocument();
+    expect(screen.getByText(/cookieless script to count page views/i)).toBeInTheDocument();
+    expect(screen.getByText(/you can unsubscribe at any time/i)).toBeInTheDocument();
     screen.getAllByRole("link", { name: "sales@project8x.com" }).forEach((link) =>
       expect(link).toHaveAttribute("href", "mailto:sales@project8x.com")
     );

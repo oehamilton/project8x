@@ -7,7 +7,7 @@ function Privacy() {
   return (
     <Page
       title="Privacy notice"
-      description="How the Project8X website handles information you send through the contact form: what we collect, how we use it, who processes it, and how to reach us."
+      description="How the Project8X website handles information you send through the contact form or News signup: what we collect, how we use it, who processes it, and how to reach us."
       width="narrow"
     >
       <header>
@@ -44,12 +44,17 @@ function Privacy() {
             , we collect what you enter: your name, work email, company, the
             platform you select, and your message. If you email us directly, we
             receive your email address and whatever you include in the message.
+            If you sign up on the News page for AI governance updates, we
+            collect the email address you submit and use it only to send those
+            occasional updates. You can unsubscribe at any time.
           </p>
           <p>
             Like most websites, our hosting provider automatically processes
             basic technical data, such as your IP address and browser type, to
             deliver pages and keep the site secure. We do not use advertising
-            cookies or third-party analytics on this site.
+            cookies. When it is enabled, Cloudflare Web Analytics loads a
+            cookieless script to count page views and measure performance. It
+            does not identify you.
           </p>
         </section>
 
@@ -75,6 +80,10 @@ function Privacy() {
             <li>
               A third-party form processor, when one is enabled, which receives
               contact-form submissions and forwards them to our inbox.
+            </li>
+            <li>
+              The service that sends News-page updates, when that signup is
+              turned on. It receives the address you submit.
             </li>
             <li>Our email provider, which delivers and stores our messages.</li>
             <li>
