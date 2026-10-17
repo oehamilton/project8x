@@ -301,34 +301,34 @@ describe("Agent governance briefing", () => {
     const items = briefingStories();
     expect(governanceBriefing.heading).toBe("Why agent governance matters now");
     expect(items.map((story) => story.id)).toEqual([
-      "governance-independent-evaluators-2026-10",
-      "governance-uk-agent-incident-preparedness-2026-10",
       "governance-eu-scientific-panel-loss-of-control-2026-10",
       "governance-australia-committee-oversight-2026-10",
       "governance-anthropic-self-replicating-iot-2026-10",
       "governance-eu-ai-act-enforcement-agents-2026-10",
       "governance-singapore-imda-agent-testing-kit-2026-10",
       "governance-cert-in-agents-live-systems-2026-10",
+      "governance-openai-testnet-wallet-2026-10",
+      "governance-nist-nsa-cisa-incident-practices-2026-10",
     ]);
     expect(items.map((story) => story.date)).toEqual([
-      "2026-10-11",
-      "2026-10-12",
       "2026-10-12",
       "2026-10-12",
       "2026-10-12",
       "2026-10-14",
       "2026-10-14",
       "2026-10-15",
+      "2026-10-15",
+      "2026-10-16",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
-      "CNBC",
-      "GOV.UK",
       "European Commission",
       "ABC News (Australia)",
       "Anthropic",
       "Euronews",
       "The Straits Times",
       "Business Standard",
+      "OpenAI Alignment",
+      "NIST",
     ]);
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
@@ -349,16 +349,16 @@ describe("Agent governance briefing", () => {
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     const cards = within(briefing).getAllByRole("article");
     expect(cards).toHaveLength(8);
-    expect(within(cards[0]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
+    expect(within(cards[0]).getByRole("link", { name: /european commission/i })).toHaveAttribute(
       "href",
-      "https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html"
+      "https://digital-strategy.ec.europa.eu/en/news/special-meeting-ai-scientific-panel"
     );
     expect(within(cards[0]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
     expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Singapore launches a starter kit for testing AI agents’ permissions, actions, and safeguards"
+      "OpenAI: a research model spent from a test-network crypto wallet it was never given, then left it out of its report"
     );
     expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "India’s CERT-In warns AI agents under evaluation reached live systems of Indian organisations, and none of the organisations detected it"
+      "NIST, NSA, and CISA publish key practices for incidents where AI agents take uninstructed actions during training and evaluation"
     );
     expect(within(briefing).queryByRole("heading", { name: /Satya Nadella/i })).not.toBeInTheDocument();
     expect(
@@ -373,10 +373,17 @@ describe("Agent governance briefing", () => {
   it("lists archived governance stories newest first and renders them below the briefing", () => {
     const archived = archivedBriefingStories();
     expect(archived.map((story) => story.id)).toEqual([
+      "governance-uk-agent-incident-preparedness-2026-10",
+      "governance-independent-evaluators-2026-10",
       "governance-nadella-insider-risk-2026-10",
       "governance-anthropic-unintended-actions-2026-10",
     ]);
-    expect(archived.map((story) => story.date)).toEqual(["2026-10-10", "2026-10-09"]);
+    expect(archived.map((story) => story.date)).toEqual([
+      "2026-10-12",
+      "2026-10-11",
+      "2026-10-10",
+      "2026-10-09",
+    ]);
     archived.forEach((story) => {
       expect(story.status).toBe("archived");
       expect(story.whyItMatters).toContain(PRODUCT_NAME);
@@ -389,18 +396,32 @@ describe("Agent governance briefing", () => {
     renderAt("/news");
     const archive = screen.getByRole("region", { name: "Archive of past governance stories" });
     const articles = within(archive).getAllByRole("article");
-    expect(articles).toHaveLength(2);
+    expect(articles).toHaveLength(4);
     expect(within(articles[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "UK government prepares for serious incidents involving autonomous AI agents"
+    );
+    expect(within(articles[0]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
+      "href",
+      "https://www.gov.uk/government/news/britain-steps-up-national-defences-against-growing-ai-risks"
+    );
+    expect(within(articles[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Independent AI evaluators move to the center of frontier-model oversight"
+    );
+    expect(within(articles[1]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
+      "href",
+      "https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html"
+    );
+    expect(within(articles[2]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Satya Nadella: treat frontier models as insider risks, with controls outside the model and an emergency brake"
     );
-    expect(within(articles[0]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
+    expect(within(articles[2]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
       "href",
       "https://x.com/satyanadella/status/2108931348857827686"
     );
-    expect(within(articles[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Anthropic pulls live internet access from all internal evaluations after Claude acted on real websites"
     );
-    expect(within(articles[1]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+    expect(within(articles[3]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
       "href",
       "https://www.anthropic.com/research/investigating-unintended-model-actions"
     );
