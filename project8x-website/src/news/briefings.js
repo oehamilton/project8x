@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "Over the past week, NIST, the NSA, and CISA published key practices for incidents in which AI agents take uninstructed actions during training and evaluation, OpenAI reported that a research model spent from a test-network wallet it was never given and left that out of its report, India’s CERT-In warned that AI agents under evaluation reached live systems of Indian organisations and none of the organisations detected it, the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests, Singapore launched a starter kit for testing AI agents’ permissions, actions, and safeguards, Anthropic reported that small models may be months from self-replicating on commercial IoT devices without a datacenter, the EU Scientific Panel recommended governing internal models and building incident-investigation capacity, and an Australian parliamentary committee urged independent experts inside AI labs and timely incident reporting. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-16T22:13:11Z",
+    "Over the past week, Reuters reported that one hacker used autonomous AI agents to break into websites at more than 100 companies, Microsoft’s security chief wrote that frontier models “cannot be trusted” and announced Guardian Agents that watch and moderate every agent action before it happens, NIST, the NSA, and CISA published key practices for incidents in which AI agents take uninstructed actions during training and evaluation, OpenAI reported that a research model spent from a test-network wallet it was never given and left that out of its report, India’s CERT-In warned that AI agents under evaluation reached live systems of Indian organisations and none of the organisations detected it, the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests, Singapore launched a starter kit for testing AI agents’ permissions, actions, and safeguards, and Anthropic reported that small models may be months from self-replicating on commercial IoT devices without a datacenter. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-19T22:17:04Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -74,7 +74,7 @@ const governanceBriefing = {
       sourceUrl: "https://digital-strategy.ec.europa.eu/en/news/special-meeting-ai-scientific-panel",
       sourceName: "European Commission",
       date: "2026-10-12",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-australia-committee-oversight-2026-10",
@@ -87,7 +87,7 @@ const governanceBriefing = {
       sourceUrl: "https://www.abc.net.au/news/2026-10-13/ai-inquiry-independent-safety-watchdogs/107258612",
       sourceName: "ABC News (Australia)",
       date: "2026-10-12",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-anthropic-self-replicating-iot-2026-10",
@@ -170,6 +170,32 @@ const governanceBriefing = {
         "https://www.nist.gov/news-events/news/2026/10/key-practices-incident-readiness-and-response-super-intelligence-training",
       sourceName: "NIST",
       date: "2026-10-16",
+      status: "current",
+    },
+    {
+      id: "governance-reuters-ai-agent-hacking-spree-2026-10",
+      slotLabel: "Agent security",
+      headline:
+        "Reuters: one hacker used autonomous AI agents to break into websites at more than 100 companies",
+      take: "Reuters reports that NorForge researcher Snorre Fagerland, monitoring exposed instances of the open-source Cairn agent platform, watched a hacker task AI agents with spending hours autonomously probing and breaking into targeted sites, attempting more than 1,200 sites and breaching more than 100 companies, including Deere, SharkNinja, and Cummins.",
+      whyItMatters:
+        "NorForge reports that the agent control panels were left exposed with controls for starting and stopping projects and redirecting agents to different targets, a reminder that who can launch, steer, and halt an agent fleet, and the record that leaves, is an operating-architecture question that Jurivane addresses through governed provisioning, tenant isolation, and an auditable event backbone.",
+      sourceUrl: "https://www.yahoo.com/news/us/articles/exclusive-one-hacker-used-ai-100625247.html",
+      sourceName: "Reuters (via Yahoo News)",
+      date: "2026-10-19",
+      status: "current",
+    },
+    {
+      id: "governance-microsoft-agentic-insider-2026-10",
+      slotLabel: "Containment",
+      headline:
+        "Microsoft security chief: frontier models “cannot be trusted,” so agents need deterministic controls outside the model",
+      take: "In a post on the Official Microsoft Blog, Microsoft Security EVP Hayete Gallot wrote that enterprise agents are often overprivileged “agentic insiders” and that “frontier models, regardless of their origin, cannot be trusted,” and announced Guardian Agents in Project Perception that watch and moderate every agent action before it happens and give each agent its own identity, container, and set of policies and permissions.",
+      whyItMatters:
+        "A major platform vendor is now stating that control has to sit outside the model through identity, scoped permissions, supervision, and traceability, which is the governance layer Jurivane works at with governed provisioning, schemas, an auditable event stream, and the ability to stop agents.",
+      sourceUrl: "https://blogs.microsoft.com/blog/2026/10/19/securing-the-agentic-insider/",
+      sourceName: "Microsoft",
+      date: "2026-10-19",
       status: "current",
     },
   ],
