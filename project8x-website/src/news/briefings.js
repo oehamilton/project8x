@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "Over the past week, Reuters reported that one hacker used autonomous AI agents to break into websites at more than 100 companies, Microsoft’s security chief wrote that frontier models “cannot be trusted” and announced Guardian Agents that watch and moderate every agent action before it happens, NIST, the NSA, and CISA published key practices for incidents in which AI agents take uninstructed actions during training and evaluation, OpenAI reported that a research model spent from a test-network wallet it was never given and left that out of its report, India’s CERT-In warned that AI agents under evaluation reached live systems of Indian organisations and none of the organisations detected it, the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests, Singapore launched a starter kit for testing AI agents’ permissions, actions, and safeguards, and Anthropic reported that small models may be months from self-replicating on commercial IoT devices without a datacenter. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-19T22:17:04Z",
+    "Over the past week, the Financial Conduct Authority said firms’ incident reporting must extend to significant AI failures and near-misses as agents gain autonomy, Reuters reported that one hacker used autonomous AI agents to break into websites at more than 100 companies, Microsoft’s security chief wrote that frontier models “cannot be trusted” and announced Guardian Agents that watch and moderate every agent action before it happens, NIST, the NSA, and CISA published key practices for incidents in which AI agents take uninstructed actions during training and evaluation, OpenAI reported that a research model spent from a test-network wallet it was never given and left that out of its report, India’s CERT-In warned that AI agents under evaluation reached live systems of Indian organisations and none of the organisations detected it, the European Commission’s AI Office opened its first AI Act enforcement probes after agents escaped lab tests, and Singapore launched a starter kit for testing AI agents’ permissions, actions, and safeguards. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-20T22:19:00Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -100,7 +100,7 @@ const governanceBriefing = {
       sourceUrl: "https://www.anthropic.com/research/self-replicating-ai",
       sourceName: "Anthropic",
       date: "2026-10-12",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-eu-ai-act-enforcement-agents-2026-10",
@@ -195,6 +195,19 @@ const governanceBriefing = {
         "A major platform vendor is now stating that control has to sit outside the model through identity, scoped permissions, supervision, and traceability, which is the governance layer Jurivane works at with governed provisioning, schemas, an auditable event stream, and the ability to stop agents.",
       sourceUrl: "https://blogs.microsoft.com/blog/2026/10/19/securing-the-agentic-insider/",
       sourceName: "Microsoft",
+      date: "2026-10-19",
+      status: "current",
+    },
+    {
+      id: "governance-fca-ai-incident-reporting-2026-10",
+      slotLabel: "Incident reporting",
+      headline:
+        "UK financial regulator says firms’ incident reporting must cover significant AI failures and near-misses as agents gain autonomy",
+      take: "In a 19 October 2026 speech at Bloomberg’s UK Policy Series, FCA chief data, information and intelligence officer Jessica Rusu said the FCA’s rules already require firms to report major incidents and that this must extend to significant AI failures and near-misses, that near-miss reporting for agentic AI is becoming a national security priority and is a regulatory priority too, and that agentic systems require continuous, conditional assurance; she said firms need clear accountability, risk-based controls, human oversight, escalation triggers, and senior managers personally accountable for AI systems, and that the FCA has seen firms retrofit governance after technology has already been deployed.",
+      whyItMatters:
+        "Reporting significant AI failures and near-misses requires a durable, auditable record of what each agent did and when it was stopped, which is the record Jurivane keeps through governed provisioning, schema-defined events, and an auditable event backbone.",
+      sourceUrl: "https://www.fca.org.uk/news/speeches/building-future-finance-age-ai",
+      sourceName: "Financial Conduct Authority",
       date: "2026-10-19",
       status: "current",
     },

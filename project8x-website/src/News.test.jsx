@@ -301,7 +301,6 @@ describe("Agent governance briefing", () => {
     const items = briefingStories();
     expect(governanceBriefing.heading).toBe("Why agent governance matters now");
     expect(items.map((story) => story.id)).toEqual([
-      "governance-anthropic-self-replicating-iot-2026-10",
       "governance-eu-ai-act-enforcement-agents-2026-10",
       "governance-singapore-imda-agent-testing-kit-2026-10",
       "governance-cert-in-agents-live-systems-2026-10",
@@ -309,9 +308,9 @@ describe("Agent governance briefing", () => {
       "governance-nist-nsa-cisa-incident-practices-2026-10",
       "governance-reuters-ai-agent-hacking-spree-2026-10",
       "governance-microsoft-agentic-insider-2026-10",
+      "governance-fca-ai-incident-reporting-2026-10",
     ]);
     expect(items.map((story) => story.date)).toEqual([
-      "2026-10-12",
       "2026-10-14",
       "2026-10-14",
       "2026-10-15",
@@ -319,9 +318,9 @@ describe("Agent governance briefing", () => {
       "2026-10-16",
       "2026-10-19",
       "2026-10-19",
+      "2026-10-19",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
-      "Anthropic",
       "Euronews",
       "The Straits Times",
       "Business Standard",
@@ -329,6 +328,7 @@ describe("Agent governance briefing", () => {
       "NIST",
       "Reuters (via Yahoo News)",
       "Microsoft",
+      "Financial Conduct Authority",
     ]);
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
@@ -342,10 +342,14 @@ describe("Agent governance briefing", () => {
       "Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents"
     );
     expect(governanceBriefing.intro).toContain(
+      "the Financial Conduct Authority said firms’ incident reporting must extend to significant AI failures and near-misses"
+    );
+    expect(governanceBriefing.intro).toContain(
       "Reuters reported that one hacker used autonomous AI agents to break into websites at more than 100 companies"
     );
     expect(governanceBriefing.intro).toContain("Guardian Agents");
     expect(governanceBriefing.intro).toContain("cannot be trusted");
+    expect(governanceBriefing.intro).not.toContain("self-replicating");
     expect(governanceBriefing.intro).not.toContain("EU Scientific Panel");
     expect(governanceBriefing.intro).not.toContain("Australian parliamentary committee");
     expect(governanceBriefing.intro).not.toMatch(/Command and Control of/);
@@ -356,28 +360,31 @@ describe("Agent governance briefing", () => {
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     const cards = within(briefing).getAllByRole("article");
     expect(cards).toHaveLength(8);
-    expect(within(cards[0]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+    expect(within(cards[0]).getByRole("link", { name: /euronews/i })).toHaveAttribute(
       "href",
-      "https://www.anthropic.com/research/self-replicating-ai"
+      "https://www.euronews.com/2026/10/14/eus-ai-rules-face-first-enforcement-test-over-lab-incidents"
     );
     expect(within(cards[0]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
     expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Reuters: one hacker used autonomous AI agents to break into websites at more than 100 companies"
-    );
-    expect(within(cards[6]).getByRole("link", { name: /reuters \(via yahoo news\)/i })).toHaveAttribute(
-      "href",
-      "https://www.yahoo.com/news/us/articles/exclusive-one-hacker-used-ai-100625247.html"
-    );
-    expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Microsoft security chief: frontier models “cannot be trusted,” so agents need deterministic controls outside the model"
     );
-    expect(within(cards[7]).getByRole("link", { name: /microsoft/i })).toHaveAttribute(
+    expect(within(cards[6]).getByRole("link", { name: /microsoft/i })).toHaveAttribute(
       "href",
       "https://blogs.microsoft.com/blog/2026/10/19/securing-the-agentic-insider/"
+    );
+    expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "UK financial regulator says firms’ incident reporting must cover significant AI failures and near-misses as agents gain autonomy"
+    );
+    expect(within(cards[7]).getByRole("link", { name: /financial conduct authority/i })).toHaveAttribute(
+      "href",
+      "https://www.fca.org.uk/news/speeches/building-future-finance-age-ai"
     );
     expect(within(briefing).queryByRole("heading", { name: /Satya Nadella/i })).not.toBeInTheDocument();
     expect(
       within(briefing).queryByRole("heading", { name: /pulls live internet access/i })
+    ).not.toBeInTheDocument();
+    expect(
+      within(briefing).queryByRole("heading", { name: /self-replicating/i })
     ).not.toBeInTheDocument();
 
     const current = screen.getByRole("region", { name: /current stories/i });
@@ -391,11 +398,13 @@ describe("Agent governance briefing", () => {
       "governance-uk-agent-incident-preparedness-2026-10",
       "governance-eu-scientific-panel-loss-of-control-2026-10",
       "governance-australia-committee-oversight-2026-10",
+      "governance-anthropic-self-replicating-iot-2026-10",
       "governance-independent-evaluators-2026-10",
       "governance-nadella-insider-risk-2026-10",
       "governance-anthropic-unintended-actions-2026-10",
     ]);
     expect(archived.map((story) => story.date)).toEqual([
+      "2026-10-12",
       "2026-10-12",
       "2026-10-12",
       "2026-10-12",
@@ -415,7 +424,7 @@ describe("Agent governance briefing", () => {
     renderAt("/news");
     const archive = screen.getByRole("region", { name: "Archive of past governance stories" });
     const articles = within(archive).getAllByRole("article");
-    expect(articles).toHaveLength(6);
+    expect(articles).toHaveLength(7);
     expect(within(articles[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "UK government prepares for serious incidents involving autonomous AI agents"
     );
@@ -438,23 +447,30 @@ describe("Agent governance briefing", () => {
       "https://www.abc.net.au/news/2026-10-13/ai-inquiry-independent-safety-watchdogs/107258612"
     );
     expect(within(articles[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Anthropic: small AI models may be months from self-replicating on IoT devices without a datacenter"
+    );
+    expect(within(articles[3]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+      "href",
+      "https://www.anthropic.com/research/self-replicating-ai"
+    );
+    expect(within(articles[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Independent AI evaluators move to the center of frontier-model oversight"
     );
-    expect(within(articles[3]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
+    expect(within(articles[4]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
       "href",
       "https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html"
     );
-    expect(within(articles[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Satya Nadella: treat frontier models as insider risks, with controls outside the model and an emergency brake"
     );
-    expect(within(articles[4]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
+    expect(within(articles[5]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
       "href",
       "https://x.com/satyanadella/status/2108931348857827686"
     );
-    expect(within(articles[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Anthropic pulls live internet access from all internal evaluations after Claude acted on real websites"
     );
-    expect(within(articles[5]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+    expect(within(articles[6]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
       "href",
       "https://www.anthropic.com/research/investigating-unintended-model-actions"
     );
