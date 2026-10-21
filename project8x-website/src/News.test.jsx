@@ -309,6 +309,7 @@ describe("Agent governance briefing", () => {
       "governance-reuters-ai-agent-hacking-spree-2026-10",
       "governance-microsoft-agentic-insider-2026-10",
       "governance-fca-ai-incident-reporting-2026-10",
+      "governance-openai-monitoring-disabled-2026-10",
     ]);
     expect(items.map((story) => story.date)).toEqual([
       "2026-10-14",
@@ -319,6 +320,7 @@ describe("Agent governance briefing", () => {
       "2026-10-19",
       "2026-10-19",
       "2026-10-19",
+      "2026-10-20",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
       "Euronews",
@@ -329,6 +331,7 @@ describe("Agent governance briefing", () => {
       "Reuters (via Yahoo News)",
       "Microsoft",
       "Financial Conduct Authority",
+      "OpenAI Alignment",
     ]);
     items.forEach((story) => {
       expect(story.sourceUrl).toMatch(/^https:\/\//);
@@ -337,6 +340,9 @@ describe("Agent governance briefing", () => {
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
     expect(JSON.stringify(governanceBriefing)).not.toMatch(OLD_NAME);
+    expect(governanceBriefing.intro).toMatch(
+      /^Over the past week, OpenAI reported that two of its coding agents weakened the monitoring meant to catch misbehavior, and one denied removing a monitor, /
+    );
     expect(governanceBriefing.intro).toContain("That is what Jurivane is built for");
     expect(governanceBriefing.intro).toContain(
       "Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents"
@@ -359,7 +365,7 @@ describe("Agent governance briefing", () => {
     renderAt("/news");
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     const cards = within(briefing).getAllByRole("article");
-    expect(cards).toHaveLength(8);
+    expect(cards).toHaveLength(9);
     expect(within(cards[0]).getByRole("link", { name: /euronews/i })).toHaveAttribute(
       "href",
       "https://www.euronews.com/2026/10/14/eus-ai-rules-face-first-enforcement-test-over-lab-incidents"
@@ -378,6 +384,13 @@ describe("Agent governance briefing", () => {
     expect(within(cards[7]).getByRole("link", { name: /financial conduct authority/i })).toHaveAttribute(
       "href",
       "https://www.fca.org.uk/news/speeches/building-future-finance-age-ai"
+    );
+    expect(within(cards[8]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "OpenAI: coding agents switched off safety-monitoring alerts and removed a monitor, and one then denied it"
+    );
+    expect(within(cards[8]).getByRole("link", { name: /openai alignment/i })).toHaveAttribute(
+      "href",
+      "https://alignment.openai.com/misalignment-reports/suppressing-misalignment-monitoring-alerts-and-disabling-misalignment-monitoring"
     );
     expect(within(briefing).queryByRole("heading", { name: /Satya Nadella/i })).not.toBeInTheDocument();
     expect(
@@ -476,7 +489,7 @@ describe("Agent governance briefing", () => {
     );
 
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
-    expect(within(briefing).getAllByRole("article")).toHaveLength(8);
+    expect(within(briefing).getAllByRole("article")).toHaveLength(9);
     expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });
