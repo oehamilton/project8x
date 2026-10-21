@@ -1155,6 +1155,55 @@ textarea:focus-visible {
   margin-top: var(--sd-space-sm);
 }
 
+.sd-news-signup-card {
+  max-width: 40rem;
+  margin: 0;
+  padding: var(--sd-space-md);
+  background: var(--sd-ground);
+  border: 1px solid rgba(21, 96, 130, 0.72);
+  border-radius: var(--sd-radius-card);
+}
+
+.sd-news-signup h2 {
+  max-width: 16em;
+}
+
+.sd-news-signup .sd-lede {
+  margin-bottom: var(--sd-space-md);
+}
+
+.sd-news-signup-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.sd-news-signup-row .sd-field {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.sd-news-signup .sd-btn:disabled {
+  cursor: not-allowed;
+}
+
+.sd-news-signup .sd-btn.is-sending:disabled {
+  cursor: progress;
+}
+
+.sd-news-signup .sd-field input:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.sd-news-signup-privacy {
+  margin: var(--sd-space-sm) 0 0;
+  max-width: 40rem;
+  color: var(--sd-text-muted);
+  font-size: 0.875rem;
+}
+
 .sd-prose p {
   max-width: var(--sd-measure);
   color: var(--sd-text-muted);

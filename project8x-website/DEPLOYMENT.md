@@ -32,6 +32,13 @@ The `/admin` demo gate reads two build-time variables. They are inlined into the
 
 See the repository README and `project8x-website/.env.example`. A new Amplify build is required after either value changes. Public demo exposure (ALB and similar) is out of scope for the site repo.
 
+These `VITE_` names are also inlined into the public bundle. Leave them unset to keep the feature off. Do not put API keys in `VITE_` variables.
+
+| Name | Purpose |
+| --- | --- |
+| `VITE_CF_BEACON_TOKEN` | Cloudflare Web Analytics site token for `www.project8x.com`. Unset = the beacon is not loaded. |
+| `VITE_NEWS_SIGNUP_ENDPOINT` | https URL for the News email form. It must accept `POST` JSON `{ "email", "source" }` and return 2xx. Unset = the form stays disabled. |
+
 ### 4. Custom Headers (Optional)
 For additional security, you can add custom headers in the Amplify Console:
 - App settings → Custom headers

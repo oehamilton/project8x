@@ -11,6 +11,7 @@ import {
   briefingStories,
   governanceBriefing,
 } from "./news/briefings.js";
+import NewsSignup from "./news/NewsSignup.jsx";
 
 function StorySource({ story }) {
   const external = /^https?:\/\//i.test(story.sourceUrl);
@@ -75,6 +76,8 @@ function News() {
         </div>
         <SignalFigure variant="topology" />
       </header>
+
+      <NewsSignup />
 
       {briefingItems.length > 0 ? (
         <section className="sd-section" aria-labelledby="news-briefing-heading">
