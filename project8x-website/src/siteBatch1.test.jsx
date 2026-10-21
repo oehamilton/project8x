@@ -244,11 +244,4 @@ describe("SEO and accessibility", () => {
       expect(oldNameMentions(), path).toEqual([]);
     }
   });
-
-  it("labels the admin demo page with Jurivane, not the old name", async () => {
-    renderAt("/admin");
-    expect(await screen.findByRole("heading", { level: 1, name: /demo access/i })).toBeInTheDocument();
-    expect(document.querySelector("main .sd-kicker")).toHaveTextContent(/^Jurivane$/);
-    expect(oldNameMentions()).toEqual([]);
-  });
 });

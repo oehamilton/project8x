@@ -23,14 +23,7 @@ The `amplify.yml` file is already configured with the correct build settings:
 If you have any environment variables, add them in the Amplify Console under:
 - App settings → Environment variables
 
-The `/admin` demo gate reads two build-time variables. They are inlined into the static bundle (this app has no server runtime). Leave `ADMIN_PASSWORD_HASH` unset to keep the gate closed. Leave `AGENTFORGE_DEMO_STATUS_URL` unset to fetch the published status object; a failed fetch shows the offline state. Do not commit real values.
-
-| Name | Purpose |
-| --- | --- |
-| `ADMIN_PASSWORD_HASH` | Lowercase SHA-256 hex of the shared passphrase. No trailing newline (`echo` adds one; use the node one-liner in the README). |
-| `AGENTFORGE_DEMO_STATUS_URL` | Status JSON URL. Default: `https://agentforge-foundation-status.s3.us-east-1.amazonaws.com/demo/status.json`. `AGENTFORGE_STATUS_URL` is used when this name is unset. |
-
-See the repository README and `project8x-website/.env.example`. A new Amplify build is required after either value changes. Public demo exposure (ALB and similar) is out of scope for the site repo.
+The `/admin` area is retired, so the site no longer reads `ADMIN_PASSWORD_HASH`, `AGENTFORGE_DEMO_STATUS_URL`, or `AGENTFORGE_STATUS_URL`. Those Amplify environment variables can be deleted. Contact-form variables, if used, are listed in `project8x-website/.env.example`. A new Amplify build is required after a variable changes.
 
 These `VITE_` names are also inlined into the public bundle. Leave them unset to keep the feature off. Do not put API keys in `VITE_` variables.
 
@@ -50,8 +43,8 @@ For additional security, you can add custom headers in the Amplify Console:
 
 ## SPA Configuration
 The application is already configured as a Single Page Application:
-- `_redirects` rewrites `/admin` and `/admin/` to `admin.html` (200), then other routes to `index.html`
-- Amplify serves `/admin` from `admin.html` and `/admin/` from `admin/index.html`. The production build copies `admin.html` to `admin/index.html` so the trailing slash returns 200
+- `_redirects` sends `/admin`, `/admin/`, `/admin/*`, and `/admin.html` to `/` (301), then rewrites other routes to `index.html`
+- React Router also sends `/admin` and `/admin/*` to `/` when a host serves the SPA shell for those paths
 - React Router handles client-side routing
 - All routes (`/`, `/Products`, `/CompanyServices`, `/ContactUs`, `/ExecutiveLeadership`) will work correctly
 
