@@ -205,7 +205,7 @@ const governanceBriefing = {
         "UK financial regulator says firms’ incident reporting must cover significant AI failures and near-misses as agents gain autonomy",
       take: "In a 19 October 2026 speech at Bloomberg’s UK Policy Series, FCA chief data, information and intelligence officer Jessica Rusu said the FCA’s rules already require firms to report major incidents and that this must extend to significant AI failures and near-misses, that near-miss reporting for agentic AI is becoming a national security priority and is a regulatory priority too, and that agentic systems require continuous, conditional assurance; she said firms need clear accountability, risk-based controls, human oversight, escalation triggers, and senior managers personally accountable for AI systems, and that the FCA has seen firms retrofit governance after technology has already been deployed.",
       whyItMatters:
-        "Reporting significant AI failures and near-misses requires a durable, auditable record of what each agent did and when it was stopped, which is the record Jurivane keeps through governed provisioning, schema-defined events, and an auditable event backbone.",
+        "Reporting significant AI failures and near-misses requires a durable, auditable record of what each agent did and when it was stopped, which is the record Jurivane is built to keep through governed provisioning, schema-defined events, and an auditable event backbone.",
       sourceUrl: "https://www.fca.org.uk/news/speeches/building-future-finance-age-ai",
       sourceName: "Financial Conduct Authority",
       date: "2026-10-19",
