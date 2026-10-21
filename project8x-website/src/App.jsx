@@ -38,7 +38,9 @@ function App() {
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="/ExecutiveLeadership" element={<ExecutiveLeadership />} />
             <Route path="/service/:serviceId" element={<ServiceDetail />} />
-            {/* Retired admin gate. Hosts that still serve the SPA shell send visitors home. */}
+            {/* Retired admin gate. Hosts that still serve the SPA shell send visitors home.
+                /admin.html is a separate path: the splat does not match the ".html" suffix. */}
+            <Route path="/admin.html" element={<Navigate to="/" replace />} />
             <Route path="/admin/*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

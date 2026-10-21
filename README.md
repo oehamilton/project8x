@@ -25,7 +25,7 @@ npm run build
 
 Output is written to `project8x-website/build/`.
 
-`/admin` and `/admin/*` redirect to `/`. The client-side passphrase gate and its status-file fetch have been removed.
+`/admin`, `/admin/`, `/admin/*`, and `/admin.html` send visitors to `/` in the client router. Amplify Hosting does not read a Netlify `_redirects` file, so the HTTP 301s have to be entered in the Amplify console. The ordered rules are in `project8x-website/amplifyConsoleRedirects.js` and `project8x-website/DEPLOYMENT.md`. The client-side passphrase gate and its status-file fetch have been removed.
 
 ## Recent updates
 

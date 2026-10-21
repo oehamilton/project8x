@@ -1,4 +1,7 @@
 version: 1
+# Rewrites and redirects are not part of this build spec. Amplify Hosting ignores
+# public/_redirects (a Netlify file). customHttp.yml can set headers only.
+# Console rules: amplifyConsoleRedirects.js and DEPLOYMENT.md.
 frontend:
   phases:
     preBuild:

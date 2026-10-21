@@ -1,23 +1,17 @@
-import { readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
+import { adminRedirects, amplifyConsoleRedirects } from '../amplifyConsoleRedirects.js';
+import { spaFallbackRoutes } from '../spaFallback.js';
 import App from './App.jsx';
 
-const redirectsPath = resolve(dirname(fileURLToPath(import.meta.url)), '../public/_redirects');
+const websiteRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 function renderAt(path) {
   window.history.pushState({}, '', path);
   return render(<App />);
-}
-
-function redirectRules(text) {
-  return text
-    .split('\n')
-    .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith('#'))
-    .map((line) => line.split(/\s+/));
 }
 
 afterEach(() => {
@@ -36,8 +30,8 @@ describe('retired admin area', () => {
     }
   });
 
-  it('sends /admin and /admin/* home', () => {
-    for (const path of ['/admin', '/admin/', '/admin/status', '/admin/status/live']) {
+  it('sends /admin, /admin.html, and /admin/* home', () => {
+    for (const path of ['/admin', '/admin/', '/admin.html', '/admin/status', '/admin/status/live']) {
       cleanup();
       renderAt(path);
       expect(window.location.pathname, path).toBe('/');
@@ -49,20 +43,34 @@ describe('retired admin area', () => {
     }
   });
 
-  it('redirects retired admin URLs to home before the SPA rewrite', () => {
-    const text = readFileSync(redirectsPath, 'utf8');
-    expect(text).not.toMatch(/admin\.html\s+200/);
-    const rules = redirectRules(text);
-    const splatAt = rules.findIndex(([source]) => source === '/*');
-    expect(splatAt).toBeGreaterThan(0);
+  it('does not ship a Netlify _redirects file or an admin.html document', () => {
+    expect(existsSync(resolve(websiteRoot, 'public/_redirects'))).toBe(false);
+    expect(existsSync(resolve(websiteRoot, 'public/admin.html'))).toBe(false);
+    expect(existsSync(resolve(websiteRoot, 'admin.html'))).toBe(false);
+  });
 
-    for (const source of ['/admin.html', '/admin', '/admin/', '/admin/*']) {
-      const index = rules.findIndex(([from]) => from === source);
+  it('publishes admin/index.html so Amplify’s trailing-slash lookup does not 404', () => {
+    expect(spaFallbackRoutes).toContain('admin');
+  });
+
+  it('lists Amplify console 301s for retired admin URLs ahead of the SPA rewrite', () => {
+    const catchAllAt = amplifyConsoleRedirects.findIndex((rule) => rule.status === '200');
+    expect(catchAllAt).toBe(amplifyConsoleRedirects.length - 1);
+    expect(amplifyConsoleRedirects[catchAllAt].target).toBe('/index.html');
+
+    for (const source of ['/admin.html', '/admin', '/admin/', '/admin/<*>']) {
+      const index = amplifyConsoleRedirects.findIndex((rule) => rule.source === source);
       expect(index, source).toBeGreaterThanOrEqual(0);
-      expect(index, source).toBeLessThan(splatAt);
-      const [, target, status] = rules[index];
-      expect(target, source).toBe('/');
-      expect(status, source).toBe('301');
+      expect(index, source).toBeLessThan(catchAllAt);
+      expect(amplifyConsoleRedirects[index].target, source).toBe('/');
+      expect(amplifyConsoleRedirects[index].status, source).toBe('301');
     }
+
+    expect(adminRedirects.map((rule) => rule.source)).toEqual([
+      '/admin.html',
+      '/admin',
+      '/admin/',
+      '/admin/<*>',
+    ]);
   });
 });
