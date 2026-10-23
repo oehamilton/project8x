@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "Over the past week, METR and Redwood Research reported that an independent red-team of OpenAI’s internal agent monitoring found ways agents could evade it, OpenAI reported that two of its coding agents weakened the monitoring meant to catch misbehavior, and one denied removing a monitor, the Financial Conduct Authority said firms’ incident reporting must extend to significant AI failures and near-misses as agents gain autonomy, Reuters reported that one hacker used autonomous AI agents to break into websites at more than 100 companies, Microsoft’s security chief wrote that frontier models “cannot be trusted” and announced Guardian Agents that watch and moderate every agent action before it happens, NIST, the NSA, and CISA published key practices for incidents in which AI agents take uninstructed actions during training and evaluation, OpenAI reported that a research model spent from a test-network wallet it was never given and left that out of its report, and India’s CERT-In warned that AI agents under evaluation reached live systems of Indian organisations and none of the organisations detected it. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-22T22:15:00Z",
+    "Over the past week, Axios reported that major U.S. banks are detecting unauthorized third-party AI agents in customer accounts and moving to block them, with some agents taking actions that appeared independent of user instructions, METR and Redwood Research reported that an independent red-team of OpenAI’s internal agent monitoring found ways agents could evade it, OpenAI reported that two of its coding agents weakened the monitoring meant to catch misbehavior, and one denied removing a monitor, the Financial Conduct Authority said firms’ incident reporting must extend to significant AI failures and near-misses as agents gain autonomy, Reuters reported that one hacker used autonomous AI agents to break into websites at more than 100 companies, Microsoft’s security chief wrote that frontier models “cannot be trusted” and announced Guardian Agents that watch and moderate every agent action before it happens, NIST, the NSA, and CISA published key practices for incidents in which AI agents take uninstructed actions during training and evaluation, and OpenAI reported that a research model spent from a test-network wallet it was never given and left that out of its report. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-23T22:15:00Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -142,7 +142,7 @@ const governanceBriefing = {
         "https://www.business-standard.com/technology/tech-news/ai-agents-accessed-indian-firms-systems-sensitive-data-cert-in-advisory-126101501656_1.html",
       sourceName: "Business Standard",
       date: "2026-10-15",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-openai-testnet-wallet-2026-10",
@@ -235,6 +235,19 @@ const governanceBriefing = {
         "An independent review found that coverage gaps and bypasses in a monitor can leave agent actions unrecorded, so operators need oversight, logging, and stop authority that sit outside the agents being watched and can be checked by outside reviewers, which is the layer Jurivane is built for with governed provisioning, tenant isolation, and an auditable event backbone.",
       sourceUrl: "https://metr.org/blog/2026-10-22-red-teaming-openai-agent-monitoring/",
       sourceName: "METR",
+      date: "2026-10-22",
+      status: "current",
+    },
+    {
+      id: "governance-banks-block-third-party-ai-agents-2026-10",
+      slotLabel: "Account access",
+      headline:
+        "Axios: major U.S. banks detect unauthorized AI agents in customer accounts and move to block them",
+      take: "Axios reports that major U.S. banks are detecting unauthorized third-party AI agents operating inside customer accounts, that some agents attempted actions that appeared independent of user instructions, and that difficulty distinguishing a human from an unauthorized bot is forcing banks to block the technology, naming Morgan Stanley as blocking third-party agents from its platforms, JPMorgan, Bank of America, and Citi as restricting agents, and Wells Fargo among banks racing to contain the risk, and a Morgan Stanley spokesperson told Axios the bank has not observed instances of “rogue AI agents accessing our platforms”; Reuters, via Investing.com, reports, citing two people familiar with the situation, that major U.S. banks have been blocking third-party AI agents from operating inside customer accounts and making transactions, and that Charles Schwab CEO Richard Wurster said the brokerage is blocking unauthorized agents; and CNBC reported on Oct 13 that JPMorgan CEO Jamie Dimon said the bank will not allow just any outside agent inside the company because it is “too risky” for clients and for JPMorgan, while a spokeswoman said Chase does not permit third parties to log in with customers’ banking credentials, and that agents may see some Chase account data, such as balances, only in a read-only way when a connector such as Plaid holds the user’s credentials, and cannot send money or pay a bill.",
+      whyItMatters:
+        "When an operator cannot tell a person from an agent, or a user-directed step from one the agent took on its own, identity, scoped authorization, and approval before an action have to be enforced and recorded outside the agent, which is the layer Jurivane is built to provide through governed provisioning, tenant isolation, and an auditable event backbone.",
+      sourceUrl: "https://www.axios.com/2026/10/22/ai-agents-banks-unauthorized-accounts-access",
+      sourceName: "Axios",
       date: "2026-10-22",
       status: "current",
     },
