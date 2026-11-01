@@ -844,6 +844,53 @@ describe("Agent governance briefing", () => {
     expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
+  it("applies the optional revertable copy edits without new Jurivane claims", () => {
+    const navy = briefingStories().find(
+      (story) => story.id === "governance-navy-marine-si-terminology-2026-10"
+    );
+    expect(navy.take.split(/\s+/).filter(Boolean)).toHaveLength(90);
+    expect(navy.take).not.toMatch(/starting this week/);
+    expect(navy.take).not.toMatch(/Military Toolkit/);
+    expect(navy.take).not.toMatch(/index record/);
+    expect(navy.take).toContain("Stars and Stripes reports that");
+    expect(navy.take).toContain("according to an administrative memo issued Thursday");
+    expect(navy.take).toContain("that the Marine Corps made a similar announcement Friday");
+    expect(navy.take).toContain(
+      "according to MARADMIN 521/26, issued October 23, 2026, Marine Corps organizations are directed to use"
+    );
+    expect(navy.take).toContain(
+      "existing requirements for security, privacy, acquisition, and responsible use continue to apply."
+    );
+
+    const banks = briefingStories().find(
+      (story) => story.id === "governance-banks-block-third-party-ai-agents-2026-10"
+    );
+    expect(banks.take).toContain("Axios reports that");
+    expect(banks.take).toContain("a Morgan Stanley spokesperson told Axios");
+    expect(banks.take).toContain(
+      "Reuters, via Investing.com, reports, citing two people familiar with the situation"
+    );
+    expect(banks.take).toContain("CNBC reported on Oct 13");
+    expect(banks.take).toContain(
+      "a spokeswoman said Chase does not permit third parties to log in with customers’ banking credentials."
+    );
+    expect(banks.take).not.toContain("Plaid");
+
+    const repeatedClosing = "governed provisioning, tenant isolation, and an auditable event backbone";
+    expect(
+      governanceBriefing.stories.filter((story) => story.whyItMatters.includes(repeatedClosing))
+    ).toEqual([]);
+    const nist = archivedBriefingStories().find(
+      (story) => story.id === "governance-nist-nsa-cisa-incident-practices-2026-10"
+    );
+    expect(nist.whyItMatters).toContain("the record Jurivane is built to keep");
+    expect(nist.whyItMatters).not.toContain("the record Jurivane keeps");
+    governanceBriefing.stories.forEach((story) => {
+      expect(story.whyItMatters).not.toMatch(/Jurivane keeps/);
+      expect(story.whyItMatters).not.toMatch(/prevent/i);
+    });
+  });
+
   it("opens and closes a briefing card from the keyboard", async () => {
     renderAt("/news");
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
