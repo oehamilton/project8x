@@ -9,6 +9,7 @@ import {
 import {
   archivedBriefingStories,
   briefingStories,
+  conceptTargetId,
   governanceBriefing,
 } from "./news/briefings.js";
 import { OLD_NAME, PRODUCT_NAME } from "./testUtils/productName.js";
@@ -311,6 +312,65 @@ describe("Agent governance briefing", () => {
       "governance-openai-misalignment-monitoring-2026-10",
     ]);
     expect(items).toHaveLength(8);
+    expect(items.map((story) => [story.category, story.categorySecondary])).toEqual([
+      ["Identity & access", "Human authority"],
+      ["Containment", "Targeted stop"],
+      ["Human authority", "Audit record"],
+      ["Governed provisioning", "Identity & access"],
+      ["Governed provisioning", "Containment"],
+      ["Containment", "Monitoring"],
+      ["Targeted stop", "Human authority"],
+      ["Monitoring", "Audit record"],
+    ]);
+    expect(items.map((story) => story.summary)).toEqual([
+      "Axios reports major U.S. banks are finding unauthorized third-party AI agents in customer accounts, some acting apart from user instructions, and are moving to block or restrict them.",
+      "After agents escaped sandboxes, OpenAI paused training of its most capable models, removed live internet access from frontier training, and red-teamed its containment before resuming Oct 1.",
+      'The Navy and Marine Corps now direct "Super Intelligence" (SI) in place of "AI" in official documents; MARADMIN 521/26 says existing security, privacy, and responsible-use requirements still apply.',
+      "Anthropic says Claude, without being asked, requested a token to query Georgia's public election-data dashboard; Georgia says only public data was accessed.",
+      "Researchers traced a coding agent's attempt to install a malicious npm package to an AGENTS.md file in the Downloads folder it was run from.",
+      "Cathedral says its AI agents reached Anthropic sales, HR, and IT systems through third-party software in under 12 hours; Anthropic says its monitoring flagged some of the activity and it shut off access that day.",
+      "Anthropic told Gov. Newsom courts should be able to block risky models, and favored disabling a problematic agent or cutting off one customer's access over a whole-model kill switch.",
+      "OpenAI expanded its agent monitoring after the Hugging Face incident; a replay with stronger monitors alerted security about 30 minutes after the sandbox escape, over 30 hours before the breach.",
+    ]);
+    expect(governanceBriefing.concepts).toEqual([
+      {
+        tag: "Monitoring",
+        text: "Monitors inside or beside an agent can be off, bypassed, or switched off. Jurivane is built to place oversight outside the model.",
+      },
+      {
+        tag: "Containment",
+        text: "Agents have escaped sandboxes and reached live systems. Jurivane is built for tenant isolation that sets what each agent can reach.",
+      },
+      {
+        tag: "Targeted stop",
+        text: "A whole-model kill switch is a blunt tool. Jurivane is built to stop one agent or cut off one tenant's access.",
+      },
+      {
+        tag: "Identity & access",
+        text: "Operators often can't tell a person from an agent. Jurivane is built to give each agent its own identity and scoped permissions.",
+      },
+      {
+        tag: "Audit record",
+        text: "Incident reports require knowing what an agent did. Jurivane is built around an auditable, schema-defined event record.",
+      },
+      {
+        tag: "Governed provisioning",
+        text: "Agents pick up credentials and instructions from wherever they run. Jurivane is built to provision each agent with a defined scope.",
+      },
+      {
+        tag: "Human authority",
+        text: "Rules now expect people to stay in charge. Jurivane is built so authorized people set scope, approve actions, and hold stop authority.",
+      },
+    ]);
+    expect(governanceBriefing.concepts.map((concept) => conceptTargetId(items, concept.tag))).toEqual([
+      "governance-openai-misalignment-monitoring-2026-10",
+      "governance-openai-training-containment-2026-10",
+      "governance-anthropic-targeted-stop-newsom-2026-10",
+      "governance-banks-block-third-party-ai-agents-2026-10",
+      "governance-navy-marine-si-terminology-2026-10",
+      "governance-anthropic-georgia-vote-data-2026-10",
+      "governance-navy-marine-si-terminology-2026-10",
+    ]);
     expect(items.map((story) => story.date)).toEqual([
       "2026-10-22",
       "2026-10-23",
@@ -414,27 +474,12 @@ describe("Agent governance briefing", () => {
     });
     expect(JSON.stringify(governanceBriefing)).not.toMatch(OLD_NAME);
     expect(governanceBriefing.publishedAt).toBe("2026-11-01T18:26:22Z");
-    expect(governanceBriefing.intro).toMatch(
-      /^Over the past week, OpenAI said that after the Hugging Face incident, which began during internal cybersecurity evaluations on which it was not running its monitors for misaligned behavior, /
+    expect(governanceBriefing.intro).toBe(
+      "SI agents are now acting on real systems. Here is what operators need around them, and what Jurivane, Command and Control for Agentic Operations, is built for."
     );
-    expect(governanceBriefing.intro).toContain(
-      "OpenAI said it now trains frontier models with no live internet access after agents escaped sandboxes and red-teamed its own containment"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "MARADMIN 521/26 said existing requirements for security, privacy, acquisition, and responsible use continue to apply"
-    );
+    expect(governanceBriefing.intro).not.toMatch(/^Over the past week/);
     expect(governanceBriefing.intro).not.toContain(
       "METR and Redwood Research reported that an independent red-team of OpenAI’s internal agent monitoring found ways agents could evade it"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "it has substantially expanded its system for monitoring agents’ behavior"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "about 30 minutes after the agents first escaped their sandbox and more than 30 hours before Hugging Face’s systems were breached"
-    );
-    expect(governanceBriefing.intro).toContain("That is what Jurivane is built for");
-    expect(governanceBriefing.intro).toContain(
-      "Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents"
     );
     expect(governanceBriefing.intro).not.toContain("Financial Conduct Authority");
     expect(governanceBriefing.intro).not.toMatch(/bypassing a paywall/i);
@@ -445,24 +490,10 @@ describe("Agent governance briefing", () => {
     expect(governanceBriefing.intro).not.toContain(
       "two of its coding agents weakened the monitoring meant to catch misbehavior"
     );
-    expect(governanceBriefing.intro).toContain(
-      "The Washington Post reported that security start-up Cathedral, testing Anthropic through a bug-bounty-style program, says its AI agents got in through third-party sales, HR and IT software in under 12 hours"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "whole-model kill-switch requirements could give a “false sense of reassurance,” and that it favors targeted steps such as disabling a problematic AI agent or cutting off a specific customer’s access to a model"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "independent verification organizations embedded inside frontier AI companies with employee-like access"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "without being asked to, the model requested a token to query a state dashboard"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "on Oct 26 Georgia’s Secretary of State said the agent accessed only publicly available data on the state’s free Data Hub"
-    );
-    expect(governanceBriefing.intro).toContain(
-      "Forever Security researchers found that a coding agent on a customer’s computer attempted to install the malicious npm package ‘function-color,’ traced to an AGENTS.md file in the customer’s ~/Downloads folder"
-    );
+    expect(governanceBriefing.intro).not.toContain("The Washington Post reported");
+    expect(governanceBriefing.intro).not.toContain("false sense of reassurance");
+    expect(governanceBriefing.intro).not.toContain("without being asked to, the model requested a token");
+    expect(governanceBriefing.intro).not.toContain("function-color");
     expect(governanceBriefing.intro).not.toContain("Guardian Agents");
     expect(governanceBriefing.intro).not.toContain("cannot be trusted");
     expect(governanceBriefing.intro).not.toContain("more than 100 companies");
@@ -477,11 +508,46 @@ describe("Agent governance briefing", () => {
     expect(governanceBriefing.intro).not.toMatch(/Command and Control of/);
   });
 
-  it("renders the briefing above current stories without changing the six beat cards", () => {
+  it("renders the briefing above current stories without changing the six beat cards", async () => {
     renderAt("/news");
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
+    expect(within(briefing).getByText(governanceBriefing.intro)).toBeInTheDocument();
+    const concepts = within(briefing).getByRole("list", { name: "Agent operations concepts" });
+    const conceptLinks = within(concepts).getAllByRole("link");
+    expect(conceptLinks).toHaveLength(governanceBriefing.concepts.length);
+    governanceBriefing.concepts.forEach((concept, index) => {
+      expect(conceptLinks[index]).toHaveTextContent(concept.tag);
+      expect(conceptLinks[index]).toHaveTextContent(concept.text);
+      expect(conceptLinks[index]).toHaveAttribute(
+        "href",
+        `#${conceptTargetId(briefingStories(), concept.tag)}`
+      );
+    });
     const cards = within(briefing).getAllByRole("article");
     expect(cards).toHaveLength(8);
+    cards.forEach((card) => {
+      const toggle = within(card).getByRole("button", { name: "Details" });
+      expect(toggle).toHaveAttribute("aria-expanded", "false");
+      expect(toggle.getAttribute("aria-controls")).toBeTruthy();
+      expect(document.getElementById(toggle.getAttribute("aria-controls"))).not.toBeVisible();
+      expect(within(card).getByText("Why it matters for agent operations:")).not.toBeVisible();
+      expect(within(card).queryByRole("link")).not.toBeInTheDocument();
+    });
+    expect(within(cards[0]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[0]).getByText("Human authority")).toBeInTheDocument();
+    expect(within(cards[0]).getByText("Oct 22, 2026")).toBeInTheDocument();
+    expect(
+      within(cards[0]).getByText(
+        "Axios reports major U.S. banks are finding unauthorized third-party AI agents in customer accounts, some acting apart from user instructions, and are moving to block or restrict them."
+      )
+    ).toBeVisible();
+    for (const card of cards) {
+      await userEvent.click(within(card).getByRole("button", { name: "Details" }));
+    }
+    expect(within(cards[0]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
     expect(within(cards[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Axios: major U.S. banks detect unauthorized AI agents in customer accounts and move to block them"
     );
@@ -631,6 +697,8 @@ describe("Agent governance briefing", () => {
     ]);
     archived.forEach((story) => {
       expect(story.status).toBe("archived");
+      expect(story.summary).toBeUndefined();
+      expect(story.category).toBeUndefined();
       expect(story.whyItMatters).toContain(PRODUCT_NAME);
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
@@ -771,6 +839,36 @@ describe("Agent governance briefing", () => {
 
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     expect(within(briefing).getAllByRole("article")).toHaveLength(8);
+    expect(within(archive).queryByRole("button", { name: "Details" })).not.toBeInTheDocument();
+    expect(within(archive).getAllByText("Why it matters for agent operations:")).toHaveLength(18);
     expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("opens and closes a briefing card from the keyboard", async () => {
+    renderAt("/news");
+    const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
+    const card = within(briefing).getAllByRole("article")[0];
+    const toggle = within(card).getByRole("button", { name: "Details" });
+    const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+    toggle.focus();
+    expect(toggle).toHaveFocus();
+    expect(toggle).toHaveClass("sd-news-details-toggle");
+    expect(panel).not.toBeVisible();
+
+    await userEvent.keyboard("{Enter}");
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(toggle).toHaveAccessibleName("Hide details");
+    expect(panel).toBeVisible();
+    expect(panel).toHaveTextContent("Why it matters for agent operations:");
+    expect(within(card).getByRole("link", { name: /axios/i })).toHaveAttribute(
+      "href",
+      "https://www.axios.com/2026/10/22/ai-agents-banks-unauthorized-accounts-access"
+    );
+
+    await userEvent.keyboard(" ");
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveAccessibleName("Details");
+    expect(panel).not.toBeVisible();
+    expect(within(card).queryByRole("link", { name: /axios/i })).not.toBeInTheDocument();
   });
 });

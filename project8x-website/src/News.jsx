@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Page from "./Page.jsx";
 import SignalFigure from "./SignalFigure.jsx";
@@ -9,6 +10,7 @@ import {
 import {
   archivedBriefingStories,
   briefingStories,
+  conceptTargetId,
   governanceBriefing,
 } from "./news/briefings.js";
 import NewsSignup from "./news/NewsSignup.jsx";
@@ -43,6 +45,85 @@ function StoryBody({ story }) {
       ) : null}
       <StorySource story={story} />
     </>
+  );
+}
+
+function GlanceStory({ story }) {
+  const [open, setOpen] = useState(false);
+  const detailsId = `${story.id}-details`;
+
+  function toggle() {
+    setOpen((value) => !value);
+  }
+
+  function onKeyDown(event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    // preventDefault keeps the browser from also clicking the button, which would toggle twice.
+    event.preventDefault();
+    toggle();
+  }
+
+  return (
+    <article className="sd-news-card" id={story.id}>
+      <div className="sd-news-tags">
+        <p className="sd-kicker">{story.category}</p>
+        {story.categorySecondary ? (
+          <p className="sd-kicker sd-kicker-secondary">{story.categorySecondary}</p>
+        ) : null}
+      </div>
+      <h3>{story.headline}</h3>
+      <p className="sd-meta">
+        <time dateTime={story.date}>{formatStoryDate(story.date)}</time>
+      </p>
+      <p>{story.summary}</p>
+      <button
+        type="button"
+        className="sd-news-details-toggle"
+        aria-expanded={open}
+        aria-controls={detailsId}
+        onClick={toggle}
+        onKeyDown={onKeyDown}
+      >
+        {open ? "Hide details" : "Details"}
+      </button>
+      <div className="sd-news-details" id={detailsId} hidden={!open}>
+        <p>{story.take}</p>
+        {story.whyItMatters ? (
+          <p>
+            <strong>Why it matters for agent operations:</strong> {story.whyItMatters}
+          </p>
+        ) : null}
+        <StorySource story={story} />
+      </div>
+    </article>
+  );
+}
+
+function ConceptList({ concepts, stories }) {
+  if (!concepts?.length) return null;
+  return (
+    <ul className="sd-concept-list" aria-label="Agent operations concepts">
+      {concepts.map((concept) => {
+        const targetId = conceptTargetId(stories, concept.tag);
+        const body = (
+          <>
+            <span className="sd-concept-tag">{concept.tag}</span>
+            <span className="sd-concept-text">{concept.text}</span>
+          </>
+        );
+        return (
+          <li key={concept.tag}>
+            {targetId ? (
+              <a className="sd-concept" href={`#${targetId}`}>
+                {body}
+              </a>
+            ) : (
+              <div className="sd-concept">{body}</div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -84,12 +165,17 @@ function News() {
           <p className="sd-kicker">{briefing.kicker}</p>
           <h2 id="news-briefing-heading">{briefing.heading}</h2>
           <p className="sd-lede">{briefing.intro}</p>
+          <ConceptList concepts={briefing.concepts} stories={briefingItems} />
           <div className="sd-news-grid">
-            {briefingItems.map((story) => (
-              <article className="sd-news-card" key={story.id}>
-                <StoryBody story={story} />
-              </article>
-            ))}
+            {briefingItems.map((story) =>
+              story.summary ? (
+                <GlanceStory key={story.id} story={story} />
+              ) : (
+                <article className="sd-news-card" key={story.id}>
+                  <StoryBody story={story} />
+                </article>
+              )
+            )}
           </div>
         </section>
       ) : null}
