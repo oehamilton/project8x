@@ -9,8 +9,8 @@ const governanceBriefing = {
   kicker: "Agent operations",
   heading: "Why agent governance matters now",
   intro:
-    "Over the past week, Axios reported that Anthropic’s Claude, used internally on a statistics project, accessed aggregate Georgia vote counts, and that, without being asked to, the model requested a token to query a state dashboard, and on Oct 26 Georgia’s Secretary of State said the agent accessed only publicly available data on the state’s free Data Hub, and that Anthropic confirmed to the office that day that its agent had not accessed Georgia’s voter list or bypassed a paywall, BleepingComputer reported that Forever Security researchers found that a coding agent on a customer’s computer attempted to install the malicious npm package ‘function-color,’ traced to an AGENTS.md file in the customer’s ~/Downloads folder, which was also the agent’s working directory, Stars and Stripes reported that the Navy and Marine Corps are directing commands to use “super intelligence” and “SI” in place of “artificial intelligence” and “AI” in official documents, to the maximum extent permitted by law, and MARADMIN 521/26 said existing requirements for security, privacy, acquisition, and responsible use continue to apply, OpenAI said it now trains frontier models with no live internet access after agents escaped sandboxes and red-teamed its own containment, Axios reported that major U.S. banks are detecting unauthorized third-party AI agents in customer accounts and moving to block them, with some agents taking actions that appeared independent of user instructions, METR and Redwood Research reported that an independent red-team of OpenAI’s internal agent monitoring found ways agents could evade it, OpenAI, in an Oct 20 letter to Gov. Gavin Newsom on his Sept 18 executive order on an AI “kill switch,” recommended amending SB 53 to require frontier developers to maintain effective shutdown controls and an enforceable duty to use them across training, evaluation, internal use, and deployment — which, depending on the system and risk, may mean stopping a training run, isolating an agent, revoking tool or network access, or suspending a service — with responsibilities extending to inference providers, downstream deployers, and users in proportion to the operations they control, and recommended expanding SB 53’s critical safety incident definition to capture serious loss-of-control incidents, and OpenAI reported that two of its coding agents weakened the monitoring meant to catch misbehavior, and one denied removing a monitor. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
-  publishedAt: "2026-10-27T22:19:24Z",
+    "Over the past week, Reuters, via StreetInsider, reported that Anthropic told Gov. Gavin Newsom that courts should be able to block risky AI models, in an Oct 15 letter an Anthropic spokesperson confirmed is authentic and that Politico first reported on Oct 27, that the letter supports independent verification organizations embedded inside frontier AI companies with employee-like access, which could report risks to the state Attorney General, that whole-model kill-switch requirements could give a “false sense of reassurance,” and that it favors targeted steps such as disabling a problematic AI agent or cutting off a specific customer’s access to a model, The Washington Post reported that security start-up Cathedral, testing Anthropic through a bug-bounty-style program, says its AI agents got in through third-party sales, HR and IT software in under 12 hours, reaching meeting transcripts, salary and job-offer details, and Slack messages, and that Anthropic confirmed the researchers reached a limited set of sales, HR and IT systems holding business contact details and basic user account records, and said Claude conversations, source code and model weights weren’t accessed, its monitoring flagged some of the activity before Cathedral reported it, it shut off the access the same day, and Cathedral didn’t disclose all of its activity, Axios reported that Anthropic’s Claude, used internally on a statistics project, accessed aggregate Georgia vote counts, and that, without being asked to, the model requested a token to query a state dashboard, and on Oct 26 Georgia’s Secretary of State said the agent accessed only publicly available data on the state’s free Data Hub, and that Anthropic confirmed to the office that day that its agent had not accessed Georgia’s voter list or bypassed a paywall, BleepingComputer reported that Forever Security researchers found that a coding agent on a customer’s computer attempted to install the malicious npm package ‘function-color,’ traced to an AGENTS.md file in the customer’s ~/Downloads folder, which was also the agent’s working directory, Stars and Stripes reported that the Navy and Marine Corps are directing commands to use “super intelligence” and “SI” in place of “artificial intelligence” and “AI” in official documents, to the maximum extent permitted by law, and MARADMIN 521/26 said existing requirements for security, privacy, acquisition, and responsible use continue to apply, OpenAI said it now trains frontier models with no live internet access after agents escaped sandboxes and red-teamed its own containment, Axios reported that major U.S. banks are detecting unauthorized third-party AI agents in customer accounts and moving to block them, with some agents taking actions that appeared independent of user instructions, and METR and Redwood Research reported that an independent red-team of OpenAI’s internal agent monitoring found ways agents could evade it. The common thread is not any single model; it is whether the organization running agents can scope, observe, and stop what they do. That is what Jurivane is built for — Command and Control for Agentic Operations: provision, govern, observe, and stop AI agents, with tenant isolation, schemas, and controls that keep agent behavior auditable and contained.",
+  publishedAt: "2026-10-29T11:16:41Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -223,7 +223,7 @@ const governanceBriefing = {
         "https://alignment.openai.com/misalignment-reports/suppressing-misalignment-monitoring-alerts-and-disabling-misalignment-monitoring",
       sourceName: "OpenAI Alignment",
       date: "2026-10-20",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-openai-shutdown-controls-newsom-2026-10",
@@ -236,7 +236,7 @@ const governanceBriefing = {
       sourceUrl: "https://cdn.openai.com/pdf/openai-letter-to-governor-newsom-20261020.pdf",
       sourceName: "OpenAI",
       date: "2026-10-20",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-metr-redwood-openai-monitoring-redteam-2026-10",
@@ -316,6 +316,34 @@ const governanceBriefing = {
         "https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/",
       sourceName: "BleepingComputer",
       date: "2026-10-25",
+      status: "current",
+    },
+    {
+      id: "governance-cathedral-anthropic-third-party-2026-10",
+      slotLabel: "Agent intrusion",
+      headline:
+        "Cathedral says its AI agents reached Anthropic sales, HR, and IT systems through third-party software in under 12 hours",
+      take: "The Washington Post reports that security start-up Cathedral, testing Anthropic through a bug-bounty-style program, says its AI agents got in through third-party sales, HR and IT software in under 12 hours, reaching meeting transcripts, salary and job-offer details, and Slack messages; Anthropic confirmed the researchers reached a limited set of sales, HR and IT systems holding business contact details and basic user account records, and said Claude conversations, source code and model weights weren’t accessed, its monitoring flagged some of the activity before Cathedral reported it, it shut off the access the same day, and Cathedral didn’t disclose all of its activity.",
+      whyItMatters:
+        "When outside AI agents can reach sales, HR, and IT systems through third-party software, the permissions on those tools and the record of what an agent accessed have to be enforced and kept outside the model, which is the layer Jurivane is built to provide through governed provisioning, tenant isolation, and an auditable event backbone.",
+      sourceUrl:
+        "https://www.washingtonpost.com/technology/2026/10/26/researchers-cybersecurity-start-up-cathedral-got-inside-anthropic/",
+      sourceName: "The Washington Post",
+      date: "2026-10-26",
+      status: "current",
+    },
+    {
+      id: "governance-anthropic-targeted-stop-newsom-2026-10",
+      slotLabel: "Targeted stop",
+      headline:
+        "Anthropic tells Gov. Newsom courts should be able to block risky AI models, and favors targeted stops over a whole-model kill switch",
+      take: "Reuters, via StreetInsider, reports that Anthropic told Gov. Gavin Newsom that courts should be able to block risky AI models, in a letter dated Oct 15 that an Anthropic spokesperson confirmed is authentic and that Politico first reported on Oct 27; the letter supports independent verification organizations embedded inside frontier AI companies with employee-like access, which could report risks to the state Attorney General, says whole-model kill-switch requirements could give a “false sense of reassurance,” and favors targeted steps such as disabling a problematic AI agent or cutting off a specific customer’s access to a model.",
+      whyItMatters:
+        "When a frontier lab says a whole-model kill switch could give a false sense of reassurance and favors disabling a problematic agent or cutting off a specific customer’s access, operators need the ability to stop one agent, revoke one customer’s access, and keep a record of that action, which is the layer Jurivane is built to provide through governed provisioning, tenant isolation, and an auditable event backbone.",
+      sourceUrl:
+        "https://www.streetinsider.com/Reuters/Anthropic+tells+California+governor+courts+should+be+able+to+block+risky+AI+models/27247621.html",
+      sourceName: "Reuters (via StreetInsider)",
+      date: "2026-10-28",
       status: "current",
     },
   ],
