@@ -1253,6 +1253,10 @@ a.sd-concept:focus-visible {
   margin-top: var(--sd-space-sm);
 }
 
+#updates {
+  scroll-margin-top: calc(var(--sd-header) + 1.75rem);
+}
+
 .sd-news-signup-card {
   max-width: 40rem;
   margin: 0;

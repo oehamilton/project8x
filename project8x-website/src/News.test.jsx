@@ -279,6 +279,37 @@ describe("News page", () => {
     expect(within(primary).getByRole("link", { name: "News" })).toHaveClass("is-active");
   });
 
+  it("links Subscribe to Updates and places Updates after the stories, before Archive", () => {
+    renderAt("/news");
+    const hero = screen
+      .getByRole("heading", { level: 1, name: "Industry notes for contact-center operators." })
+      .closest("header");
+    const links = within(hero).getAllByRole("link");
+    expect(links.map((link) => link.textContent)).toEqual([
+      "Talk to an architect",
+      "See platforms",
+      "Subscribe",
+    ]);
+    const subscribe = links[2];
+    expect(subscribe).toHaveAttribute("href", "#updates");
+    expect(subscribe).toHaveClass("sd-btn", "sd-btn-secondary");
+    subscribe.focus();
+    expect(subscribe).toHaveFocus();
+
+    const updates = document.getElementById("updates");
+    expect(updates).toHaveAccessibleName("Get AI governance updates");
+    const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
+    const current = screen.getByRole("region", { name: /current stories/i });
+    const archive = screen.getByRole("region", { name: /^archive$/i });
+    const past = screen.getByRole("region", { name: "Archive of past governance stories" });
+    const follows = (earlier, later) =>
+      Boolean(earlier.compareDocumentPosition(later) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(follows(briefing, current)).toBe(true);
+    expect(follows(current, updates)).toBe(true);
+    expect(follows(updates, archive)).toBe(true);
+    expect(follows(archive, past)).toBe(true);
+  });
+
   it("links to /news from the homepage without taking over the hero", () => {
     renderAt("/");
     expect(

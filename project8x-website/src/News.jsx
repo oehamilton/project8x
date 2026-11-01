@@ -153,12 +153,13 @@ function News() {
             <Link to="/platforms" className="sd-btn sd-btn-secondary">
               See platforms
             </Link>
+            <a href="#updates" className="sd-btn sd-btn-secondary">
+              Subscribe
+            </a>
           </div>
         </div>
         <SignalFigure variant="topology" />
       </header>
-
-      <NewsSignup />
 
       {briefingItems.length > 0 ? (
         <section className="sd-section" aria-labelledby="news-briefing-heading">
@@ -190,6 +191,8 @@ function News() {
           ))}
         </div>
       </section>
+
+      <NewsSignup />
 
       <section className="sd-section" aria-labelledby="news-archive-heading">
         <h2 id="news-archive-heading">Archive</h2>

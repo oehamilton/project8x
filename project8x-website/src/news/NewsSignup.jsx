@@ -42,7 +42,7 @@ function NewsSignup({ endpoint = newsSignupEndpoint(), fetchImpl }) {
   const failed = status === "error";
 
   return (
-    <section className="sd-section sd-news-signup" aria-labelledby={`${id}-heading`}>
+    <section id="updates" className="sd-section sd-news-signup" aria-labelledby={`${id}-heading`}>
       <div className="sd-news-signup-card">
         <p className="sd-kicker">Updates</p>
         <h2 id={`${id}-heading`}>Get AI governance updates</h2>
