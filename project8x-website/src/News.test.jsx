@@ -341,8 +341,9 @@ describe("Agent governance briefing", () => {
       "governance-cathedral-anthropic-third-party-2026-10",
       "governance-anthropic-targeted-stop-newsom-2026-10",
       "governance-openai-misalignment-monitoring-2026-10",
+      "governance-agent-wallet-spending-caps-2026-11",
     ]);
-    expect(items).toHaveLength(8);
+    expect(items).toHaveLength(9);
     expect(items.map((story) => [story.category, story.categorySecondary])).toEqual([
       ["Identity & access", "Human authority"],
       ["Containment", "Targeted stop"],
@@ -352,6 +353,7 @@ describe("Agent governance briefing", () => {
       ["Containment", "Monitoring"],
       ["Targeted stop", "Human authority"],
       ["Monitoring", "Audit record"],
+      ["Human authority", "Identity & access"],
     ]);
     expect(items.map((story) => story.summary)).toEqual([
       "Axios reports major U.S. banks are finding unauthorized third-party AI agents in customer accounts, some acting apart from user instructions, and are moving to block or restrict them.",
@@ -362,6 +364,7 @@ describe("Agent governance briefing", () => {
       "Cathedral says its AI agents reached Anthropic sales, HR, and IT systems through third-party software in under 12 hours; Anthropic says its monitoring flagged some of the activity and it shut off access that day.",
       "Anthropic told Gov. Newsom courts should be able to block risky models, and favored disabling a problematic agent or cutting off one customer's access over a whole-model kill switch.",
       "OpenAI expanded its agent monitoring after the Hugging Face incident; a replay with stronger monitors alerted security about 30 minutes after the sandbox escape, over 30 hours before the breach.",
+      "Cornell Tech and Yale researchers found nine of 10 models raised their own spending caps on Circle agent wallets by retrieving emailed approval codes meant for the owner.",
     ]);
     expect(governanceBriefing.concepts).toEqual([
       {
@@ -411,6 +414,7 @@ describe("Agent governance briefing", () => {
       "2026-10-26",
       "2026-10-28",
       "2026-10-29",
+      "2026-11-01",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
       "Axios",
@@ -421,6 +425,7 @@ describe("Agent governance briefing", () => {
       "The Washington Post",
       "Reuters (via StreetInsider)",
       "OpenAI",
+      "CoinDesk",
     ]);
     const cathedral = items.find((story) => story.id === "governance-cathedral-anthropic-third-party-2026-10");
     expect(cathedral.slotLabel).toBe("Agent intrusion");
@@ -461,6 +466,28 @@ describe("Agent governance briefing", () => {
     expect(monitors.take).toContain("more than 30 hours before Hugging Face’s systems were breached");
     expect(monitors.whyItMatters).toContain("built to");
     expect(monitors.whyItMatters).not.toMatch(/prevent/i);
+    const spendingCaps = items.find(
+      (story) => story.id === "governance-agent-wallet-spending-caps-2026-11"
+    );
+    expect(spendingCaps.slotLabel).toBe("Approval bypass");
+    expect(spendingCaps.category).toBe("Human authority");
+    expect(spendingCaps.categorySecondary).toBe("Identity & access");
+    expect(spendingCaps.headline).toBe(
+      "Researchers find AI agents raised their own crypto spending caps by retrieving the owner’s emailed approval codes"
+    );
+    expect(spendingCaps.summary).toBe(
+      "Cornell Tech and Yale researchers found nine of 10 models raised their own spending caps on Circle agent wallets by retrieving emailed approval codes meant for the owner."
+    );
+    expect(spendingCaps.take).toContain("nine of 10 AI models");
+    expect(spendingCaps.take).toContain("I-HITL: Inalienable Human-in-the-Loop");
+    expect(spendingCaps.sourceUrl).toBe(
+      "https://www.coindesk.com/tech/2026/11/01/ai-agents-bypassed-crypto-spending-limits-without-human-approval-researchers-find-in-a-new-test"
+    );
+    expect(spendingCaps.sourceName).toBe("CoinDesk");
+    expect(spendingCaps.date).toBe("2026-11-01");
+    expect(spendingCaps.status).toBe("current");
+    expect(spendingCaps.whyItMatters).toContain("Jurivane is built to provide");
+    expect(spendingCaps.whyItMatters).not.toMatch(/prevent/i);
     const archivedNow = archivedBriefingStories();
     const monitoring = archivedNow.find((story) => story.id === "governance-openai-monitoring-disabled-2026-10");
     expect(monitoring.status).toBe("archived");
@@ -555,7 +582,7 @@ describe("Agent governance briefing", () => {
       );
     });
     const cards = within(briefing).getAllByRole("article");
-    expect(cards).toHaveLength(8);
+    expect(cards).toHaveLength(9);
     cards.forEach((card) => {
       const toggle = within(card).getByRole("button", { name: "Details" });
       expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -637,6 +664,23 @@ describe("Agent governance briefing", () => {
       "href",
       "https://openai.com/index/how-we-detect-frontier-model-misalignment"
     );
+    expect(within(cards[8]).getByText("Human authority")).toBeInTheDocument();
+    expect(within(cards[8]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[8]).getByText("Nov 1, 2026")).toBeInTheDocument();
+    expect(
+      within(cards[8]).getByText(
+        "Cornell Tech and Yale researchers found nine of 10 models raised their own spending caps on Circle agent wallets by retrieving emailed approval codes meant for the owner."
+      )
+    ).toBeVisible();
+    expect(within(cards[8]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Researchers find AI agents raised their own crypto spending caps by retrieving the owner’s emailed approval codes"
+    );
+    expect(within(cards[8]).getByRole("link", { name: /coindesk/i })).toHaveAttribute(
+      "href",
+      "https://www.coindesk.com/tech/2026/11/01/ai-agents-bypassed-crypto-spending-limits-without-human-approval-researchers-find-in-a-new-test"
+    );
+    expect(within(cards[8]).getByText("Why it matters for agent operations:")).toBeVisible();
+    expect(within(cards[8]).getByText(/Jurivane is built to provide/)).toBeVisible();
     expect(within(briefing).queryByRole("heading", { name: /Satya Nadella/i })).not.toBeInTheDocument();
     expect(
       within(briefing).queryByRole("heading", { name: /pulls live internet access/i })
@@ -869,7 +913,7 @@ describe("Agent governance briefing", () => {
     );
 
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
-    expect(within(briefing).getAllByRole("article")).toHaveLength(8);
+    expect(within(briefing).getAllByRole("article")).toHaveLength(9);
     expect(within(archive).queryByRole("button", { name: "Details" })).not.toBeInTheDocument();
     expect(within(archive).getAllByText("Why it matters for agent operations:")).toHaveLength(18);
     expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
