@@ -351,7 +351,7 @@ const governanceBriefing = {
       sourceUrl: "https://www.axios.com/2026/10/25/anthropic-claude-georgia-voter-data",
       sourceName: "Axios",
       date: "2026-10-25",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-agents-md-downloads-npm-2026-10",
@@ -368,7 +368,7 @@ const governanceBriefing = {
         "https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/",
       sourceName: "BleepingComputer",
       date: "2026-10-25",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-cathedral-anthropic-third-party-2026-10",
@@ -476,6 +476,44 @@ const governanceBriefing = {
       date: "2026-11-03",
       status: "current",
     },
+    {
+      id: "governance-uk-nis-agentic-loss-of-control-2026-11",
+      slotLabel: "Loss of control",
+      category: "Monitoring",
+      categorySecondary: "Audit record",
+      summary:
+        "The UK government says that, under the Cyber Security and Resilience (Network and Information Systems) Bill, it will consult on four measures for incidents where operators are unable to adequately monitor or control AI agents — security and resilience requirements such as monitoring agents’ actions and agent risk assessments, notifying affected parties, preserving evidence of agents’ actions and operators’ attempts to control them, and ministerial post-incident review powers — brought in by secondary legislation after Royal Assent.",
+      headline:
+        "UK will consult on four measures for agentic loss of control incidents under the Cyber Security and Resilience (Network and Information Systems) Bill",
+      take:
+        "GOV.UK’s Agentic AI resilience measures factsheet, updated 3 November 2026, says the government will consult on using powers in the Cyber Security and Resilience (Network and Information Systems) Bill to introduce four measures, by secondary legislation after Royal Assent, for incidents where operators are unable to adequately monitor or control AI agents: security and resilience requirements, for example monitoring agents’ actions or agent risk assessments; notifying affected parties; preserving evidence of actions taken by agents and of operators’ attempts to control them; and post-incident review powers for ministers.",
+      whyItMatters:
+        "When a consultation would ask operators to monitor agents’ actions, assess agent risk, notify affected parties, and preserve evidence of what agents did and of attempts to control them, that monitoring and evidence have to sit outside the agent, which is the layer Jurivane is built to provide through an auditable event record and governed provisioning, with tenant isolation.",
+      sourceUrl:
+        "https://www.gov.uk/government/publications/cyber-security-and-resilience-network-and-information-systems-bill-factsheets/agentic-ai-resilience-measures",
+      sourceName: "GOV.UK",
+      date: "2026-11-03",
+      status: "current",
+    },
+    {
+      id: "governance-japan-ai-guidelines-agent-safeguards-2026-11",
+      slotLabel: "Guidelines",
+      category: "Identity & access",
+      categorySecondary: "Targeted stop",
+      summary:
+        "MediaNama reports that Japan’s AI Governance Study Group secretariat, in a discussion paper dated 30 October 2026, proposed AI-agent safeguards for an update to the AI Business Guidelines targeted for late March 2027, including minimising tool and API permissions, a circuit breaker, monitoring across the operating environment, activity-log review, and procedures for stopping activity, and that Japan’s Digital Agency separately proposed unique IDs for government agents, listing their tools, and policies for registration, suspension and retirement.",
+      headline:
+        "Japan’s AI guidelines review proposes a circuit breaker and minimised tool permissions; the Digital Agency proposes unique IDs for government agents",
+      take:
+        "MediaNama reports that, in a discussion paper dated 30 October 2026, the secretariat of Japan’s AI Governance Study Group proposed safeguards for an update to the AI Business Guidelines, with publication targeted for late March 2027, including minimising permissions for tool and API use, a circuit breaker, monitoring infrastructure across the operating environment, regular review of activity logs, and procedures for stopping activity when a problem is detected, and that Japan’s Digital Agency separately proposed assigning unique IDs to government AI agents, listing the tools and external servers they use, and policies for registration, approval, distribution, publication, suspension and retirement.",
+      whyItMatters:
+        "When proposed guidelines call for minimised tool and API permissions, a circuit breaker, monitoring across the operating environment, activity-log review, and procedures for stopping activity, and a government agency proposes unique IDs for its agents, those permissions, stop procedures, and identifiers have to be set outside the agent, which is the layer Jurivane is built to provide with tenant isolation and an auditable event backbone, through governed provisioning.",
+      sourceUrl:
+        "https://world.medianama.com/japan-weighs-separate-safeguards-for-ai-agents-physical-ai/",
+      sourceName: "MediaNama",
+      date: "2026-11-04",
+      status: "current",
+    },
   ],
 };
 
@@ -491,7 +529,7 @@ export function briefingStories(briefing = governanceBriefing) {
   return briefing.stories
     .filter((story) => story.status === "current")
     .slice()
-    .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)));
 }
 
 export function archivedBriefingStories(briefing = governanceBriefing) {
