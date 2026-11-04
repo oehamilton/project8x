@@ -565,13 +565,13 @@ describe("Agent governance briefing", () => {
     expect(japanGuidelines.category).toBe("Identity & access");
     expect(japanGuidelines.categorySecondary).toBe("Targeted stop");
     expect(japanGuidelines.headline).toBe(
-      "Japan’s AI guidelines review proposes a circuit breaker and minimised tool permissions; the Digital Agency proposes unique IDs for government agents"
+      "Japan’s AI guidelines review proposes a circuit breaker and minimised tool and API permissions; the Digital Agency proposes unique IDs for government agents"
     );
     expect(japanGuidelines.take).toContain("discussion paper dated 30 October 2026");
     expect(japanGuidelines.take).toContain("late March 2027");
     expect(japanGuidelines.take).toContain("minimising permissions for tool and API use");
     expect(japanGuidelines.take).toContain("a circuit breaker");
-    expect(japanGuidelines.take).toContain("monitoring infrastructure across the operating environment");
+    expect(japanGuidelines.take).toContain("monitoring infrastructure across the whole operating environment");
     expect(japanGuidelines.take).toContain("regular review of activity logs");
     expect(japanGuidelines.take).toContain("procedures for stopping activity when a problem is detected");
     expect(japanGuidelines.take).toContain("unique IDs to government AI agents");
@@ -706,7 +706,7 @@ describe("Agent governance briefing", () => {
       "true"
     );
     expect(within(cards[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Japan’s AI guidelines review proposes a circuit breaker and minimised tool permissions; the Digital Agency proposes unique IDs for government agents"
+      "Japan’s AI guidelines review proposes a circuit breaker and minimised tool and API permissions; the Digital Agency proposes unique IDs for government agents"
     );
     expect(within(cards[0]).getByRole("link", { name: /medianama/i })).toHaveAttribute(
       "href",
