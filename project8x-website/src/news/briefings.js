@@ -385,7 +385,7 @@ const governanceBriefing = {
         "https://www.washingtonpost.com/technology/2026/10/26/researchers-cybersecurity-start-up-cathedral-got-inside-anthropic/",
       sourceName: "The Washington Post",
       date: "2026-10-26",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-anthropic-targeted-stop-newsom-2026-10",
@@ -402,7 +402,7 @@ const governanceBriefing = {
         "https://www.streetinsider.com/Reuters/Anthropic+tells+California+governor+courts+should+be+able+to+block+risky+AI+models/27247621.html",
       sourceName: "Reuters (via StreetInsider)",
       date: "2026-10-28",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-openai-misalignment-monitoring-2026-10",
@@ -512,6 +512,25 @@ const governanceBriefing = {
         "https://world.medianama.com/japan-weighs-separate-safeguards-for-ai-agents-physical-ai/",
       sourceName: "MediaNama",
       date: "2026-11-04",
+      status: "current",
+    },
+    {
+      id: "governance-cert-in-ai-security-auditing-guidelines-2026-11",
+      slotLabel: "Audit",
+      category: "Audit record",
+      categorySecondary: "Identity & access",
+      summary:
+        "The Hindu reports that CERT-In’s AI security auditing guidelines call for testing agents’ permissions, unauthorised tool use, and emergency-stop mechanisms, unique agent identities with authenticated and logged communications, and the ability to suspend an agent or workflow and revoke its credentials.",
+      headline:
+        "CERT-In’s AI security auditing guidelines call for testing agents’ permissions and emergency-stop mechanisms, unique agent identities, and the ability to suspend an agent or workflow",
+      take:
+        "The Hindu reports that India’s Computer Emergency Response Team (CERT-In), in its Artificial Intelligence Security Auditing Guidelines: Framework for Secure, Ethical, and Auditable Artificial Intelligence Systems, calls for testing whether an AI agent can exceed its authorised permissions, use tools without approval, bypass approval mechanisms, or misuse credentials, and for examining the effectiveness of emergency-stop mechanisms; requires each agent in a multi-agent system to have a unique identity and clearly defined permissions with authenticated, logged communications; and for high-risk systems specifies the ability to suspend an individual agent or an entire workflow and revoke its access credentials.",
+      whyItMatters:
+        "When a national cybersecurity agency’s audit framework requires unique agent identities, authenticated and logged multi-agent communications, checks on emergency-stop mechanisms, and the ability to suspend an agent or workflow and revoke credentials, those permissions, stop controls, and the reconstructable record of agent actions have to sit outside the agent, which is the layer Jurivane is built to provide through tenant isolation, governed provisioning, and an auditable event backbone.",
+      sourceUrl:
+        "https://www.thehindu.com/business/Industry/cert-in-calls-for-testing-ai-agents-for-unauthorised-tool-use-privilege-abuse/article71668646.ece",
+      sourceName: "The Hindu",
+      date: "2026-11-05",
       status: "current",
     },
   ],
