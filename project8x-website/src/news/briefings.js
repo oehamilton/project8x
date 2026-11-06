@@ -47,7 +47,7 @@ const governanceBriefing = {
         "Rules now expect people to stay in charge. Jurivane is built so authorized people set scope, approve actions, and hold stop authority.",
     },
   ],
-  publishedAt: "2026-11-01T18:26:22Z",
+  publishedAt: "2026-11-06T23:12:22Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -531,6 +531,25 @@ const governanceBriefing = {
         "https://www.thehindu.com/business/Industry/cert-in-calls-for-testing-ai-agents-for-unauthorised-tool-use-privilege-abuse/article71668646.ece",
       sourceName: "The Hindu",
       date: "2026-11-05",
+      status: "current",
+    },
+    {
+      id: "governance-uk-lords-agent-investigatory-powers-2026-11",
+      slotLabel: "Regulation",
+      category: "Human authority",
+      categorySecondary: "Audit record",
+      summary:
+        "The Register reports that an amendment to the UK Cyber Security and Resilience Bill, introduced at the House of Lords third reading, would give ministers powers to regulate deployment and reporting of agentic AI in certain organizations, paving the way for safeguards, affected-party notification, evidence preservation, and government-led incident reviews that could include inspections and document seizure, subject to consultation and secondary legislation.",
+      headline:
+        "UK ministers seek powers to investigate when operators lose control of AI agents",
+      take:
+        "The Register reports (6 November 2026) that an amendment to the Cyber Security and Resilience Bill, introduced during the bill’s third reading in the House of Lords this week, would give ministers powers to regulate the deployment and reporting of agentic AI in certain organizations; an explanatory note outlines planned safeguards, notification of affected organizations, preservation of evidence, and government-led incident reviews, subject to consultation and parliamentary approval through secondary legislation, and a Pinsent Masons partner told The Register the clause could allow investigatory powers such as appointing inspectors, entering and searching premises, and seizing and retaining documents when there has been an AI agentic compromise or issue.",
+      whyItMatters:
+        "When proposed rules would require operators of essential and digital services to explain loss-of-control incidents involving AI agents and preserve evidence of what those agents did, the permissions, monitoring, and reconstructable record have to sit outside the agent, which is the layer Jurivane is built to provide through governed provisioning, tenant isolation, and an auditable event backbone.",
+      sourceUrl:
+        "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889",
+      sourceName: "The Register",
+      date: "2026-11-06",
       status: "current",
     },
   ],

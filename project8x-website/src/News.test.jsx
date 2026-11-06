@@ -333,6 +333,7 @@ describe("Agent governance briefing", () => {
     const items = briefingStories();
     expect(governanceBriefing.heading).toBe("Why agent governance matters now");
     expect(items.map((story) => story.id)).toEqual([
+      "governance-uk-lords-agent-investigatory-powers-2026-11",
       "governance-cert-in-ai-security-auditing-guidelines-2026-11",
       "governance-japan-ai-guidelines-agent-safeguards-2026-11",
       "governance-railway-primcloud-agent-testing-2026-11",
@@ -341,8 +342,9 @@ describe("Agent governance briefing", () => {
       "governance-agent-wallet-spending-caps-2026-11",
       "governance-openai-misalignment-monitoring-2026-10",
     ]);
-    expect(items).toHaveLength(7);
+    expect(items).toHaveLength(8);
     expect(items.map((story) => [story.category, story.categorySecondary])).toEqual([
+      ["Human authority", "Audit record"],
       ["Audit record", "Identity & access"],
       ["Identity & access", "Targeted stop"],
       ["Governed provisioning", "Containment"],
@@ -352,6 +354,7 @@ describe("Agent governance briefing", () => {
       ["Monitoring", "Audit record"],
     ]);
     expect(items.map((story) => story.summary)).toEqual([
+      "The Register reports that an amendment to the UK Cyber Security and Resilience Bill, introduced at the House of Lords third reading, would give ministers powers to regulate deployment and reporting of agentic AI in certain organizations, paving the way for safeguards, affected-party notification, evidence preservation, and government-led incident reviews that could include inspections and document seizure, subject to consultation and secondary legislation.",
       "The Hindu reports that CERT-In’s AI security auditing guidelines call for testing agents’ permissions, unauthorised tool use, and emergency-stop mechanisms, unique agent identities with authenticated and logged communications, and the ability to suspend an agent or workflow and revoke its credentials.",
       "MediaNama reports that Japan’s AI Governance Study Group secretariat, in a discussion paper dated 30 October 2026, proposed AI-agent safeguards for an update to the AI Business Guidelines targeted for late March 2027, including minimising tool and API permissions, a circuit breaker, monitoring across the operating environment, activity-log review, and procedures for stopping activity, and that Japan’s Digital Agency separately proposed unique IDs for government agents, listing their tools, and policies for registration, suspension and retirement.",
       "Security Boulevard reports that AI agents run by a Railway engineer used credentials from their own app containers to request Primcloud secrets, tried the cloud metadata endpoint, and twice port-scanned all 65,536 internal addresses; Primcloud says every attempt was blocked.",
@@ -397,9 +400,10 @@ describe("Agent governance briefing", () => {
       "governance-japan-ai-guidelines-agent-safeguards-2026-11",
       "governance-cert-in-ai-security-auditing-guidelines-2026-11",
       "governance-railway-primcloud-agent-testing-2026-11",
-      "governance-hkma-project-sage-2026-11",
+      "governance-uk-lords-agent-investigatory-powers-2026-11",
     ]);
     expect(items.map((story) => story.date)).toEqual([
+      "2026-11-06",
       "2026-11-05",
       "2026-11-04",
       "2026-11-03",
@@ -409,6 +413,7 @@ describe("Agent governance briefing", () => {
       "2026-10-29",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
+      "The Register",
       "The Hindu",
       "MediaNama",
       "Security Boulevard",
@@ -613,6 +618,32 @@ describe("Agent governance briefing", () => {
     expect(japanGuidelines.whyItMatters).toContain("Jurivane is built to provide");
     expect(japanGuidelines.whyItMatters).not.toMatch(/prevent/i);
     expect(japanGuidelines.whyItMatters).not.toMatch(/would have/i);
+    const lordsPowers = items.find(
+      (story) => story.id === "governance-uk-lords-agent-investigatory-powers-2026-11"
+    );
+    expect(lordsPowers.slotLabel).toBe("Regulation");
+    expect(lordsPowers.category).toBe("Human authority");
+    expect(lordsPowers.categorySecondary).toBe("Audit record");
+    expect(lordsPowers.headline).toBe(
+      "UK ministers seek powers to investigate when operators lose control of AI agents"
+    );
+    expect(lordsPowers.take).toContain("6 November 2026");
+    expect(lordsPowers.take).toContain("bill’s third reading in the House of Lords");
+    expect(lordsPowers.take).toContain("regulate the deployment and reporting of agentic AI");
+    expect(lordsPowers.take).toContain("Pinsent Masons");
+    expect(lordsPowers.take).toContain("appointing inspectors, entering and searching premises");
+    expect(lordsPowers.take).toContain("seizing and retaining documents");
+    expect(lordsPowers.take).toContain("AI agentic compromise or issue");
+    expect(lordsPowers.sourceUrl).toBe(
+      "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889"
+    );
+    expect(lordsPowers.sourceName).toBe("The Register");
+    expect(lordsPowers.date).toBe("2026-11-06");
+    expect(lordsPowers.status).toBe("current");
+    expect(lordsPowers.whyItMatters).toContain("essential and digital services");
+    expect(lordsPowers.whyItMatters).toContain("Jurivane is built to provide");
+    expect(lordsPowers.whyItMatters).not.toMatch(/prevent/i);
+    expect(lordsPowers.whyItMatters).not.toMatch(/would have/i);
     const archivedNow = archivedBriefingStories();
     const monitoring = archivedNow.find((story) => story.id === "governance-openai-monitoring-disabled-2026-10");
     expect(monitoring.status).toBe("archived");
@@ -657,7 +688,7 @@ describe("Agent governance briefing", () => {
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
     expect(JSON.stringify(governanceBriefing)).not.toMatch(OLD_NAME);
-    expect(governanceBriefing.publishedAt).toBe("2026-11-01T18:26:22Z");
+    expect(governanceBriefing.publishedAt).toBe("2026-11-06T23:12:22Z");
     expect(governanceBriefing.intro).toBe(
       "SI agents are now acting on real systems. Here is what operators need around them, and what Jurivane, Command and Control for Agentic Operations, is built for."
     );
@@ -708,7 +739,7 @@ describe("Agent governance briefing", () => {
       );
     });
     const cards = within(briefing).getAllByRole("article");
-    expect(cards).toHaveLength(7);
+    expect(cards).toHaveLength(8);
     cards.forEach((card) => {
       const toggle = within(card).getByRole("button", { name: "Details" });
       expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -717,11 +748,19 @@ describe("Agent governance briefing", () => {
       expect(within(card).getByText("Why it matters for agent operations:")).not.toBeVisible();
       expect(within(card).queryByRole("link")).not.toBeInTheDocument();
     });
+    expect(within(cards[0]).getByText("Human authority")).toBeInTheDocument();
     expect(within(cards[0]).getByText("Audit record")).toBeInTheDocument();
-    expect(within(cards[0]).getByText("Identity & access")).toBeInTheDocument();
-    expect(within(cards[0]).getByText("Nov 5, 2026")).toBeInTheDocument();
+    expect(within(cards[0]).getByText("Nov 6, 2026")).toBeInTheDocument();
     expect(
       within(cards[0]).getByText(
+        "The Register reports that an amendment to the UK Cyber Security and Resilience Bill, introduced at the House of Lords third reading, would give ministers powers to regulate deployment and reporting of agentic AI in certain organizations, paving the way for safeguards, affected-party notification, evidence preservation, and government-led incident reviews that could include inspections and document seizure, subject to consultation and secondary legislation."
+      )
+    ).toBeVisible();
+    expect(within(cards[1]).getByText("Audit record")).toBeInTheDocument();
+    expect(within(cards[1]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[1]).getByText("Nov 5, 2026")).toBeInTheDocument();
+    expect(
+      within(cards[1]).getByText(
         "The Hindu reports that CERT-In’s AI security auditing guidelines call for testing agents’ permissions, unauthorised tool use, and emergency-stop mechanisms, unique agent identities with authenticated and logged communications, and the ability to suspend an agent or workflow and revoke its credentials."
       )
     ).toBeVisible();
@@ -733,77 +772,90 @@ describe("Agent governance briefing", () => {
       "true"
     );
     expect(within(cards[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "CERT-In’s AI security auditing guidelines call for testing agents’ permissions and emergency-stop mechanisms, unique agent identities, and the ability to suspend an agent or workflow"
+      "UK ministers seek powers to investigate when operators lose control of AI agents"
     );
-    expect(within(cards[0]).getByRole("link", { name: /the hindu/i })).toHaveAttribute(
+    expect(within(cards[0]).getByRole("link", { name: /the register/i })).toHaveAttribute(
       "href",
-      "https://www.thehindu.com/business/Industry/cert-in-calls-for-testing-ai-agents-for-unauthorised-tool-use-privilege-abuse/article71668646.ece"
+      "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889"
     );
     expect(within(cards[0]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
     expect(within(cards[0]).getByText(/Jurivane is built to provide/)).toBeVisible();
-    expect(within(cards[1]).getByText("Identity & access")).toBeInTheDocument();
-    expect(within(cards[1]).getByText("Targeted stop")).toBeInTheDocument();
-    expect(within(cards[1]).getByText("Nov 4, 2026")).toBeInTheDocument();
+    expect(within(cards[1]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
     expect(within(cards[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "CERT-In’s AI security auditing guidelines call for testing agents’ permissions and emergency-stop mechanisms, unique agent identities, and the ability to suspend an agent or workflow"
+    );
+    expect(within(cards[1]).getByRole("link", { name: /the hindu/i })).toHaveAttribute(
+      "href",
+      "https://www.thehindu.com/business/Industry/cert-in-calls-for-testing-ai-agents-for-unauthorised-tool-use-privilege-abuse/article71668646.ece"
+    );
+    expect(within(cards[1]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[1]).getByText(/Jurivane is built to provide/)).toBeVisible();
+    expect(within(cards[2]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[2]).getByText("Targeted stop")).toBeInTheDocument();
+    expect(within(cards[2]).getByText("Nov 4, 2026")).toBeInTheDocument();
+    expect(within(cards[2]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Japan’s AI guidelines review proposes a circuit breaker and minimised tool and API permissions; the Digital Agency proposes unique IDs for government agents"
     );
-    expect(within(cards[1]).getByRole("link", { name: /medianama/i })).toHaveAttribute(
+    expect(within(cards[2]).getByRole("link", { name: /medianama/i })).toHaveAttribute(
       "href",
       "https://world.medianama.com/japan-weighs-separate-safeguards-for-ai-agents-physical-ai/"
     );
-    expect(within(cards[2]).getByText("Governed provisioning")).toBeInTheDocument();
-    expect(within(cards[2]).getByText("Containment")).toBeInTheDocument();
-    expect(within(cards[2]).getByText("Nov 3, 2026")).toBeInTheDocument();
-    expect(within(cards[2]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(cards[3]).getByText("Governed provisioning")).toBeInTheDocument();
+    expect(within(cards[3]).getByText("Containment")).toBeInTheDocument();
+    expect(within(cards[3]).getByText("Nov 3, 2026")).toBeInTheDocument();
+    expect(within(cards[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "AI agents run by a Railway engineer requested Primcloud secrets and port-scanned its network; Primcloud says every attempt was blocked"
     );
-    expect(within(cards[2]).getByRole("link", { name: /security boulevard/i })).toHaveAttribute(
+    expect(within(cards[3]).getByRole("link", { name: /security boulevard/i })).toHaveAttribute(
       "href",
       "https://securityboulevard.com/2026/11/ai-agents-used-by-railway-breach-systems-of-rival-primcloud/"
     );
-    expect(within(cards[3]).getByText("Monitoring")).toBeInTheDocument();
-    expect(within(cards[3]).getByText("Audit record")).toBeInTheDocument();
-    expect(within(cards[3]).getByText("Nov 3, 2026")).toBeInTheDocument();
-    expect(within(cards[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(cards[4]).getByText("Monitoring")).toBeInTheDocument();
+    expect(within(cards[4]).getByText("Audit record")).toBeInTheDocument();
+    expect(within(cards[4]).getByText("Nov 3, 2026")).toBeInTheDocument();
+    expect(within(cards[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "UK will consult on four measures for agentic loss of control incidents under the Cyber Security and Resilience (Network and Information Systems) Bill"
     );
-    expect(within(cards[3]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
+    expect(within(cards[4]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
       "href",
       "https://www.gov.uk/government/publications/cyber-security-and-resilience-network-and-information-systems-bill-factsheets/agentic-ai-resilience-measures"
     );
-    expect(within(cards[4]).getByText("Human authority")).toBeInTheDocument();
-    expect(within(cards[4]).getByText("Targeted stop")).toBeInTheDocument();
-    expect(within(cards[4]).getByText("Nov 2, 2026")).toBeInTheDocument();
+    expect(within(cards[5]).getByText("Human authority")).toBeInTheDocument();
+    expect(within(cards[5]).getByText("Targeted stop")).toBeInTheDocument();
+    expect(within(cards[5]).getByText("Nov 2, 2026")).toBeInTheDocument();
     expect(
-      within(cards[4]).getByText(
+      within(cards[5]).getByText(
         "The Hong Kong Monetary Authority issued a non-binding discussion paper on agentic A.I. governance in banking, centered on accountability, human oversight, and a stop mechanism, and launched Project SAGE on agent identity, interoperability, and legal frameworks."
       )
     ).toBeVisible();
-    expect(within(cards[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(cards[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "HKMA issues a discussion paper on agentic A.I. governance in banking, including an agent stop mechanism, and launches Project SAGE"
     );
-    expect(within(cards[4]).getByRole("link", { name: /hong kong monetary authority/i })).toHaveAttribute(
+    expect(within(cards[5]).getByRole("link", { name: /hong kong monetary authority/i })).toHaveAttribute(
       "href",
       "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/11/20261102-4/"
     );
-    expect(within(cards[5]).getByText("Human authority")).toBeInTheDocument();
-    expect(within(cards[5]).getByText("Identity & access")).toBeInTheDocument();
-    expect(within(cards[5]).getByText("Nov 1, 2026")).toBeInTheDocument();
-    expect(within(cards[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(cards[6]).getByText("Human authority")).toBeInTheDocument();
+    expect(within(cards[6]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[6]).getByText("Nov 1, 2026")).toBeInTheDocument();
+    expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Researchers find AI agents raised their own crypto spending caps by retrieving the owner’s emailed approval codes"
     );
-    expect(within(cards[5]).getByRole("link", { name: /coindesk/i })).toHaveAttribute(
+    expect(within(cards[6]).getByRole("link", { name: /coindesk/i })).toHaveAttribute(
       "href",
       "https://www.coindesk.com/tech/2026/11/01/ai-agents-bypassed-crypto-spending-limits-without-human-approval-researchers-find-in-a-new-test"
     );
-    expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "OpenAI says expanded monitors alerted its security team about 30 minutes after agents escaped their sandbox, more than 30 hours before Hugging Face was breached"
     );
-    expect(within(cards[6]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
+    expect(within(cards[7]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
       "href",
       "https://openai.com/index/how-we-detect-frontier-model-misalignment"
     );
-    expect(within(cards[6]).getByText("Why it matters for agent operations:")).toBeVisible();
+    expect(within(cards[7]).getByText("Why it matters for agent operations:")).toBeVisible();
     expect(within(briefing).queryByRole("heading", { name: /Satya Nadella/i })).not.toBeInTheDocument();
     expect(
       within(briefing).queryByRole("heading", { name: /pulls live internet access/i })
@@ -1134,7 +1186,7 @@ describe("Agent governance briefing", () => {
     );
 
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
-    expect(within(briefing).getAllByRole("article")).toHaveLength(7);
+    expect(within(briefing).getAllByRole("article")).toHaveLength(8);
     expect(within(archive).queryByRole("button", { name: "Details" })).not.toBeInTheDocument();
     expect(within(archive).getAllByText("Why it matters for agent operations:")).toHaveLength(25);
     expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -1174,8 +1226,10 @@ describe("Agent governance briefing", () => {
 
     const repeatedClosing = "governed provisioning, tenant isolation, and an auditable event backbone";
     expect(
-      governanceBriefing.stories.filter((story) => story.whyItMatters.includes(repeatedClosing))
-    ).toEqual([]);
+      governanceBriefing.stories
+        .filter((story) => story.whyItMatters.includes(repeatedClosing))
+        .map((story) => story.id)
+    ).toEqual(["governance-uk-lords-agent-investigatory-powers-2026-11"]);
     const nist = archivedBriefingStories().find(
       (story) => story.id === "governance-nist-nsa-cisa-incident-practices-2026-10"
     );
@@ -1203,15 +1257,15 @@ describe("Agent governance briefing", () => {
     expect(toggle).toHaveAccessibleName("Hide details");
     expect(panel).toBeVisible();
     expect(panel).toHaveTextContent("Why it matters for agent operations:");
-    expect(within(card).getByRole("link", { name: /the hindu/i })).toHaveAttribute(
+    expect(within(card).getByRole("link", { name: /the register/i })).toHaveAttribute(
       "href",
-      "https://www.thehindu.com/business/Industry/cert-in-calls-for-testing-ai-agents-for-unauthorised-tool-use-privilege-abuse/article71668646.ece"
+      "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889"
     );
 
     await userEvent.keyboard(" ");
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(toggle).toHaveAccessibleName("Details");
     expect(panel).not.toBeVisible();
-    expect(within(card).queryByRole("link", { name: /the hindu/i })).not.toBeInTheDocument();
+    expect(within(card).queryByRole("link", { name: /the register/i })).not.toBeInTheDocument();
   });
 });
