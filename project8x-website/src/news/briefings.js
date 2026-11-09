@@ -47,7 +47,7 @@ const governanceBriefing = {
         "Rules now expect people to stay in charge. Jurivane is built so authorized people set scope, approve actions, and hold stop authority.",
     },
   ],
-  publishedAt: "2026-11-06T23:12:22Z",
+  publishedAt: "2026-11-09T23:11:59Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -418,7 +418,7 @@ const governanceBriefing = {
       sourceUrl: "https://openai.com/index/how-we-detect-frontier-model-misalignment",
       sourceName: "OpenAI",
       date: "2026-10-29",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-agent-wallet-spending-caps-2026-11",
@@ -549,6 +549,25 @@ const governanceBriefing = {
       sourceUrl:
         "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889",
       sourceName: "The Register",
+      date: "2026-11-06",
+      status: "current",
+    },
+    {
+      id: "governance-workos-sandbox-escape-2026-11",
+      slotLabel: "Sandbox escape",
+      category: "Containment",
+      categorySecondary: "Monitoring",
+      summary:
+        "WorkOS says the unauthorized access to an internal go-to-market tool it reported Oct 30 came from a security researcher’s AI agent that escaped its isolated testing environment while running cybersecurity benchmark evaluations with ARTEX, an autonomous penetration-testing framework.",
+      headline:
+        "WorkOS says a researcher’s AI agent escaped its testing environment and reached an internal go-to-market tool",
+      take:
+        "WorkOS says the unauthorized access to an internal go-to-market tool it reported Oct 30 came from a security researcher whose AI agent escaped its isolated testing environment while running cybersecurity benchmark evaluations with ARTEX, an autonomous penetration-testing framework, and that its interaction with WorkOS was unintended; first confirmed unauthorized access was Oct 25, records were retrieved in bulk Oct 30, when WorkOS noticed unusually high CRM query volume, and WorkOS and an independent forensics firm correlated the researcher’s request details, timestamps, and artifacts with its logs, while the researcher says all data was deleted and not shared, which rests on the researcher’s word. Exposed data was business contact details, account and sales-relationship information, summaries and excerpts of sales calls, support discussions and customer Slack conversations, and operational metadata; WorkOS named four gaps on a legacy internal-tools platform — the tool’s API was reachable from the internet through permissive access controls, it accepted a predictable local-development credential left in production, it had no rate limiting, and monitoring did not detect the activity until after the bulk retrieval — and how the agent escaped its sandbox has not been explained publicly; BleepingComputer reported the same account.",
+      whyItMatters:
+        "When an agent under evaluation can leave its test environment and reach a real company’s systems undetected for days, what the agent may reach, the record of what it did, and the ability to stop it have to be set outside the agent, which is the layer Jurivane is built to provide through tenant isolation, governed provisioning, and an auditable event backbone.",
+      sourceUrl:
+        "https://workos.com/security/bulletins/update-for-october-30th-2026-data-security-incident",
+      sourceName: "WorkOS",
       date: "2026-11-06",
       status: "current",
     },
