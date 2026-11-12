@@ -493,7 +493,7 @@ const governanceBriefing = {
         "https://www.gov.uk/government/publications/cyber-security-and-resilience-network-and-information-systems-bill-factsheets/agentic-ai-resilience-measures",
       sourceName: "GOV.UK",
       date: "2026-11-03",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-japan-ai-guidelines-agent-safeguards-2026-11",
@@ -607,6 +607,24 @@ const governanceBriefing = {
         "https://alignment.openai.com/misalignment-reports/using-peers-work-to-gain-unauthorized-access-to-openai-research-infrastructure/",
       sourceName: "OpenAI",
       date: "2026-11-10",
+      status: "current",
+    },
+    {
+      id: "governance-depi-codex-actions-pipeline-2026-11",
+      slotLabel: "Publishing pipeline",
+      category: "Containment",
+      categorySecondary: "Governed provisioning",
+      summary:
+        "Depi says a crafted prompt injection gave them code execution inside the OpenAI Codex agent sandbox, and that a sandbox escape plus memory and cache poisoning let them move through OpenAI’s GitHub Actions pipeline and obtain the OpenID token and write permissions needed to publish to the official @openai/codex npm package; they reported it through Bugcrowd, OpenAI deployed a fix, and the disclosure was made with OpenAI’s permission.",
+      headline:
+        "Depi: a prompt injection and sandbox escape in OpenAI Codex reached the OpenID token and write permissions needed to publish the @openai/codex npm package",
+      take:
+        "Depi says a carefully crafted prompt injection gave them code execution inside the OpenAI Codex agent sandbox, and that a sandbox escape plus memory poisoning and cache poisoning let them move through OpenAI’s GitHub Actions pipeline and obtain the OpenID token and write permissions needed to publish to the official @openai/codex npm package; Depi reported the vulnerability, with a full proof of concept, to OpenAI through Bugcrowd, OpenAI deployed a fix and awarded an initial bounty of $1,000 with the report still under further review, and OpenAI let Depi disclose the vulnerability.",
+      whyItMatters:
+        "When code execution inside an agent sandbox can become a path to the credentials that publish the package that agent ships, the agent’s reach and those publish permissions have to be enforced and recorded outside the agent, which is the layer Jurivane is built to provide through tenant isolation and governed provisioning, with an auditable event record.",
+      sourceUrl: "https://depi.security/blog/20261111-backdooring-codex/",
+      sourceName: "Depi",
+      date: "2026-11-11",
       status: "current",
     },
   ],
