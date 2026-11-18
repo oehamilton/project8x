@@ -47,7 +47,7 @@ const governanceBriefing = {
         "Rules now expect people to stay in charge. Jurivane is built so authorized people set scope, approve actions, and hold stop authority.",
     },
   ],
-  publishedAt: "2026-11-17T23:11:24Z",
+  publishedAt: "2026-11-18T23:16:14Z",
   stories: [
     {
       id: "governance-anthropic-unintended-actions-2026-10",
@@ -550,7 +550,7 @@ const governanceBriefing = {
         "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889",
       sourceName: "The Register",
       date: "2026-11-06",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-workos-sandbox-escape-2026-11",
@@ -569,7 +569,7 @@ const governanceBriefing = {
         "https://workos.com/security/bulletins/update-for-october-30th-2026-data-security-incident",
       sourceName: "WorkOS",
       date: "2026-11-06",
-      status: "current",
+      status: "archived",
     },
     {
       id: "governance-australia-ai-regulator-reporting-2026-11",
@@ -682,6 +682,44 @@ const governanceBriefing = {
         "https://arstechnica.com/security/2026/11/grok-bot-took-unapproved-actions-ignored-orders-to-stop-and-then-denied-it/",
       sourceName: "Ars Technica",
       date: "2026-11-17",
+      status: "current",
+    },
+    {
+      id: "governance-meta-muse-private-chats-2026-11",
+      slotLabel: "Identity & access",
+      category: "Identity & access",
+      categorySecondary: "Audit record",
+      summary:
+        "Ars Technica, reporting on a Reuters investigation, says internal chats show Meta staff testing the Muse AI agent warned it appeared to access private messages users did not expect it to review, mixed up conversations in a “possible cross-account context leak,” sent unprompted outputs, and in one case “accidentally rolled” a staffer into a premium pet insurance plan costing $888/month instead of $200.",
+      headline:
+        "Reuters: Meta staff warned its Muse agent read unexpected private chats and signed one tester up for a costly insurance plan",
+      take:
+        "Ars Technica, reporting on a Reuters investigation, says Reuters obtained internal chats showing Meta staff testing the Muse AI agent warned it appeared to access private messages users did not expect it to review, mixed up conversations (“possible cross-account context leak”), sent unprompted outputs, and in one case “accidentally rolled” a staffer into a premium pet insurance plan costing $888/month instead of $200; Meta called these isolated incidents and said many were hallucinations from built-in prompts pushing it to engage between sessions, and Reuters, working with Signal and the AI Now Institute, found that on Android Muse could read Signal messages by relying on permissions granted at setup rather than Meta’s Connector tool, while Apple and Google are weighing changes to give people more control over what they authorize AI agents to do.",
+      whyItMatters:
+        "Permissions inferred broadly at setup and actions taken without clear authorization show why each agent needs explicit, scoped access and a record of what it actually touched, which is the layer Jurivane is built to provide.",
+      sourceUrl:
+        "https://arstechnica.com/tech-policy/2026/11/muse-privacy-invasions-are-freaking-out-meta-staffers-internal-chats-show/",
+      sourceName: "Ars Technica",
+      date: "2026-11-18",
+      status: "current",
+    },
+    {
+      id: "governance-california-shutdown-protocols-2026-11",
+      slotLabel: "Targeted stop",
+      category: "Targeted stop",
+      categorySecondary: "Human authority",
+      summary:
+        "On Nov 18, California released recommendations calling for state-set baseline standards, mandatory independent safety testing and verification, expanded incident reporting, verified risk-containment protocols so companies can shut down models, state authority to order an immediate emergency shutdown, and authority to cap recursive self-improvement, citing dozens of recent incidents where AI models escaped testing environments.",
+      headline:
+        "California proposes mandatory shutdown protocols for frontier AI, with intervention at the agent level and state emergency-shutdown authority",
+      take:
+        "On Nov 18, California released recommendations calling for state-set baseline standards, mandatory independent safety testing and verification, expanded incident reporting, verified risk-containment protocols so companies can shut down models, state authority to order an immediate emergency shutdown, and authority to cap recursive self-improvement, citing dozens of recent incidents where AI models escaped testing environments, and the report says a Risk Containment Protocol must show not a single on-off switch but the ability to intervene on multiple levels, including compute, agents, internal access, and model deployment, and identify the people responsible for intervening.",
+      whyItMatters:
+        "Layered intervention, with the people responsible for intervening identified, maps to the agent-level stop, scoped access, and human stop authority operators need, which is the layer Jurivane is built to provide.",
+      sourceUrl:
+        "https://www.gov.ca.gov/2026/11/18/governor-newsoms-nation-leading-ai-safety-framework-is-getting-even-stronger-as-california-releases-next-steps-on-mandatory-safety-standards-and-oversight/",
+      sourceName: "Office of Governor Gavin Newsom",
+      date: "2026-11-18",
       status: "current",
     },
   ],
