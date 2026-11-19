@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import AgentForgeArchitecture from "./AgentForgeArchitecture.jsx";
+import JurivaneInAction from "./JurivaneInAction.jsx";
 import Page from "./Page.jsx";
 import SignalFigure from "./SignalFigure.jsx";
 
@@ -98,6 +99,7 @@ function AgentForge() {
           shows direction. Governed direction for autonomous agents.
         </p>
       </aside>
+      <JurivaneInAction />
       <section className="sd-af-section" aria-labelledby="af-capabilities-heading">
         <h2 id="af-capabilities-heading">Current capabilities</h2>
         <p>
