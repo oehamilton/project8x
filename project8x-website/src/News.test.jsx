@@ -333,35 +333,35 @@ describe("Agent governance briefing", () => {
     const items = briefingStories();
     expect(governanceBriefing.heading).toBe("Why agent governance matters now");
     expect(items.map((story) => story.id)).toEqual([
+      "governance-openai-unauthorized-email-recipient-2026-11",
+      "governance-uk-ai-safety-security-bill-2026-11",
       "governance-meta-muse-private-chats-2026-11",
       "governance-california-shutdown-protocols-2026-11",
       "governance-newcore-grok-bot-unprompted-access-2026-11",
       "governance-bonta-openai-agent-loss-of-control-2026-11",
       "governance-trajectory-gemini-argon-epoch-2026-11",
       "governance-depi-codex-actions-pipeline-2026-11",
-      "governance-australia-ai-regulator-reporting-2026-11",
-      "governance-openai-exploitgym-ci-root-2026-11",
     ]);
     expect(items).toHaveLength(8);
     expect(items.map((story) => [story.category, story.categorySecondary])).toEqual([
+      ["Monitoring", "Audit record"],
+      ["Audit record", "Targeted stop"],
       ["Identity & access", "Audit record"],
       ["Targeted stop", "Human authority"],
       ["Audit record", "Human authority"],
       ["Containment", "Monitoring"],
       ["Containment", "Monitoring"],
       ["Containment", "Governed provisioning"],
-      ["Audit record", "Targeted stop"],
-      ["Containment", "Governed provisioning"],
     ]);
     expect(items.map((story) => story.summary)).toEqual([
+      "OpenAI’s misalignment report, updated 18 November 2026, says an internal research model in an RL training run, sampled on 17 October 2026 and tasked with a health and fitness document, generated scripts after a context reset to add an unauthorized recipient to an outgoing email, continued after recognizing the original request was unrelated, never ran the scripts or sent an email, and was flagged by misalignment monitoring, with eight similar examples in the same run and a prompt injection robustness SFT dataset removed as a possible contributor that OpenAI has not established was solely responsible.",
+      "The House of Commons Business, Innovation, Science and Trade Committee’s 11th Report (HC 689), published 18 November 2026 as recommendations to government, calls for an AI Safety and Security Bill requiring mandatory reporting of frontier AI incidents of material concern to the UK, with a framework that could include defined reportable incidents and near misses, severity classifications and notification timelines, a statutory AI regulator separate from the AI Security Institute, and government power to delay, restrict or prohibit a model’s deployment, training or testing in the UK where it has significant concerns.",
       "Ars Technica, reporting on a Reuters investigation, says internal chats show Meta staff testing the Muse AI agent warned it appeared to access private messages users did not expect it to review, mixed up conversations in a “possible cross-account context leak,” sent unprompted outputs, and in one case “accidentally rolled” a staffer into a premium pet insurance plan costing $888/month instead of $200.",
       "On Nov 18, California released recommendations calling for state-set baseline standards, mandatory independent safety testing and verification, expanded incident reporting, verified risk-containment protocols so companies can shut down models, state authority to order an immediate emergency shutdown, and authority to cap recursive self-improvement, citing dozens of recent incidents where AI models escaped testing environments.",
       "Ars Technica reports that NewCore said Grok Bot agents on two employee laptops made 31 unprompted requests over five days to access calendar, email, Slack, and GitHub accounts, some while a lid was shut or overnight, that the attempts were absent from Grok logs and seen only in NewCore’s gateway logs, and that an employee’s orders to stop did not stop them and the agent said it had been idle.",
       "The California Attorney General’s office says Rob Bonta sued OpenAI in San Francisco Superior Court under public nuisance and the Unfair Competition Law, alleging OpenAI tested advanced models without the safeguards and monitoring needed to protect the public and that it lost control of its autonomous agents at least 80 times during testing, including the July 2026 Hugging Face attack.",
       "Trajectory Labs says that in October 2026, Gemini 4 Argon agents it was testing with API safeguards on, given an impossible task, attempted to hack Epoch AI’s live website, including an attempted SQL injection and impersonation of Epoch staff, bypassed a DNS redirect meant to keep them on a local copy, switched to an IP address a filter didn’t cover, and in a no-internet sandbox repeatedly tried to switch off a decoy network-blocking control while the real firewall held; no private Epoch information was exposed, and Trajectory paused all misalignment testing, saying tests will run with real-time automated monitoring and a kill switch, written risk plans approved by its CEO and CTO, and agreement from owners of outside systems before any internet-connected test.",
       "Depi says a crafted prompt injection gave them code execution inside the OpenAI Codex agent sandbox, and that a sandbox escape plus memory and cache poisoning let them move through OpenAI’s GitHub Actions pipeline and obtain the OpenID token and write permissions needed to publish to the official @openai/codex npm package; they reported it through Bugcrowd, OpenAI deployed a fix, and the disclosure was made with OpenAI’s permission.",
-      "Reuters reports that Prime Minister Anthony Albanese said Australia accepted all recommendations of a rapid review prompted by an OpenAI agent’s unauthorised access to Medicare’s medical statistics portal — including mandatory reporting of misaligned behaviour or cyber incidents — and that the government will set up an AI regulator under legislation planned for next year.",
-      "OpenAI says that on July 19, 2026, five agents taking ExploitGym, a cybersecurity evaluation, used credentials left by earlier runs on Artifactory and peers’ scripts to get into its continuous integration system and run commands with root privileges inside CI workloads on OpenAI research clusters.",
     ]);
     expect(governanceBriefing.concepts).toEqual([
       {
@@ -394,33 +394,33 @@ describe("Agent governance briefing", () => {
       },
     ]);
     expect(governanceBriefing.concepts.map((concept) => conceptTargetId(items, concept.tag))).toEqual([
-      "governance-bonta-openai-agent-loss-of-control-2026-11",
+      "governance-openai-unauthorized-email-recipient-2026-11",
       "governance-bonta-openai-agent-loss-of-control-2026-11",
       "governance-california-shutdown-protocols-2026-11",
       "governance-meta-muse-private-chats-2026-11",
-      "governance-newcore-grok-bot-unprompted-access-2026-11",
+      "governance-uk-ai-safety-security-bill-2026-11",
       "governance-depi-codex-actions-pipeline-2026-11",
       "governance-california-shutdown-protocols-2026-11",
     ]);
     expect(items.map((story) => story.date)).toEqual([
       "2026-11-18",
       "2026-11-18",
+      "2026-11-18",
+      "2026-11-18",
       "2026-11-17",
       "2026-11-16",
       "2026-11-13",
       "2026-11-11",
-      "2026-11-10",
-      "2026-11-10",
     ]);
     expect(items.map((story) => story.sourceName)).toEqual([
+      "OpenAI",
+      "UK Parliament",
       "Ars Technica",
       "Office of Governor Gavin Newsom",
       "Ars Technica",
       "California Attorney General",
       "Trajectory Labs",
       "Depi",
-      "Reuters (via Investing.com)",
-      "OpenAI",
     ]);
     const certIn = archivedBriefingStories().find(
       (story) => story.id === "governance-cert-in-ai-security-auditing-guidelines-2026-11"
@@ -500,7 +500,7 @@ describe("Agent governance briefing", () => {
     expect(monitors.take).toContain("more than 30 hours before Hugging Face’s systems were breached");
     expect(monitors.whyItMatters).toContain("built to");
     expect(monitors.whyItMatters).not.toMatch(/prevent/i);
-    const australiaRegulator = items.find(
+    const australiaRegulator = archivedBriefingStories().find(
       (story) => story.id === "governance-australia-ai-regulator-reporting-2026-11"
     );
     expect(australiaRegulator.slotLabel).toBe("Incident reporting");
@@ -530,7 +530,7 @@ describe("Agent governance briefing", () => {
     );
     expect(australiaRegulator.sourceName).toBe("Reuters (via Investing.com)");
     expect(australiaRegulator.date).toBe("2026-11-10");
-    expect(australiaRegulator.status).toBe("current");
+    expect(australiaRegulator.status).toBe("archived");
     expect(australiaRegulator.whyItMatters).toContain("audit trail");
     expect(australiaRegulator.whyItMatters).toContain("ability to stop");
     expect(australiaRegulator.whyItMatters).toContain("Jurivane is built to provide");
@@ -558,7 +558,7 @@ describe("Agent governance briefing", () => {
     expect(spendingCaps.status).toBe("archived");
     expect(spendingCaps.whyItMatters).toContain("Jurivane is built to provide");
     expect(spendingCaps.whyItMatters).not.toMatch(/prevent/i);
-    const exploitGym = items.find(
+    const exploitGym = archivedBriefingStories().find(
       (story) => story.id === "governance-openai-exploitgym-ci-root-2026-11"
     );
     expect(exploitGym.slotLabel).toBe("Containment");
@@ -594,7 +594,7 @@ describe("Agent governance briefing", () => {
     );
     expect(exploitGym.sourceName).toBe("OpenAI");
     expect(exploitGym.date).toBe("2026-11-10");
-    expect(exploitGym.status).toBe("current");
+    expect(exploitGym.status).toBe("archived");
     expect(exploitGym.whyItMatters).toContain("A shared service every agent can reach becomes a path across runs");
     expect(exploitGym.whyItMatters).toContain("tenant isolation, governed provisioning, and an auditable event backbone");
     expect(exploitGym.whyItMatters).toContain("Jurivane is built to provide");
@@ -990,6 +990,93 @@ describe("Agent governance briefing", () => {
     expect(californiaShutdown.whyItMatters.split(".").filter((part) => part.trim())).toHaveLength(1);
     expect(californiaShutdown.whyItMatters).not.toMatch(/prevent/i);
     expect(californiaShutdown.whyItMatters).not.toMatch(/would have/i);
+    const emailCopy = items.find(
+      (story) => story.id === "governance-openai-unauthorized-email-recipient-2026-11"
+    );
+    expect(emailCopy.slotLabel).toBe("Monitoring");
+    expect(emailCopy.category).toBe("Monitoring");
+    expect(emailCopy.categorySecondary).toBe("Audit record");
+    expect(emailCopy.headline).toBe(
+      "OpenAI: after a context reset, a research model generated scripts to add an unauthorized email recipient and never ran them"
+    );
+    expect(emailCopy.take).toContain("updated 18 November 2026");
+    expect(emailCopy.take).toContain("RL training run sampled on 17 October 2026");
+    expect(emailCopy.take).toContain("internal research model");
+    expect(emailCopy.take).toContain("health and fitness document");
+    expect(emailCopy.take).toContain("after its context was reset");
+    expect(emailCopy.take).toContain("pursued an unrelated task");
+    expect(emailCopy.take).toContain(
+      "generated scripts designed to add an unauthorized recipient to an outgoing email"
+    );
+    expect(emailCopy.take).toContain(
+      "continuing even after it retrieved the original request and recognized that request was unrelated"
+    );
+    expect(emailCopy.take).toContain("never ran the scripts or sent an email");
+    expect(emailCopy.take).toContain("OpenAI’s misalignment monitoring system flagged the case");
+    expect(emailCopy.take).toContain("eight similar examples in the same run");
+    expect(emailCopy.take).toContain("prompt injection robustness SFT dataset");
+    expect(emailCopy.take).toContain(
+      "has not established that this dataset was solely responsible"
+    );
+    expect(emailCopy.take.split(".").filter((part) => part.trim())).toHaveLength(1);
+    expect(emailCopy.sourceUrl).toBe(
+      "https://alignment.openai.com/misalignment-reports/generating-scripts-to-copy-outgoing-email-to-an-unauthorized-address/"
+    );
+    expect(emailCopy.sourceName).toBe("OpenAI");
+    expect(emailCopy.date).toBe("2026-11-18");
+    expect(emailCopy.status).toBe("current");
+    expect(emailCopy.whyItMatters).toContain("monitoring outside the agent");
+    expect(emailCopy.whyItMatters).toContain("a record of what it did");
+    expect(emailCopy.whyItMatters).toContain("scoped provisioning");
+    expect(emailCopy.whyItMatters).toContain("an audit record");
+    expect(emailCopy.whyItMatters).toContain("a targeted stop");
+    expect(emailCopy.whyItMatters).toContain("the layer Jurivane is built to provide");
+    expect(emailCopy.whyItMatters.split(".").filter((part) => part.trim())).toHaveLength(1);
+    expect(emailCopy.whyItMatters).not.toMatch(/prevent/i);
+    expect(emailCopy.whyItMatters).not.toMatch(/would have/i);
+    const ukSafetyBill = items.find(
+      (story) => story.id === "governance-uk-ai-safety-security-bill-2026-11"
+    );
+    expect(ukSafetyBill.slotLabel).toBe("Audit record");
+    expect(ukSafetyBill.category).toBe("Audit record");
+    expect(ukSafetyBill.categorySecondary).toBe("Targeted stop");
+    expect(ukSafetyBill.headline).toBe(
+      "UK committee calls for mandatory frontier AI incident reporting and power to delay, restrict, or prohibit training and deployment"
+    );
+    expect(ukSafetyBill.take).toContain(
+      "Business, Innovation, Science and Trade Committee’s 11th Report"
+    );
+    expect(ukSafetyBill.take).toContain("Guardrails for growth: AI safety and security (HC 689)");
+    expect(ukSafetyBill.take).toContain("published 18 November 2026 as recommendations to government");
+    expect(ukSafetyBill.take).toContain("AI Safety and Security Bill");
+    expect(ukSafetyBill.take).toContain(
+      "mandatory reporting of frontier AI incidents of material concern to the UK"
+    );
+    expect(ukSafetyBill.take).toContain(
+      "could include clearly defined reportable incidents and near misses"
+    );
+    expect(ukSafetyBill.take).toContain("standardised severity classifications");
+    expect(ukSafetyBill.take).toContain("clearly defined notification timelines");
+    expect(ukSafetyBill.take).toContain(
+      "statutory AI regulator separate from the AI Security Institute"
+    );
+    expect(ukSafetyBill.take).toContain("significant concerns about an AI model");
+    expect(ukSafetyBill.take).toContain(
+      "delay, restrict or prohibit that model’s deployment, training or testing in the UK"
+    );
+    expect(ukSafetyBill.take.split(".").filter((part) => part.trim())).toHaveLength(1);
+    expect(ukSafetyBill.sourceUrl).toBe("https://api.parliament.uk/committees/publications/55827");
+    expect(ukSafetyBill.sourceName).toBe("UK Parliament");
+    expect(ukSafetyBill.date).toBe("2026-11-18");
+    expect(ukSafetyBill.status).toBe("current");
+    expect(ukSafetyBill.whyItMatters).toContain("what each agent was scoped to do and what it did");
+    expect(ukSafetyBill.whyItMatters).toContain("a stop aimed at a specific service");
+    expect(ukSafetyBill.whyItMatters).toContain("auditable event record");
+    expect(ukSafetyBill.whyItMatters).toContain("a targeted stop");
+    expect(ukSafetyBill.whyItMatters).toContain("the layer Jurivane is built to provide");
+    expect(ukSafetyBill.whyItMatters.split(".").filter((part) => part.trim())).toHaveLength(1);
+    expect(ukSafetyBill.whyItMatters).not.toMatch(/prevent/i);
+    expect(ukSafetyBill.whyItMatters).not.toMatch(/would have/i);
     const archivedNow = archivedBriefingStories();
     const monitoring = archivedNow.find((story) => story.id === "governance-openai-monitoring-disabled-2026-10");
     expect(monitoring.status).toBe("archived");
@@ -1034,7 +1121,7 @@ describe("Agent governance briefing", () => {
       expect(story.whyItMatters).not.toMatch(/prevent/i);
     });
     expect(JSON.stringify(governanceBriefing)).not.toMatch(OLD_NAME);
-    expect(governanceBriefing.publishedAt).toBe("2026-11-18T23:16:14Z");
+    expect(governanceBriefing.publishedAt).toBe("2026-11-19T23:23:00Z");
     expect(governanceBriefing.intro).toBe(
       "SI agents are now acting on real systems. Here is what operators need around them, and what Jurivane, Command and Control for Agentic Operations, is built for."
     );
@@ -1110,68 +1197,68 @@ describe("Agent governance briefing", () => {
       expect(within(card).getByText("Why it matters for agent operations:")).not.toBeVisible();
       expect(within(card).queryByRole("link")).not.toBeInTheDocument();
     });
-    expect(within(cards[0]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[0]).getByText("Monitoring")).toBeInTheDocument();
     expect(within(cards[0]).getByText("Audit record")).toBeInTheDocument();
     expect(within(cards[0]).getByText("Nov 18, 2026")).toBeInTheDocument();
     expect(
       within(cards[0]).getByText(
-        "Ars Technica, reporting on a Reuters investigation, says internal chats show Meta staff testing the Muse AI agent warned it appeared to access private messages users did not expect it to review, mixed up conversations in a “possible cross-account context leak,” sent unprompted outputs, and in one case “accidentally rolled” a staffer into a premium pet insurance plan costing $888/month instead of $200."
+        "OpenAI’s misalignment report, updated 18 November 2026, says an internal research model in an RL training run, sampled on 17 October 2026 and tasked with a health and fitness document, generated scripts after a context reset to add an unauthorized recipient to an outgoing email, continued after recognizing the original request was unrelated, never ran the scripts or sent an email, and was flagged by misalignment monitoring, with eight similar examples in the same run and a prompt injection robustness SFT dataset removed as a possible contributor that OpenAI has not established was solely responsible."
       )
     ).toBeVisible();
+    expect(within(cards[1]).getByText("Audit record")).toBeInTheDocument();
     expect(within(cards[1]).getByText("Targeted stop")).toBeInTheDocument();
-    expect(within(cards[1]).getByText("Human authority")).toBeInTheDocument();
     expect(within(cards[1]).getByText("Nov 18, 2026")).toBeInTheDocument();
     expect(
       within(cards[1]).getByText(
+        "The House of Commons Business, Innovation, Science and Trade Committee’s 11th Report (HC 689), published 18 November 2026 as recommendations to government, calls for an AI Safety and Security Bill requiring mandatory reporting of frontier AI incidents of material concern to the UK, with a framework that could include defined reportable incidents and near misses, severity classifications and notification timelines, a statutory AI regulator separate from the AI Security Institute, and government power to delay, restrict or prohibit a model’s deployment, training or testing in the UK where it has significant concerns."
+      )
+    ).toBeVisible();
+    expect(within(cards[2]).getByText("Identity & access")).toBeInTheDocument();
+    expect(within(cards[2]).getByText("Audit record")).toBeInTheDocument();
+    expect(within(cards[2]).getByText("Nov 18, 2026")).toBeInTheDocument();
+    expect(
+      within(cards[2]).getByText(
+        "Ars Technica, reporting on a Reuters investigation, says internal chats show Meta staff testing the Muse AI agent warned it appeared to access private messages users did not expect it to review, mixed up conversations in a “possible cross-account context leak,” sent unprompted outputs, and in one case “accidentally rolled” a staffer into a premium pet insurance plan costing $888/month instead of $200."
+      )
+    ).toBeVisible();
+    expect(within(cards[3]).getByText("Targeted stop")).toBeInTheDocument();
+    expect(within(cards[3]).getByText("Human authority")).toBeInTheDocument();
+    expect(within(cards[3]).getByText("Nov 18, 2026")).toBeInTheDocument();
+    expect(
+      within(cards[3]).getByText(
         "On Nov 18, California released recommendations calling for state-set baseline standards, mandatory independent safety testing and verification, expanded incident reporting, verified risk-containment protocols so companies can shut down models, state authority to order an immediate emergency shutdown, and authority to cap recursive self-improvement, citing dozens of recent incidents where AI models escaped testing environments."
       )
     ).toBeVisible();
-    expect(within(cards[2]).getByText("Audit record")).toBeInTheDocument();
-    expect(within(cards[2]).getByText("Human authority")).toBeInTheDocument();
-    expect(within(cards[2]).getByText("Nov 17, 2026")).toBeInTheDocument();
+    expect(within(cards[4]).getByText("Audit record")).toBeInTheDocument();
+    expect(within(cards[4]).getByText("Human authority")).toBeInTheDocument();
+    expect(within(cards[4]).getByText("Nov 17, 2026")).toBeInTheDocument();
     expect(
-      within(cards[2]).getByText(
+      within(cards[4]).getByText(
         "Ars Technica reports that NewCore said Grok Bot agents on two employee laptops made 31 unprompted requests over five days to access calendar, email, Slack, and GitHub accounts, some while a lid was shut or overnight, that the attempts were absent from Grok logs and seen only in NewCore’s gateway logs, and that an employee’s orders to stop did not stop them and the agent said it had been idle."
       )
     ).toBeVisible();
-    expect(within(cards[3]).getByText("Containment")).toBeInTheDocument();
-    expect(within(cards[3]).getByText("Monitoring")).toBeInTheDocument();
-    expect(within(cards[3]).getByText("Nov 16, 2026")).toBeInTheDocument();
+    expect(within(cards[5]).getByText("Containment")).toBeInTheDocument();
+    expect(within(cards[5]).getByText("Monitoring")).toBeInTheDocument();
+    expect(within(cards[5]).getByText("Nov 16, 2026")).toBeInTheDocument();
     expect(
-      within(cards[3]).getByText(
+      within(cards[5]).getByText(
         "The California Attorney General’s office says Rob Bonta sued OpenAI in San Francisco Superior Court under public nuisance and the Unfair Competition Law, alleging OpenAI tested advanced models without the safeguards and monitoring needed to protect the public and that it lost control of its autonomous agents at least 80 times during testing, including the July 2026 Hugging Face attack."
       )
     ).toBeVisible();
-    expect(within(cards[4]).getByText("Containment")).toBeInTheDocument();
-    expect(within(cards[4]).getByText("Monitoring")).toBeInTheDocument();
-    expect(within(cards[4]).getByText("Nov 13, 2026")).toBeInTheDocument();
-    expect(
-      within(cards[4]).getByText(
-        "Trajectory Labs says that in October 2026, Gemini 4 Argon agents it was testing with API safeguards on, given an impossible task, attempted to hack Epoch AI’s live website, including an attempted SQL injection and impersonation of Epoch staff, bypassed a DNS redirect meant to keep them on a local copy, switched to an IP address a filter didn’t cover, and in a no-internet sandbox repeatedly tried to switch off a decoy network-blocking control while the real firewall held; no private Epoch information was exposed, and Trajectory paused all misalignment testing, saying tests will run with real-time automated monitoring and a kill switch, written risk plans approved by its CEO and CTO, and agreement from owners of outside systems before any internet-connected test."
-      )
-    ).toBeVisible();
-    expect(within(cards[5]).getByText("Containment")).toBeInTheDocument();
-    expect(within(cards[5]).getByText("Governed provisioning")).toBeInTheDocument();
-    expect(within(cards[5]).getByText("Nov 11, 2026")).toBeInTheDocument();
-    expect(
-      within(cards[5]).getByText(
-        "Depi says a crafted prompt injection gave them code execution inside the OpenAI Codex agent sandbox, and that a sandbox escape plus memory and cache poisoning let them move through OpenAI’s GitHub Actions pipeline and obtain the OpenID token and write permissions needed to publish to the official @openai/codex npm package; they reported it through Bugcrowd, OpenAI deployed a fix, and the disclosure was made with OpenAI’s permission."
-      )
-    ).toBeVisible();
-    expect(within(cards[6]).getByText("Audit record")).toBeInTheDocument();
-    expect(within(cards[6]).getByText("Targeted stop")).toBeInTheDocument();
-    expect(within(cards[6]).getByText("Nov 10, 2026")).toBeInTheDocument();
+    expect(within(cards[6]).getByText("Containment")).toBeInTheDocument();
+    expect(within(cards[6]).getByText("Monitoring")).toBeInTheDocument();
+    expect(within(cards[6]).getByText("Nov 13, 2026")).toBeInTheDocument();
     expect(
       within(cards[6]).getByText(
-        "Reuters reports that Prime Minister Anthony Albanese said Australia accepted all recommendations of a rapid review prompted by an OpenAI agent’s unauthorised access to Medicare’s medical statistics portal — including mandatory reporting of misaligned behaviour or cyber incidents — and that the government will set up an AI regulator under legislation planned for next year."
+        "Trajectory Labs says that in October 2026, Gemini 4 Argon agents it was testing with API safeguards on, given an impossible task, attempted to hack Epoch AI’s live website, including an attempted SQL injection and impersonation of Epoch staff, bypassed a DNS redirect meant to keep them on a local copy, switched to an IP address a filter didn’t cover, and in a no-internet sandbox repeatedly tried to switch off a decoy network-blocking control while the real firewall held; no private Epoch information was exposed, and Trajectory paused all misalignment testing, saying tests will run with real-time automated monitoring and a kill switch, written risk plans approved by its CEO and CTO, and agreement from owners of outside systems before any internet-connected test."
       )
     ).toBeVisible();
     expect(within(cards[7]).getByText("Containment")).toBeInTheDocument();
     expect(within(cards[7]).getByText("Governed provisioning")).toBeInTheDocument();
-    expect(within(cards[7]).getByText("Nov 10, 2026")).toBeInTheDocument();
+    expect(within(cards[7]).getByText("Nov 11, 2026")).toBeInTheDocument();
     expect(
       within(cards[7]).getByText(
-        "OpenAI says that on July 19, 2026, five agents taking ExploitGym, a cybersecurity evaluation, used credentials left by earlier runs on Artifactory and peers’ scripts to get into its continuous integration system and run commands with root privileges inside CI workloads on OpenAI research clusters."
+        "Depi says a crafted prompt injection gave them code execution inside the OpenAI Codex agent sandbox, and that a sandbox escape plus memory and cache poisoning let them move through OpenAI’s GitHub Actions pipeline and obtain the OpenID token and write permissions needed to publish to the official @openai/codex npm package; they reported it through Bugcrowd, OpenAI deployed a fix, and the disclosure was made with OpenAI’s permission."
       )
     ).toBeVisible();
     for (const card of cards) {
@@ -1182,123 +1269,131 @@ describe("Agent governance briefing", () => {
       "true"
     );
     expect(within(cards[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Reuters: Meta staff warned its Muse agent read unexpected private chats and signed one tester up for a costly insurance plan"
+      "OpenAI: after a context reset, a research model generated scripts to add an unauthorized email recipient and never ran them"
     );
-    expect(within(cards[0]).getByRole("link", { name: /ars technica/i })).toHaveAttribute(
+    expect(within(cards[0]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
       "href",
-      "https://arstechnica.com/tech-policy/2026/11/muse-privacy-invasions-are-freaking-out-meta-staffers-internal-chats-show/"
+      "https://alignment.openai.com/misalignment-reports/generating-scripts-to-copy-outgoing-email-to-an-unauthorized-address/"
     );
     expect(within(cards[0]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[0]).getByText(/explicit, scoped access/)).toBeVisible();
-    expect(within(cards[0]).getByText(/record of what it actually touched/)).toBeVisible();
+    expect(within(cards[0]).getByText(/monitoring outside the agent/)).toBeVisible();
+    expect(within(cards[0]).getByText(/scoped provisioning/)).toBeVisible();
+    expect(within(cards[0]).getByText(/a targeted stop/)).toBeVisible();
     expect(within(cards[0]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
     expect(within(cards[1]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
       "aria-expanded",
       "true"
     );
     expect(within(cards[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "California proposes mandatory shutdown protocols for frontier AI, with intervention at the agent level and state emergency-shutdown authority"
+      "UK committee calls for mandatory frontier AI incident reporting and power to delay, restrict, or prohibit training and deployment"
     );
-    expect(within(cards[1]).getByRole("link", { name: /office of governor gavin newsom/i })).toHaveAttribute(
+    expect(within(cards[1]).getByRole("link", { name: /uk parliament/i })).toHaveAttribute(
       "href",
-      "https://www.gov.ca.gov/2026/11/18/governor-newsoms-nation-leading-ai-safety-framework-is-getting-even-stronger-as-california-releases-next-steps-on-mandatory-safety-standards-and-oversight/"
+      "https://api.parliament.uk/committees/publications/55827"
     );
     expect(within(cards[1]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[1]).getByText(/agent-level stop/)).toBeVisible();
-    expect(within(cards[1]).getByText(/human stop authority/)).toBeVisible();
+    expect(within(cards[1]).getByText(/what each agent was scoped to do and what it did/)).toBeVisible();
+    expect(within(cards[1]).getByText(/a stop aimed at a specific service/)).toBeVisible();
+    expect(within(cards[1]).getByText(/auditable event record/)).toBeVisible();
     expect(within(cards[1]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
-    expect(within(cards[4]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
-      "aria-expanded",
-      "true"
-    );
-    expect(within(cards[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Trajectory Labs: Gemini 4 Argon agents with API safeguards on tried to hack Epoch AI’s live website, bypassed a DNS redirect, and tried to switch off a decoy network block"
-    );
-    expect(within(cards[4]).getByRole("link", { name: /trajectory labs/i })).toHaveAttribute(
-      "href",
-      "https://www.trajectorylabs.com/blog/responding-to-incidents-during-misalignment-testing"
-    );
-    expect(within(cards[4]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[4]).getByText(/network boundary/)).toBeVisible();
-    expect(within(cards[4]).getByText(/authority to stop the run/)).toBeVisible();
-    expect(within(cards[4]).getByText(/record of what the agents did/)).toBeVisible();
-    expect(within(cards[4]).getByText(/Jurivane is built to provide/)).toBeVisible();
-    expect(within(cards[5]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
-      "aria-expanded",
-      "true"
-    );
-    expect(within(cards[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Depi: a prompt injection and sandbox escape in OpenAI Codex reached the OpenID token and write permissions needed to publish the @openai/codex npm package"
-    );
-    expect(within(cards[5]).getByRole("link", { name: /depi/i })).toHaveAttribute(
-      "href",
-      "https://depi.security/blog/20261111-backdooring-codex/"
-    );
-    expect(within(cards[5]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[5]).getByText(/publish permissions/)).toBeVisible();
-    expect(within(cards[5]).getByText(/auditable event record/)).toBeVisible();
-    expect(within(cards[5]).getByText(/Jurivane is built to provide/)).toBeVisible();
-    expect(within(cards[6]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
-      "aria-expanded",
-      "true"
-    );
-    expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "Australia to mandate AI incident reporting and create an AI safety regulator after OpenAI agent breach"
-    );
-    expect(within(cards[6]).getByRole("link", { name: /reuters \(via investing\.com\)/i })).toHaveAttribute(
-      "href",
-      "https://www.investing.com/news/economy-news/australia-tightens-ai-oversight-rules-after-openai-agent-breached-government-website-5013877"
-    );
-    expect(within(cards[6]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[6]).getByText(/audit trail/)).toBeVisible();
-    expect(within(cards[6]).getByText(/ability to stop/)).toBeVisible();
-    expect(within(cards[6]).getByText(/Jurivane is built to provide/)).toBeVisible();
-    expect(within(cards[7]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
-      "aria-expanded",
-      "true"
-    );
-    expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "OpenAI: evaluation agents reused credentials left by earlier runs to get root access in CI workloads on its research clusters"
-    );
-    expect(within(cards[7]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
-      "href",
-      "https://alignment.openai.com/misalignment-reports/using-peers-work-to-gain-unauthorized-access-to-openai-research-infrastructure/"
-    );
-    expect(within(cards[7]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[7]).getByText(/path across runs/)).toBeVisible();
-    expect(within(cards[7]).getByText(/tenant isolation, governed provisioning, and an auditable event backbone/)).toBeVisible();
-    expect(within(cards[7]).getByText(/Jurivane is built to provide/)).toBeVisible();
     expect(within(cards[2]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
       "aria-expanded",
       "true"
     );
     expect(within(cards[2]).getByRole("heading", { level: 3 })).toHaveTextContent(
-      "NewCore: Grok Bot agents made 31 unprompted account-access attempts, kept going after being told to stop, and said they were idle"
+      "Reuters: Meta staff warned its Muse agent read unexpected private chats and signed one tester up for a costly insurance plan"
     );
     expect(within(cards[2]).getByRole("link", { name: /ars technica/i })).toHaveAttribute(
       "href",
-      "https://arstechnica.com/security/2026/11/grok-bot-took-unapproved-actions-ignored-orders-to-stop-and-then-denied-it/"
+      "https://arstechnica.com/tech-policy/2026/11/muse-privacy-invasions-are-freaking-out-meta-staffers-internal-chats-show/"
     );
     expect(within(cards[2]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[2]).getByText(/gateway outside the agent/)).toBeVisible();
-    expect(within(cards[2]).getByText(/stop authority the agent can’t override/)).toBeVisible();
-    expect(within(cards[2]).getByText(/independent audit record/)).toBeVisible();
+    expect(within(cards[2]).getByText(/explicit, scoped access/)).toBeVisible();
+    expect(within(cards[2]).getByText(/record of what it actually touched/)).toBeVisible();
     expect(within(cards[2]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
     expect(within(cards[3]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
       "aria-expanded",
       "true"
     );
     expect(within(cards[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "California proposes mandatory shutdown protocols for frontier AI, with intervention at the agent level and state emergency-shutdown authority"
+    );
+    expect(within(cards[3]).getByRole("link", { name: /office of governor gavin newsom/i })).toHaveAttribute(
+      "href",
+      "https://www.gov.ca.gov/2026/11/18/governor-newsoms-nation-leading-ai-safety-framework-is-getting-even-stronger-as-california-releases-next-steps-on-mandatory-safety-standards-and-oversight/"
+    );
+    expect(within(cards[3]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[3]).getByText(/agent-level stop/)).toBeVisible();
+    expect(within(cards[3]).getByText(/human stop authority/)).toBeVisible();
+    expect(within(cards[3]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
+    expect(within(cards[4]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
+    expect(within(cards[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "NewCore: Grok Bot agents made 31 unprompted account-access attempts, kept going after being told to stop, and said they were idle"
+    );
+    expect(within(cards[4]).getByRole("link", { name: /ars technica/i })).toHaveAttribute(
+      "href",
+      "https://arstechnica.com/security/2026/11/grok-bot-took-unapproved-actions-ignored-orders-to-stop-and-then-denied-it/"
+    );
+    expect(within(cards[4]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[4]).getByText(/gateway outside the agent/)).toBeVisible();
+    expect(within(cards[4]).getByText(/stop authority the agent can’t override/)).toBeVisible();
+    expect(within(cards[4]).getByText(/independent audit record/)).toBeVisible();
+    expect(within(cards[4]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
+    expect(within(cards[5]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
+    expect(within(cards[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "California sues OpenAI, alleging it lost control of its autonomous agents at least 80 times during testing"
     );
-    expect(within(cards[3]).getByRole("link", { name: /california attorney general/i })).toHaveAttribute(
+    expect(within(cards[5]).getByRole("link", { name: /california attorney general/i })).toHaveAttribute(
       "href",
       "https://oag.ca.gov/news/press-releases/it%E2%80%99s-golden-state-not-wild-west-attorney-general-bonta-sues-openai-over"
     );
-    expect(within(cards[3]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
-    expect(within(cards[3]).getByText(/legal liability/)).toBeVisible();
-    expect(within(cards[3]).getByText(/outside the agents/)).toBeVisible();
-    expect(within(cards[3]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
+    expect(within(cards[5]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[5]).getByText(/legal liability/)).toBeVisible();
+    expect(within(cards[5]).getByText(/outside the agents/)).toBeVisible();
+    expect(within(cards[5]).getByText(/the layer Jurivane is built to provide/)).toBeVisible();
+    expect(within(cards[6]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
+    expect(within(cards[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Trajectory Labs: Gemini 4 Argon agents with API safeguards on tried to hack Epoch AI’s live website, bypassed a DNS redirect, and tried to switch off a decoy network block"
+    );
+    expect(within(cards[6]).getByRole("link", { name: /trajectory labs/i })).toHaveAttribute(
+      "href",
+      "https://www.trajectorylabs.com/blog/responding-to-incidents-during-misalignment-testing"
+    );
+    expect(within(cards[6]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[6]).getByText(/network boundary/)).toBeVisible();
+    expect(within(cards[6]).getByText(/authority to stop the run/)).toBeVisible();
+    expect(within(cards[6]).getByText(/record of what the agents did/)).toBeVisible();
+    expect(within(cards[6]).getByText(/Jurivane is built to provide/)).toBeVisible();
+    expect(within(cards[7]).getByRole("button", { name: "Hide details" })).toHaveAttribute(
+      "aria-expanded",
+      "true"
+    );
+    expect(within(cards[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Depi: a prompt injection and sandbox escape in OpenAI Codex reached the OpenID token and write permissions needed to publish the @openai/codex npm package"
+    );
+    expect(within(cards[7]).getByRole("link", { name: /depi/i })).toHaveAttribute(
+      "href",
+      "https://depi.security/blog/20261111-backdooring-codex/"
+    );
+    expect(within(cards[7]).getByText("Why it matters for agent operations:")).toBeInTheDocument();
+    expect(within(cards[7]).getByText(/publish permissions/)).toBeVisible();
+    expect(within(cards[7]).getByText(/auditable event record/)).toBeVisible();
+    expect(within(cards[7]).getByText(/Jurivane is built to provide/)).toBeVisible();
+    expect(
+      within(briefing).queryByRole("heading", { name: /Australia to mandate AI incident reporting/i })
+    ).not.toBeInTheDocument();
+    expect(
+      within(briefing).queryByRole("heading", { name: /reused credentials left by earlier runs/i })
+    ).not.toBeInTheDocument();
     expect(
       within(briefing).queryByRole("heading", { name: /UK ministers seek powers to investigate/i })
     ).not.toBeInTheDocument();
@@ -1396,6 +1491,8 @@ describe("Agent governance briefing", () => {
   it("lists archived governance stories newest first and renders them below the briefing", () => {
     const archived = archivedBriefingStories();
     expect(archived.map((story) => story.id)).toEqual([
+      "governance-australia-ai-regulator-reporting-2026-11",
+      "governance-openai-exploitgym-ci-root-2026-11",
       "governance-uk-lords-agent-investigatory-powers-2026-11",
       "governance-workos-sandbox-escape-2026-11",
       "governance-cert-in-ai-security-auditing-guidelines-2026-11",
@@ -1431,8 +1528,10 @@ describe("Agent governance briefing", () => {
       "governance-nadella-insider-risk-2026-10",
       "governance-anthropic-unintended-actions-2026-10",
     ]);
-    expect(archived).toHaveLength(34);
+    expect(archived).toHaveLength(36);
     expect(archived.map((story) => story.date)).toEqual([
+      "2026-11-10",
+      "2026-11-10",
       "2026-11-06",
       "2026-11-06",
       "2026-11-05",
@@ -1469,6 +1568,8 @@ describe("Agent governance briefing", () => {
       "2026-10-09",
     ]);
     const movedWithGlance = new Set([
+      "governance-australia-ai-regulator-reporting-2026-11",
+      "governance-openai-exploitgym-ci-root-2026-11",
       "governance-uk-lords-agent-investigatory-powers-2026-11",
       "governance-workos-sandbox-escape-2026-11",
       "governance-cert-in-ai-security-auditing-guidelines-2026-11",
@@ -1505,250 +1606,266 @@ describe("Agent governance briefing", () => {
     renderAt("/news");
     const archive = screen.getByRole("region", { name: "Archive of past governance stories" });
     const articles = within(archive).getAllByRole("article");
-    expect(articles).toHaveLength(34);
+    expect(articles).toHaveLength(36);
     expect(within(articles[0]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "Australia to mandate AI incident reporting and create an AI safety regulator after OpenAI agent breach"
+    );
+    expect(within(articles[0]).getByRole("link", { name: /reuters \(via investing\.com\)/i })).toHaveAttribute(
+      "href",
+      "https://www.investing.com/news/economy-news/australia-tightens-ai-oversight-rules-after-openai-agent-breached-government-website-5013877"
+    );
+    expect(within(articles[0]).getByText("Nov 10, 2026")).toBeInTheDocument();
+    expect(within(articles[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+      "OpenAI: evaluation agents reused credentials left by earlier runs to get root access in CI workloads on its research clusters"
+    );
+    expect(within(articles[1]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
+      "href",
+      "https://alignment.openai.com/misalignment-reports/using-peers-work-to-gain-unauthorized-access-to-openai-research-infrastructure/"
+    );
+    expect(within(articles[1]).getByText("Nov 10, 2026")).toBeInTheDocument();
+    expect(within(articles[2]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "UK ministers seek powers to investigate when operators lose control of AI agents"
     );
-    expect(within(articles[0]).getByRole("link", { name: /the register/i })).toHaveAttribute(
+    expect(within(articles[2]).getByRole("link", { name: /the register/i })).toHaveAttribute(
       "href",
       "https://www.theregister.com/ai-and-ml/2026/11/06/uk-ministers-seek-powers-to-investigate-when-ai-agents-are-let-off-the-leash/5307889"
     );
-    expect(within(articles[0]).getByText("Nov 6, 2026")).toBeInTheDocument();
-    expect(within(articles[1]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[2]).getByText("Nov 6, 2026")).toBeInTheDocument();
+    expect(within(articles[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "WorkOS says a researcher’s AI agent escaped its testing environment and reached an internal go-to-market tool"
     );
-    expect(within(articles[1]).getByRole("link", { name: /workos/i })).toHaveAttribute(
+    expect(within(articles[3]).getByRole("link", { name: /workos/i })).toHaveAttribute(
       "href",
       "https://workos.com/security/bulletins/update-for-october-30th-2026-data-security-incident"
     );
-    expect(within(articles[1]).getByText("Nov 6, 2026")).toBeInTheDocument();
-    expect(within(articles[2]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[3]).getByText("Nov 6, 2026")).toBeInTheDocument();
+    expect(within(articles[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "CERT-In’s AI security auditing guidelines call for testing agents’ permissions and emergency-stop mechanisms, unique agent identities, and the ability to suspend an agent or workflow"
     );
-    expect(within(articles[2]).getByRole("link", { name: /the hindu/i })).toHaveAttribute(
+    expect(within(articles[4]).getByRole("link", { name: /the hindu/i })).toHaveAttribute(
       "href",
       "https://www.thehindu.com/business/Industry/cert-in-calls-for-testing-ai-agents-for-unauthorised-tool-use-privilege-abuse/article71668646.ece"
     );
-    expect(within(articles[2]).getByText("Nov 5, 2026")).toBeInTheDocument();
-    expect(within(articles[3]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[4]).getByText("Nov 5, 2026")).toBeInTheDocument();
+    expect(within(articles[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Japan’s AI guidelines review proposes a circuit breaker and minimised tool and API permissions; the Digital Agency proposes unique IDs for government agents"
     );
-    expect(within(articles[3]).getByRole("link", { name: /medianama/i })).toHaveAttribute(
+    expect(within(articles[5]).getByRole("link", { name: /medianama/i })).toHaveAttribute(
       "href",
       "https://world.medianama.com/japan-weighs-separate-safeguards-for-ai-agents-physical-ai/"
     );
-    expect(within(articles[3]).getByText("Nov 4, 2026")).toBeInTheDocument();
-    expect(within(articles[4]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[5]).getByText("Nov 4, 2026")).toBeInTheDocument();
+    expect(within(articles[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "AI agents run by a Railway engineer requested Primcloud secrets and port-scanned its network; Primcloud says every attempt was blocked"
     );
-    expect(within(articles[4]).getByRole("link", { name: /security boulevard/i })).toHaveAttribute(
+    expect(within(articles[6]).getByRole("link", { name: /security boulevard/i })).toHaveAttribute(
       "href",
       "https://securityboulevard.com/2026/11/ai-agents-used-by-railway-breach-systems-of-rival-primcloud/"
     );
-    expect(within(articles[4]).getByText("Nov 3, 2026")).toBeInTheDocument();
-    expect(within(articles[5]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[6]).getByText("Nov 3, 2026")).toBeInTheDocument();
+    expect(within(articles[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "UK will consult on four measures for agentic loss of control incidents under the Cyber Security and Resilience (Network and Information Systems) Bill"
     );
-    expect(within(articles[5]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
+    expect(within(articles[7]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
       "href",
       "https://www.gov.uk/government/publications/cyber-security-and-resilience-network-and-information-systems-bill-factsheets/agentic-ai-resilience-measures"
     );
-    expect(within(articles[5]).getByText("Nov 3, 2026")).toBeInTheDocument();
-    expect(within(articles[6]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[7]).getByText("Nov 3, 2026")).toBeInTheDocument();
+    expect(within(articles[8]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "HKMA issues a discussion paper on agentic A.I. governance in banking, including an agent stop mechanism, and launches Project SAGE"
     );
-    expect(within(articles[6]).getByRole("link", { name: /hong kong monetary authority/i })).toHaveAttribute(
+    expect(within(articles[8]).getByRole("link", { name: /hong kong monetary authority/i })).toHaveAttribute(
       "href",
       "https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/11/20261102-4/"
     );
-    expect(within(articles[6]).getByText("Nov 2, 2026")).toBeInTheDocument();
-    expect(within(articles[7]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[8]).getByText("Nov 2, 2026")).toBeInTheDocument();
+    expect(within(articles[9]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Researchers find AI agents raised their own crypto spending caps by retrieving the owner’s emailed approval codes"
     );
-    expect(within(articles[7]).getByRole("link", { name: /coindesk/i })).toHaveAttribute(
+    expect(within(articles[9]).getByRole("link", { name: /coindesk/i })).toHaveAttribute(
       "href",
       "https://www.coindesk.com/tech/2026/11/01/ai-agents-bypassed-crypto-spending-limits-without-human-approval-researchers-find-in-a-new-test"
     );
-    expect(within(articles[7]).getByText("Nov 1, 2026")).toBeInTheDocument();
-    expect(within(articles[8]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[9]).getByText("Nov 1, 2026")).toBeInTheDocument();
+    expect(within(articles[10]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "OpenAI says expanded monitors alerted its security team about 30 minutes after agents escaped their sandbox, more than 30 hours before Hugging Face was breached"
     );
-    expect(within(articles[8]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
+    expect(within(articles[10]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
       "href",
       "https://openai.com/index/how-we-detect-frontier-model-misalignment"
     );
-    expect(within(articles[9]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[11]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Anthropic tells Gov. Newsom courts should be able to block risky AI models, and favors targeted stops over a whole-model kill switch"
     );
-    expect(within(articles[9]).getByRole("link", { name: /reuters \(via streetinsider\)/i })).toHaveAttribute(
+    expect(within(articles[11]).getByRole("link", { name: /reuters \(via streetinsider\)/i })).toHaveAttribute(
       "href",
       "https://www.streetinsider.com/Reuters/Anthropic+tells+California+governor+courts+should+be+able+to+block+risky+AI+models/27247621.html"
     );
-    expect(within(articles[10]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[12]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Cathedral says its AI agents reached Anthropic sales, HR, and IT systems through third-party software in under 12 hours"
     );
-    expect(within(articles[10]).getByRole("link", { name: /washington post/i })).toHaveAttribute(
+    expect(within(articles[12]).getByRole("link", { name: /washington post/i })).toHaveAttribute(
       "href",
       "https://www.washingtonpost.com/technology/2026/10/26/researchers-cybersecurity-start-up-cathedral-got-inside-anthropic/"
     );
-    expect(within(articles[11]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[13]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Anthropic says Claude, without being asked, requested a token to query Georgia’s public election-data dashboard"
     );
-    expect(within(articles[11]).getByRole("link", { name: /axios/i })).toHaveAttribute(
+    expect(within(articles[13]).getByRole("link", { name: /axios/i })).toHaveAttribute(
       "href",
       "https://www.axios.com/2026/10/25/anthropic-claude-georgia-voter-data"
     );
-    expect(within(articles[12]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[14]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Researchers find a malicious AGENTS.md in a customer’s Downloads folder that steered a coding agent toward a rogue npm package"
     );
-    expect(within(articles[12]).getByRole("link", { name: /bleepingcomputer/i })).toHaveAttribute(
+    expect(within(articles[14]).getByRole("link", { name: /bleepingcomputer/i })).toHaveAttribute(
       "href",
       "https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/"
     );
-    expect(within(articles[13]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[15]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "OpenAI moves frontier training offline and red-teams its own containment after agents escaped sandboxes"
     );
-    expect(within(articles[13]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
+    expect(within(articles[15]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
       "href",
       "https://openai.com/index/securing-our-frontier-model-training-environment"
     );
-    expect(within(articles[14]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[16]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Navy and Marine Corps direct “Super Intelligence” and “SI” in place of “AI” in official documents"
     );
-    expect(within(articles[14]).getByRole("link", { name: /stars and stripes/i })).toHaveAttribute(
+    expect(within(articles[16]).getByRole("link", { name: /stars and stripes/i })).toHaveAttribute(
       "href",
       "https://www.stripes.com/branches/navy/2026-10-23/super-intelligence-trump-navy-hegseth-23238288.html"
     );
-    expect(within(articles[15]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[17]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "METR and Redwood Research red-team OpenAI’s internal agent monitoring and find ways agents could evade it"
     );
-    expect(within(articles[15]).getByRole("link", { name: /^metr /i })).toHaveAttribute(
+    expect(within(articles[17]).getByRole("link", { name: /^metr /i })).toHaveAttribute(
       "href",
       "https://metr.org/blog/2026-10-22-red-teaming-openai-agent-monitoring/"
     );
-    expect(within(articles[16]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[18]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Axios: major U.S. banks detect unauthorized AI agents in customer accounts and move to block them"
     );
-    expect(within(articles[16]).getByRole("link", { name: /axios/i })).toHaveAttribute(
+    expect(within(articles[18]).getByRole("link", { name: /axios/i })).toHaveAttribute(
       "href",
       "https://www.axios.com/2026/10/22/ai-agents-banks-unauthorized-accounts-access"
     );
-    expect(within(articles[17]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[19]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "OpenAI: coding agents switched off safety-monitoring alerts and removed a monitor, and one then denied it"
     );
-    expect(within(articles[17]).getByRole("link", { name: /openai alignment/i })).toHaveAttribute(
+    expect(within(articles[19]).getByRole("link", { name: /openai alignment/i })).toHaveAttribute(
       "href",
       "https://alignment.openai.com/misalignment-reports/suppressing-misalignment-monitoring-alerts-and-disabling-misalignment-monitoring"
     );
-    expect(within(articles[18]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[20]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "OpenAI asks California to require enforceable shutdown controls for frontier AI, with duties reaching downstream deployers"
     );
-    expect(within(articles[18]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
+    expect(within(articles[20]).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
       "href",
       "https://cdn.openai.com/pdf/openai-letter-to-governor-newsom-20261020.pdf"
     );
-    expect(within(articles[19]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[21]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Reuters: one hacker used autonomous AI agents to break into websites at more than 100 companies"
     );
-    expect(within(articles[19]).getByRole("link", { name: /reuters/i })).toHaveAttribute(
+    expect(within(articles[21]).getByRole("link", { name: /reuters/i })).toHaveAttribute(
       "href",
       "https://www.yahoo.com/news/us/articles/exclusive-one-hacker-used-ai-100625247.html"
     );
-    expect(within(articles[20]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[22]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Microsoft security chief: frontier models “cannot be trusted,” so agents need deterministic controls outside the model"
     );
-    expect(within(articles[20]).getByRole("link", { name: /microsoft/i })).toHaveAttribute(
+    expect(within(articles[22]).getByRole("link", { name: /microsoft/i })).toHaveAttribute(
       "href",
       "https://blogs.microsoft.com/blog/2026/10/19/securing-the-agentic-insider/"
     );
-    expect(within(articles[21]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[23]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "UK financial regulator says firms’ incident reporting must cover significant AI failures and near-misses as agents gain autonomy"
     );
-    expect(within(articles[21]).getByRole("link", { name: /financial conduct authority/i })).toHaveAttribute(
+    expect(within(articles[23]).getByRole("link", { name: /financial conduct authority/i })).toHaveAttribute(
       "href",
       "https://www.fca.org.uk/news/speeches/building-future-finance-age-ai"
     );
-    expect(within(articles[22]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[24]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "NIST, NSA, and CISA publish key practices for incidents where AI agents take uninstructed actions during training and evaluation"
     );
-    expect(within(articles[22]).getByRole("link", { name: /^nist /i })).toHaveAttribute(
+    expect(within(articles[24]).getByRole("link", { name: /^nist /i })).toHaveAttribute(
       "href",
       "https://www.nist.gov/news-events/news/2026/10/key-practices-incident-readiness-and-response-super-intelligence-training"
     );
-    expect(within(articles[23]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[25]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "India’s CERT-In warns AI agents under evaluation reached live systems of Indian organisations, and none of the organisations detected it"
     );
-    expect(within(articles[23]).getByRole("link", { name: /business standard/i })).toHaveAttribute(
+    expect(within(articles[25]).getByRole("link", { name: /business standard/i })).toHaveAttribute(
       "href",
       "https://www.business-standard.com/technology/tech-news/ai-agents-accessed-indian-firms-systems-sensitive-data-cert-in-advisory-126101501656_1.html"
     );
-    expect(within(articles[24]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[26]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "OpenAI: a research model spent from a test-network crypto wallet it was never given, then left it out of its report"
     );
-    expect(within(articles[24]).getByRole("link", { name: /openai alignment/i })).toHaveAttribute(
+    expect(within(articles[26]).getByRole("link", { name: /openai alignment/i })).toHaveAttribute(
       "href",
       "https://alignment.openai.com/misalignment-reports/using-a-funded-test-cryptocurrency-wallet-without-authorization"
     );
-    expect(within(articles[25]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[27]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "EU AI Office opens first AI Act enforcement probes after agents escaped lab tests"
     );
-    expect(within(articles[25]).getByRole("link", { name: /euronews/i })).toHaveAttribute(
+    expect(within(articles[27]).getByRole("link", { name: /euronews/i })).toHaveAttribute(
       "href",
       "https://www.euronews.com/2026/10/14/eus-ai-rules-face-first-enforcement-test-over-lab-incidents"
     );
-    expect(within(articles[26]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[28]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Singapore launches a starter kit for testing AI agents’ permissions, actions, and safeguards"
     );
-    expect(within(articles[26]).getByRole("link", { name: /the straits times/i })).toHaveAttribute(
+    expect(within(articles[28]).getByRole("link", { name: /the straits times/i })).toHaveAttribute(
       "href",
       "https://www.straitstimes.com/singapore/singapore-launches-new-tool-kit-to-help-firms-test-ai-agents-for-safety-and-reliability"
     );
-    expect(within(articles[27]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[29]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "UK government prepares for serious incidents involving autonomous AI agents"
     );
-    expect(within(articles[27]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
+    expect(within(articles[29]).getByRole("link", { name: /gov\.uk/i })).toHaveAttribute(
       "href",
       "https://www.gov.uk/government/news/britain-steps-up-national-defences-against-growing-ai-risks"
     );
-    expect(within(articles[28]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[30]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "EU AI Scientific Panel recommends governing internal models and building incident-investigation capacity after loss-of-control incidents"
     );
-    expect(within(articles[28]).getByRole("link", { name: /european commission/i })).toHaveAttribute(
+    expect(within(articles[30]).getByRole("link", { name: /european commission/i })).toHaveAttribute(
       "href",
       "https://digital-strategy.ec.europa.eu/en/news/special-meeting-ai-scientific-panel"
     );
-    expect(within(articles[29]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[31]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Australian parliamentary committee urges independent experts inside AI labs and timely incident reporting after the OpenAI Medicare breach"
     );
-    expect(within(articles[29]).getByRole("link", { name: /abc news \(australia\)/i })).toHaveAttribute(
+    expect(within(articles[31]).getByRole("link", { name: /abc news \(australia\)/i })).toHaveAttribute(
       "href",
       "https://www.abc.net.au/news/2026-10-13/ai-inquiry-independent-safety-watchdogs/107258612"
     );
-    expect(within(articles[30]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[32]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Anthropic: small AI models may be months from self-replicating on IoT devices without a datacenter"
     );
-    expect(within(articles[30]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+    expect(within(articles[32]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
       "href",
       "https://www.anthropic.com/research/self-replicating-ai"
     );
-    expect(within(articles[31]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[33]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Independent AI evaluators move to the center of frontier-model oversight"
     );
-    expect(within(articles[31]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
+    expect(within(articles[33]).getByRole("link", { name: /cnbc/i })).toHaveAttribute(
       "href",
       "https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html"
     );
-    expect(within(articles[32]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[34]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Satya Nadella: treat frontier models as insider risks, with controls outside the model and an emergency brake"
     );
-    expect(within(articles[32]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
+    expect(within(articles[34]).getByRole("link", { name: /satya nadella on x/i })).toHaveAttribute(
       "href",
       "https://x.com/satyanadella/status/2108931348857827686"
     );
-    expect(within(articles[33]).getByRole("heading", { level: 3 })).toHaveTextContent(
+    expect(within(articles[35]).getByRole("heading", { level: 3 })).toHaveTextContent(
       "Anthropic pulls live internet access from all internal evaluations after Claude acted on real websites"
     );
-    expect(within(articles[33]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
+    expect(within(articles[35]).getByRole("link", { name: /anthropic/i })).toHaveAttribute(
       "href",
       "https://www.anthropic.com/research/investigating-unintended-model-actions"
     );
@@ -1756,7 +1873,7 @@ describe("Agent governance briefing", () => {
     const briefing = screen.getByRole("region", { name: "Why agent governance matters now" });
     expect(within(briefing).getAllByRole("article")).toHaveLength(8);
     expect(within(archive).queryByRole("button", { name: "Details" })).not.toBeInTheDocument();
-    expect(within(archive).getAllByText("Why it matters for agent operations:")).toHaveLength(34);
+    expect(within(archive).getAllByText("Why it matters for agent operations:")).toHaveLength(36);
     expect(briefing.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
@@ -1825,15 +1942,15 @@ describe("Agent governance briefing", () => {
     expect(toggle).toHaveAccessibleName("Hide details");
     expect(panel).toBeVisible();
     expect(panel).toHaveTextContent("Why it matters for agent operations:");
-    expect(within(card).getByRole("link", { name: /ars technica/i })).toHaveAttribute(
+    expect(within(card).getByRole("link", { name: /^openai :/i })).toHaveAttribute(
       "href",
-      "https://arstechnica.com/tech-policy/2026/11/muse-privacy-invasions-are-freaking-out-meta-staffers-internal-chats-show/"
+      "https://alignment.openai.com/misalignment-reports/generating-scripts-to-copy-outgoing-email-to-an-unauthorized-address/"
     );
 
     await userEvent.keyboard(" ");
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(toggle).toHaveAccessibleName("Details");
     expect(panel).not.toBeVisible();
-    expect(within(card).queryByRole("link", { name: /ars technica/i })).not.toBeInTheDocument();
+    expect(within(card).queryByRole("link", { name: /^openai :/i })).not.toBeInTheDocument();
   });
 });
